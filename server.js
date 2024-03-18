@@ -6,11 +6,13 @@ const pgp = require('pg-promise')();
 const db = pgp('postgres://postgres:admin@localhost:5432/postgres');
 
 app.set('view engine', 'pug')
+app.set('views', './views')
+
 
 app.get('/', async (req, res) => {
     try {
         const post_list = await db.any('SELECT * FROM posts');
-        res.send(post_list)
+        res.render('home', { posts: post_list });    
         // success
     } 
     catch(e) {
@@ -32,7 +34,7 @@ app.listen(port, () => {
 })
 
 function save_post(post_text){
-    db.none(`INSERT INTO posts (post,timecode) VALUES ('${post_text}', LOCALTIME)`
+    db.none(`INSERT INTO posts (posttext,timecode) VALUES ('${post_text}', LOCALTIME)`
     );
 }
 

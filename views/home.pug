@@ -1,0 +1,9 @@
+html
+  head
+    title= First Contact Newsfeed
+  body
+  - const post_list = posts
+
+    div#posts
+      for item in posts
+      li= item.posttext
