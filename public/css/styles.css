@@ -1,0 +1,210 @@
+body {
+    background-color: #000000;
+
+}
+
+
+@media screen and (min-width: 801px){
+    #header {
+        position: sticky;
+        max-width: 100%;
+        background-color: #333333;
+        top: 0;
+        color:#ffffff;
+        padding: 1%;
+        }
+#title {
+font-size: 3vw;
+font-family: "Rubik Mono One", monospace;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#subtitle {
+font-size: 1.7vw;
+font-family: "Rubik Mono One", monospace;
+font-weight: 400;
+font-style: normal;
+}
+#subsubtitle {
+    color:#ffffff;
+    padding: 1%;
+    font-size: 1.7vw;
+font-family: "Rubik Mono One", monospace;
+font-weight: 400;
+font-style: normal;
+}
+}
+@media screen and (max-width: 800px) and (min-width:451px){
+    #header {
+        position: sticky;
+        max-width: 100%;
+        background-color: #333333;
+        top: 0;
+        color:#ffffff;
+        padding: 1%;
+        }
+    #title {
+    font-size: 4vw;
+    font-family: "Rubik Mono One", monospace;
+      font-weight: 400;
+      font-style: normal;
+    }
+    
+    #subtitle {
+    font-size: 3vw;
+    font-family: "Rubik Mono One", monospace;
+    font-weight: 400;
+    font-style: normal;
+    }
+    #subsubtitle {
+        color:#ffffff;
+        padding: 1%;
+        font-size: 3vw;
+    font-family: "Rubik Mono One", monospace;
+    font-weight: 400;
+    font-style: normal;
+    }
+    }
+
+@media screen and (max-width: 450px){
+        #header {
+            position: sticky;
+            width: 100%;
+            background-color: #333333;
+            top: 0;
+            color:#ffffff;
+            padding: 1%;
+            display: flex;
+            }
+        #title {
+        font-size: 1em;
+        font-family: "Rubik Mono One", monospace;
+          font-weight: 400;
+          font-style: normal;
+          flex: 1;
+          margin-right: 10%;
+          padding-right: 20%;
+        }
+        
+        #subtitle {
+        font-size: 1em;
+        font-family: "Rubik Mono One", monospace;
+        font-weight: 400;
+        font-style: normal;
+        flex: 1;
+        text-align: right;
+        }
+        #subsubtitle {
+            color:#ffffff;
+            padding: 1%;
+            font-size: 1em;
+            font-family: "Rubik Mono One", monospace;
+            font-weight: 400;
+            font-style: normal;
+        }
+    }
+    
+
+#posts {
+padding-left: 5%;
+max-width: 600px;
+}
+
+#newpost {
+    padding-left: 5%;
+    max-width: 600px;
+    }
+
+    #pseudopost{
+        border: 4px solid #c0c0c0;
+border-radius: 9px;
+padding: 3%;
+margin: 3%;
+color: #ffffff;
+font-size: 1em;
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+font-weight: bold;
+    }
+
+textarea {
+    color:#ffffff;
+    background-color: #000000;
+    padding: 2%;
+    border-radius: 4px;
+    resize: none;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 1em;
+    font-weight: bold;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+}
+
+
+.post {
+border: 4px solid #c0c0c0;
+border-radius: 9px;
+padding: 3%;
+margin: 3%;
+color: #ffffff;
+}
+
+.text {
+    font-size: 1em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+}
+
+.time {
+    font-size: 0.8em;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.delete {
+    font-size: 0.8em;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #af2727;
+    padding: 1%;
+    border-radius: 3px;
+}
+
+.delete:hover{
+    cursor: pointer;
+}
+
+.delete:active {
+    background-color: #681717;
+}
+
+.submit {
+    font-size: 0.8em;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #48a543;
+    padding: 1%;
+    border-radius: 3px;
+}
+
+.submit:hover{
+    cursor: pointer;
+}
+
+.submit:active {
+    background-color: #2f692c;
+}
+
+.edit {
+    margin-right: 2%;
+    font-size: 0.8em;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #16b5e9;
+    padding: 1%;
+    border-radius: 3px;
+}
+
+.edit:hover{
+    cursor: pointer;
+}
+
+.edit:active {
+    background-color: #1083a9;
+}
