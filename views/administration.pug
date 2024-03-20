@@ -2,30 +2,16 @@ html
   head
     title= site_title
     link(rel='stylesheet', href='/css/styles.css')
+    link(rel='stylesheet', href='/css/newsfeed_styles.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
     script(src='/scripts/admin.js')
+    script(src='/scripts/newsfeed_adminpanel.js')
   body
-  - const numposts = posts.length 
       div#header 
-        div#title ІНФОРМАТ СЕРВИС ЮҐЕНЯ
-        div#subtitle Yugenya Information Service
+        div#title= header_title
+        div#subtitle= header_subtitle
       div#subsubtitle Administration Panel
-      div#newpost 
-        div#pseudopost
-          p New Post
-          textarea#postinput(name="newinput", cols="45", rows="6", maxlength="255", placeholder="Write post here")
-          p 
-            span.submit(onclick="submitPost()") Submit Post
-      div#posts
-        - var i = numposts - 1
-        while i >= 0
-          if posts[i].active
-            div.post(id=posts[i].id+"p")
-              p.text= posts[i].posttext
-              p.time= 'Posted at ' + posts[i].timecode
-              p
-                span.edit(id=posts[i].id, onclick="beginEdit(this.id)") Edit Post
-                span.delete(id=posts[i].id, onclick="deletePost(this.id)") Delete Post
-          - i--
+      div#newpost
+      div#newsfeed
