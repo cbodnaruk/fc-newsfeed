@@ -1,3 +1,0 @@
-    const post_bodies = []
-    const post_times = []
-    for (let i = 0; i < posts.length; i++){post_bodies[i] = posts[i].text}

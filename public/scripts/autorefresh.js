@@ -1,6 +1,8 @@
  	
     setInterval(reloadPosts,60000);
-
+    $( document ).ready(function() {
+        reloadPosts();
+    });
 
   function reloadPosts(){
     $("#posts").load("/postload",function(response, status, xhr){
