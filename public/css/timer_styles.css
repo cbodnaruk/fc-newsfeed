@@ -7,11 +7,15 @@ margin-top: 3%;
 }
 
 #timer{
+top: 25%;
     max-width: 600px;
     flex-basis: 600px;
+position: sticky;
+align-self: flex-start;
 }
 
 #timer_module{
+
     border: 2px solid #ccc;
     box-sizing: border-box;
     border-radius: 4px;
