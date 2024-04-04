@@ -1,0 +1,8 @@
+script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+
+script(src='/scripts/timer_editor.js')
+div
+  span.btn#start_timer(onClick='startTimer(true)') Start
+  span.btn#pause_timer(onClick='pauseTimer(true)') Pause
+  span.btn#reset_timer(onClick='resetTimer("f")') Reset to Start 
+  span.btn#resetphase_timer(onClick='resetTimer("p")') Reset to Current Phase

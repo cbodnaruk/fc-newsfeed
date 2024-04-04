@@ -20,6 +20,7 @@ const server_timer = {
         }
     },
     initialise: function (length) {
+        this.is_paused = false;
         this.total_time = length;
         let s = Math.round(Date.now() / 1000);
         this.start_time = last_tick = s;
@@ -36,7 +37,34 @@ const server_timer = {
         }
     },
     stop: function () {
-        clearInterval(ticker);
+        this.is_paused=true;
+        this.total_time=0;
+        this.start_time=0;
+        this.time_elapsed=0;
+        aWss.clients.forEach(function (client) {
+
+            client.send(this.time_elapsed);
+        });
+
+    },
+    reset: function(scope,phase_list) {
+        if (scope == "f"){
+        this.time_elapsed = 0;
+        } else if (scope == "p"){
+            const phase_points = [0];
+            for (let i = 1; i<10; i++ ){
+                phase_list.forEach((element) => {
+                    let new_point = phase_points.at(-1) + parseInt(element.duration);
+                    phase_points.push(new_point);
+                });
+            }
+            for (let i = 0; i<phase_points.length; i++){
+                if (this.time_elapsed < phase_points[i]){
+                    this.time_elapsed = phase_points[i-1];
+                    break;
+                }
+            }
+        };
     }
 }
 

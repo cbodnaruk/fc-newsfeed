@@ -1,8 +1,6 @@
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
 
 script(src='/scripts/timer_editor.js')
-div#time
-
 div#timer_editor
   table
     tbody#phaselist
@@ -13,12 +11,9 @@ div#timer_editor
       each x in phases
         tr
           td
-            input(id='phase'+x.id, type='text', value=x.phase)
+            input(class="phase_input", id='phase'+x.id, type='text', value=x.phase, onchange='updatePhase(event)')
           td
-            input(id='duration'+x.id, type='text', value=x.duration)
-  span#add_row(onclick="addRow()") New Phase
-  span#delete_row(onClick="deleteRow()") Remove Phase
-
-div#timer_controller
-  span#start_timer(onClick='startTimer()') Start
-  span#pause_timer(onClick='pauseTimer(true)') Pause
+            input(class="phase_input", id='duration'+x.id, type='text', value=x.duration, onchange='updatePhase(event)')
+  div#timer_editor_control
+    span.btn#add_row(onclick="addRow()") New Phase
+    span.btn#delete_row(onClick="deleteRow()") Remove Phase

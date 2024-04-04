@@ -1,0 +1,81 @@
+#timer_controller{
+    border: 2px solid #ccc;
+box-sizing: border-box;
+border-radius: 4px;
+padding: 2%;
+margin-top: 3%;
+}
+
+#timer{
+    max-width: 600px;
+    flex-basis: 600px;
+}
+
+#timer_module{
+    border: 2px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 3%;
+    margin: 3%;
+    color: #fff;
+    font-size: 1em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+width: 100%;
+}
+.clock_block{
+    padding: 3%;
+text-align: center;
+}
+
+.cturn{
+font-size: 2em ;
+}
+
+.cphase{
+font-size: 4em;
+}
+
+#time{
+    font-size: 6em;
+}
+
+#timer_phases{
+    padding: 3%;
+    margin: 3%;
+    color: white;
+    font-size: 1em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    align-content: center;
+}
+
+td,th{
+    color: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #777 ;
+}
+table{
+    margin-left: auto;
+    margin-right: auto;
+}
+.btn {
+    font-size: 0.8em;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #48a543;
+    padding: 1%;
+    border-radius: 3px;
+    margin: 2%;
+    color: #fff;
+}
+
+.btn:hover{
+    cursor: pointer;
+}
+
+.btn:active {
+    background-color: #2f692c;
+}
+
+#timer_editor_control{
+    padding-top: 5%;
+}

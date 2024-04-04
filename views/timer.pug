@@ -1,3 +1,25 @@
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
 script(src='/scripts/timer.js')
-div#time 0
+div#timer_module
+  div.clock_block
+    div.cturn
+      span Current Turn: 
+      span#current_turn 0
+    div.cphase
+      span Current Phase: 
+      span#current_phase x
+    div#time
+
+  div#timer_phases
+    table
+      tbody#phaselist
+        tr 
+          th Phase 
+          th Duration
+
+        each x in phases
+          tr
+            td
+              span(id='phase'+x.id)= x.phase
+            td
+              span(id='duration'+x.id)= x.duration + " mins"
