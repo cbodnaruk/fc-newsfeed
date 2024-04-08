@@ -7,13 +7,20 @@ div#timer_editor
       tr 
         th Phase 
         th Duration
-
-      each x in phases
-        tr
-          td
-            input(class="phase_input", id='phase'+x.id, type='text', value=x.phase, onchange='updatePhase(event)')
-          td
-            input(class="phase_input", id='duration'+x.id, type='text', value=x.duration, onchange='updatePhase(event)')
+      if is_running 
+        each x in phases
+          tr
+            td
+              input(class="phase_input", id='phase'+x.id, type='text', value=x.phase, onchange='updatePhase(event)', disabled)
+            td
+              input(class="phase_input", id='duration'+x.id, type='text', value=x.duration, onchange='updatePhase(event)', disabled)
+      else       
+        each x in phases
+          tr
+            td
+              input(class="phase_input", id='phase'+x.id, type='text', value=x.phase, onchange='updatePhase(event)')
+            td
+              input(class="phase_input", id='duration'+x.id, type='text', value=x.duration, onchange='updatePhase(event)')
   div#timer_editor_control
     span.btn#add_row(onclick="addRow()") New Phase
     span.btn#delete_row(onClick="deleteRow()") Remove Phase

@@ -3,6 +3,7 @@ const server_timer = {
     total_time: 0,
     time_elapsed: 0,
     update_rate: 100,
+    is_running: false,
     is_paused: false,
     tick: function () {
         let s = Math.round(Date.now() / 1000);
@@ -24,6 +25,7 @@ const server_timer = {
         this.total_time = length;
         let s = Math.round(Date.now() / 1000);
         this.start_time = last_tick = s;
+        server_timer.is_running = true;
 
     },
     pause: function () {
@@ -41,6 +43,7 @@ const server_timer = {
         this.total_time=0;
         this.start_time=0;
         this.time_elapsed=0;
+        server_timer.is_running = false;
         aWss.clients.forEach(function (client) {
 
             client.send(this.time_elapsed);

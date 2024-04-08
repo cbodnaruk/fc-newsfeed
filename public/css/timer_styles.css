@@ -83,3 +83,9 @@ table{
 #timer_editor_control{
     padding-top: 5%;
 }
+
+.this_phase{
+    outline: 5px solid #ffffff;
+    outline-offset: 0px;
+    outline-style: double;
+}

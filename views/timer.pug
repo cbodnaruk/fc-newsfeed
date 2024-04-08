@@ -18,7 +18,7 @@ div#timer_module
           th Duration
 
         each x in phases
-          tr
+          tr(id='row'+x.id)
             td
               span(id='phase'+x.id)= x.phase
             td

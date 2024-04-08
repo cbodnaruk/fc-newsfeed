@@ -10,7 +10,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.get('/editor', async (req, res) => {
     try {
         const phase_list = await db.any('SELECT * FROM timers ORDER BY id');
-        res.render('timer_editor', { "phases": phase_list });
+        res.render('timer_editor', { "phases": phase_list, "is_running": timer.is_running, "is_paused": timer.is_paused });
+        console.log(timer.is_running)
     }
     catch (e) {
         res.send(e)
@@ -21,7 +22,7 @@ router.get('/editor', async (req, res) => {
 });
 
 router.get('/controller', async (req, res) => {
-    res.render('timer_controller');
+    res.render('timer_controller', { "is_running": timer.is_running, "is_paused": timer.is_paused });
 });
 
 router.get('/view', async (req, res) => {
