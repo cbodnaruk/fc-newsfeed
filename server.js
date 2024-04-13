@@ -1,6 +1,12 @@
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+
+var credentials = {key: privateKey, cert: certificate};
 const express = require('express')
 const app = express()
-const port = 8080
 const pgp = require('pg-promise')();
 global.db = pgp('postgres://pi:db448@localhost:5432/dash_data');
 const pug = require('pug');
@@ -32,11 +38,17 @@ app.get('/admin', async (req, res) => {
 
 })
 
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`)
-})
 
 
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(8080, () => {
+    console.log('Port 8080 Open')
+});
+httpsServer.listen(8443, () => {
+    console.log('Port 8443 Open')
+});
 
 global.aWss = expressWs.getWss();
 
