@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 8080
 const pgp = require('pg-promise')();
-global.db = pgp('postgres://postgres:admin@localhost:5432/postgres');
+global.db = pgp('postgres://pi:db448@localhost:5432/dash_data');
 const pug = require('pug');
 const expressWs = require('express-ws')(app);
 
