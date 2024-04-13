@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 80
+const port = 8080
 const pgp = require('pg-promise')();
 global.db = pgp('postgres://postgres:admin@localhost:5432/postgres');
 const pug = require('pug');
@@ -33,7 +33,7 @@ app.get('/admin', async (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`App listening on port ${port}`)
 })
 
 
