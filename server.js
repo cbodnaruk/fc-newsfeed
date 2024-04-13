@@ -11,7 +11,9 @@ const app = express()
 const pgp = require('pg-promise')();
 global.db = pgp(dblog);
 const pug = require('pug');
-const expressWs = require('express-ws')(app);
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+const expressWs = require('express-ws')(app,httpsServer);
 
 const newsfeed_routes = require('./routes/newsfeed_routes.js');
 app.use('/newsfeed', newsfeed_routes);
@@ -41,8 +43,7 @@ app.get('/admin', async (req, res) => {
 
 
 
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
+
 
 httpServer.listen(8080, () => {
     console.log('Port 8080 Open')
