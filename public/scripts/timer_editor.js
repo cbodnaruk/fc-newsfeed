@@ -1,4 +1,4 @@
-wsocket = new WebSocket('ws://'+location.host+'/timer/sync');
+wsocket = new WebSocket('wss://'+location.host+'/timer/sync');
 
 
 
