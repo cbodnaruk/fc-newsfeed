@@ -4,11 +4,11 @@ $(document).ready(function () {
 
 
 function loadTimerAdmin() {
-    $("#timer_controller").load("/timer/controller", function (response, status, xhr) {
+    $("#timer_controller").load("/demo/timer/controller", function (response, status, xhr) {
 
     });
-    $("#timer_editor").load("/timer/editor", function (response, status, xhr) {
+    $("#timer_editor").load("/demo/timer/editor", function (response, status, xhr) {
 
     });
-    $("#timer").load("/timer/view")
+    $("#timer").load("/demo/timer/view")
 }

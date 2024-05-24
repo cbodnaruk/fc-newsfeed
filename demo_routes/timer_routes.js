@@ -4,14 +4,17 @@ const timer = require('./timer.js')
 const last_tick = 0;
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-
+const full_db_call = 'SELECT game_structure.id, timers.id, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id ORDER BY game_structure.id ASC, timers.id asc;'
+const phases_db_call = 'SELECT * from timers ORDER BY id;'
+const rounds_db_call = 'SELECT * from round_types ORDER BY id;'
+const game_db_call = 'SELECT * FROM game_structure ORDER BY id;'
 
 router.get('/editor', async (req, res) => {
     try {
-        const phase_list = await db.any('SELECT * FROM timers ORDER BY id');
-        res.render('timer_editor', { "phases": phase_list, "is_running": timer.is_running, "is_paused": timer.is_paused });
-        console.log(timer.is_running)
+        const round_list = await db.any(rounds_db_call); 
+        const phase_list = await db.any(phases_db_call);
+        const game_list = await db.any(game_db_call);
+        res.render('timer_editor_new', { "phases": phase_list, "rounds": round_list, "structure": game_list, "is_running": timer.is_running, "is_paused": timer.is_paused });
     }
     catch (e) {
         res.send(e)
@@ -27,14 +30,14 @@ router.get('/controller', async (req, res) => {
 
 router.get('/view', async (req, res) => {
     try {
-        const phase_list = await db.any('SELECT * FROM timers ORDER BY id');
+        const phase_list = await db.any(full_db_call);
         res.render('timer', { "phases": phase_list });
     }
     catch (e) {
         res.send(e)
         console.log(e)
     }
-
+ 
 });
 
 router.ws('/sync', (ws, req) => {
@@ -85,7 +88,7 @@ router.post('/update', urlencodedParser, async (req, res) => {
 });
 
 router.post('/add', urlencodedParser, async (req, res) => {
-    add_phase(req.body.id)
+    add_phase(req.body.id,req.body.round_id);
 
 });
 
@@ -94,7 +97,20 @@ router.post('/remove', urlencodedParser, async (req, res) => {
 
 });
 
+router.post('/newround', urlencodedParser, async (req, res) => {
+    await db.none(`INSERT INTO round_types (id, round_name) VALUES ('${req.body.id}','New Round');`);
+    await db.none(`INSERT INTO timers (phase, duration, round_id) VALUES ('','0','${req.body.id}');`)
+    console.log("saved new round type")
+});
 
+router.post('/rmround', urlencodedParser, async (req, res) => {
+    await db.none(`DELETE FROM round_types WHERE id = '${req.body.id}';`);
+})
+;
+router.post('/reloadoptions', urlencodedParser, async (req, res) => {
+    var rounds = await db.any(`SELECT `); //working here
+})
+;)
 async function save_phase(id, type, content) {
     try {
         if (type == "p") {
@@ -112,9 +128,9 @@ async function save_phase(id, type, content) {
     }
 }
 
-async function add_phase(id) {
+async function add_phase(id,round_id) {
     try {
-        await db.none(`INSERT INTO timers (id,phase,duration) VALUES (${id},'',0)`
+        await db.none(`INSERT INTO timers (id,phase,duration,round_id) VALUES (${id},'',0,${round_id})`
         );
         return true
     }
@@ -136,7 +152,7 @@ async function remove_phase() {
 
 async function get_phases() {
     try {
-        return await db.any('SELECT * FROM timers ORDER BY id');
+        return await db.any(phases_db_call);
 
     }
     catch (e) {

@@ -1,4 +1,4 @@
 $( document ).ready(function() {
-    $("#timer").load("/timer/view")
+    $("#timer").load("./timer/view")
 });
 
