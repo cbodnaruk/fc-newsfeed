@@ -1,24 +1,22 @@
-wsocket = new WebSocket('wss://'+location.host+'/timer/sync');
-
+wsocket = new WebSocket('wss://'+location.host+'/demo/timer/sync');
+console.log("find me too")
 var current_sel_round = 1;
-
+var next_phase_id = 0;
 $(document).ready(function () {
-    var rows = $("#phaselist").children(":not(.head)").each(function() {
-        var iid = "pir"+current_sel_round
-        var rid = this.id;
-        if (rid != iid){
-            $(this).hide();
-        } else {
-            $(this).show();
-        }
-    }
-)});
+    try {current_sel_round = roundData[0].id
+        next_phase_id = phaseData[phaseData.length - 1].id + 1
+    } catch(e){};
+
+    $("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round)
+    $("#timer_editor_gamestructure").load("./timer/editor/game")
+});
 
 function addRow(){
-    var numphases = document.getElementById("phaselist").childElementCount - 1;
-    $("#phaselist").append(`<tr><td><input class="phase_input" id="phase${numphases+1}" type="text" onchange="updatePhase(event)"/></td><td><input class="phase_input" onchange="updatePhase(event)" id="duration${numphases+1}" type="text"/></td>`)
-    $.post("./timer/add", { "id": numphases+1 , "round_id": current_sel_round })
-
+    $.post("./timer/add", { "id": next_phase_id , "round_id": current_sel_round })
+    setTimeout(() => {
+        $("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round);
+    }, 300);
+    next_phase_id += 1;
 }
 function deleteRow(){
     $("#phaselist").children().last().remove();
@@ -27,62 +25,54 @@ function deleteRow(){
 }
 
 function updatePhase(event){
-
 var trig_str = event.target.id.replace(/[^0-9.]/g, "").split('.');
 var trig_id = trig_str[0]
 var trig_type = event.target.id.charAt(0);
 var trig_val = $(event.target).val();
 $.post("./timer/update", { "id": trig_id , "type": trig_type , "content": trig_val })
+setTimeout(() => {
+    $("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round);
+}, 300);
 
 }
+
+function updateName(){
+    var trig_val = $("#round_name").val()
+    $.post("./timer/update", {"id": current_sel_round, "type": "n" , "content": trig_val})
+    $("#select"+current_sel_round).text(trig_val)
+    setTimeout(() => {
+        $("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round);
+        $("#timer_editor_gamestructure").load("./timer/editor/game");
+    }, 300);
+};
+
 function reloadOptions(){
-    $("#roundlist").children(":not(.head)").each(function() {
-        var opts = this.lastChild.firstChild.childNodes;
-        for (i = 0; i < opts.length; i++){
-            console.log(opts[i])
-        }
-    });
+    $("#timer_editor_gamestructure").load("./timer/editor/game")
     
 }
 
 function changeRound(event){
 var trig_id = event.target.id.slice(6);
-$("#round_name").val(event.target.innerText)
 current_sel_round = parseInt(trig_id);
-    $("#phaselist").children(":not(.head)").each(function() {
-        var iid = "pir"+current_sel_round
-        var rid = this.id;
-        if (rid != iid){
-            $(this).hide();
-        } else {
-            $(this).show();
-        }
-    }
-)
+$("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round)
 
 }
 
 function pChangeRound(trig_id){
-    $("#round_name").val($("#select"+trig_id).val())
     current_sel_round = parseInt(trig_id);
-        $("#phaselist").children(":not(.head)").each(function() {
-            var iid = "pir"+current_sel_round
-            var rid = this.id;
-            if (rid != iid){
-                $(this).hide();
-            } else {
-                $(this).show();
-            }
-        }
-    )
+    setTimeout(() => {
+        $("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round);
+    }, 300);
 }
 
 function newRound(){
     //add new button
      var new_id = parseInt($("#round_selectors").children().last().children("span").attr('id').slice(6)) + 1
     $("#round_selectors").append(`<div class="paddedbtn" id="sdiv${new_id}"><span class="btnb" id="select${new_id}" onClick="changeRound(event)">New Round</span></div>`)
+    
 //create new round type
 $.post("./timer/newround", {"id":new_id })
+pChangeRound(new_id)
     //add blank line
     var con_new_box = ''
     con_new_box += `<tr id="pir${new_id}">`
@@ -101,7 +91,17 @@ $("#sdiv"+current_sel_round).remove();
 //remove from db
 $.post("./timer/rmround", {"id":current_sel_round});
 
-pChangeRound(1);
+//find next round
+var topround = 0
+console.log(roundData)
+for (round in roundData){
+    console.log(roundData[round].id)
+if (roundData[round].id > topround){
+    topround = roundData[round].id
+    
+} 
+}
+pChangeRound(topround);
 reloadOptions();
 }
 

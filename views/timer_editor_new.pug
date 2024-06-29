@@ -1,38 +1,16 @@
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
-
+script. 
+  const phaseData = !{sphases};
+  const roundData = !{srounds};
+  const runningData = {is_running: !{is_running}, is_paused: !{is_paused}};
+  console.log("find me")
 script(src='/scripts/timer_editor.js')
 div#timer_editor
   div 
-    table 
-      tbody#roundlist 
-        tr.head
-         th 
-         th Round Type
-        if is_running 
-          each y in structure 
-            tr 
-              td=y.id
-              td 
-                select(id="round"+y.id, name="round"+y.id, disabled)
-                  each round in rounds
-                    if y.round_id == round.id
-                      option(value=round.id selected)=round.round_name
-                    else
-                      option(value=round.id)=round.round_name
-        else 
-          each y in structure 
-            tr 
-              td=y.id   
-              td
-                select(id="round"+y.id, name="round"+y.id)
-                  each round in rounds
-                    if y.round_id == round.id
-                      option(value=round.id selected)=round.round_name
-                    else
-                      option(value=round.id)=round.round_name
-        div#timer_editor_control
-      span.btn#add_round_row(onclick="addRoundRow()") New Round
-      span.btn#delete_round__row(onClick="deleteRoundRow()") Remove Round      
+    div#timer_editor_gamestructure
+    div#timer_editor_control
+          span.btn#add_round_row(onclick="addRoundRow()") New Round
+          span.btn#delete_round__row(onClick="deleteRoundRow()") Remove Round      
   div#phaseflex
     div
       div.ctext Select a Round Type to Edit: 
@@ -44,32 +22,8 @@ div#timer_editor
         span.btn(id="new_round_type", onClick="newRound()") New Round Type
       div.paddedbtn
         span.btn(id="rm_round_type", onClick="rmRound()") Delete Round Type
-    div
-      table
-        tbody#phaselist
-          tr(class="head")
-            th Phase 
-            th Duration
-          if is_running 
-            tr(class="head")
-              td(colspan="2", style="padding-left: 25%;")
-                input(class="phase_input", id='round_name', type='text', value=rounds[0].round_name, onchange='updateName()', disabled)
-            each x in phases
-              tr(id="pir"+x.round_id)
-                td
-                  input(class="phase_input", id='phase'+x.id+"."+x.round_id, type='text', value=x.phase, onchange='updatePhase(event)', disabled)
-                td
-                  input(class="phase_input", id='duration'+x.id+"."+x.round_id, type='text', value=x.duration, onchange='updatePhase(event)', disabled)
-          else
-            tr(class="head")
-              td(colspan="2", style="padding-left: 25%;")
-                input(class="phase_input", id='round_name', type='text', value=rounds[0].round_name, onchange='updateName()')       
-            each x in phases
-              tr(id="pir"+x.round_id)
-                td
-                  input(class="phase_input", id='phase'+x.id+"."+x.round_id, type='text', value=x.phase, onchange='updatePhase(event)')
-                td
-                  input(class="phase_input", id='duration'+x.id+"."+x.round_id, type='text', value=x.duration, onchange='updatePhase(event)')
+    div 
+      div#round_editor
       div#timer_editor_control
         span.btn#add_row(onclick="addRow()") New Phase
         span.btn#delete_row(onClick="deleteRow()") Remove Phase

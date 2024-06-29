@@ -3,6 +3,8 @@ const router = express.Router()
 const timer = require('./timer.js')
 const last_tick = 0;
 var bodyParser = require('body-parser');
+const qsstringify = require('qs');
+const jst = require("javascript-stringify");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const full_db_call = 'SELECT game_structure.id, timers.id, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id ORDER BY game_structure.id ASC, timers.id asc;'
 const phases_db_call = 'SELECT * from timers ORDER BY id;'
@@ -14,7 +16,33 @@ router.get('/editor', async (req, res) => {
         const round_list = await db.any(rounds_db_call); 
         const phase_list = await db.any(phases_db_call);
         const game_list = await db.any(game_db_call);
-        res.render('timer_editor_new', { "phases": phase_list, "rounds": round_list, "structure": game_list, "is_running": timer.is_running, "is_paused": timer.is_paused });
+        res.render('timer_editor_new', { "phases": phase_list, "sphases": jst.stringify(phase_list), "rounds": round_list, "srounds": jst.stringify(round_list), "structure": game_list, "is_running": timer.is_running, "is_paused": timer.is_paused });
+    }
+    catch (e) {
+        res.send(e)
+        console.log(e)
+    }
+
+});
+router.get('/editor/rounds', async (req, res) => {
+    try {
+        const round_list = await db.any(rounds_db_call); 
+        const phase_list = await db.any(phases_db_call);
+        res.render('timer_editor_rounds', { "phases": phase_list, "rounds": round_list, "is_running": timer.is_running, "selection": req.query.sel });
+    }
+    catch (e) {
+        res.send(e)
+        console.log(e)
+    }
+
+
+});
+
+router.get('/editor/game', async (req, res) => {
+    try {
+        const round_list = await db.any(rounds_db_call); 
+        const game_list = await db.any(game_db_call);
+        res.render('timer_editor_game', { "structure": game_list, "rounds": round_list, "is_running": timer.is_running, "selection": req.query.sel });
     }
     catch (e) {
         res.send(e)
@@ -42,6 +70,7 @@ router.get('/view', async (req, res) => {
 
 router.ws('/sync', (ws, req) => {
     ws.on('message', async function (msg) {
+        console.log("connection")
         if (msg == "start") {
             console.log("starting");
             timer.initialise(20);
@@ -110,20 +139,25 @@ router.post('/rmround', urlencodedParser, async (req, res) => {
 router.post('/reloadoptions', urlencodedParser, async (req, res) => {
     var rounds = await db.any(`SELECT `); //working here
 })
-;)
+;
 async function save_phase(id, type, content) {
     try {
         if (type == "p") {
             await db.none(`UPDATE timers SET phase = '${content}' WHERE id = ${id}`
             );
-            console.log(`UPDATE timers SET phase = '${content}' WHERE id = ${id}`)
         } else if (type == "d") {
             await db.none(`UPDATE timers SET duration = ${content} WHERE id = ${id}`
             );
+        } else if (type == "n") {
+            console.log(`UPDATE round_types SET round_name = '${content}' WHERE id = ${id};`)
+            await db.none(`UPDATE round_types SET round_name = '${content}' WHERE id = ${id}`);
+            
         };
+        console.log("database updated")
         return true
     }
     catch (e) {
+        console.log(e)
         return false
     }
 }

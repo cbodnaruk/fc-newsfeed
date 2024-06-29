@@ -1,4 +1,4 @@
-wsocket = new WebSocket('wss://' + location.host + '/timer/sync');
+wsocket = new WebSocket('wss://' + location.host + '/demo/timer/sync');
 var this_phase_id = 0;
 console.log(wsocket.readyState);
 wsocket.addEventListener("open", (event) => {
@@ -10,7 +10,6 @@ wsocket.addEventListener("message", (event) => {
         location.reload()
     } else {
         updateClock(parseInt(event.data));
-
     };
 });
 var current_phase_id = 0;

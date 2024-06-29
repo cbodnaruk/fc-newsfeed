@@ -12,3 +12,4 @@ function loadTimerAdmin() {
     });
     $("#timer").load("/demo/timer/view")
 }
+
