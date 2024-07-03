@@ -6,10 +6,11 @@ var bodyParser = require('body-parser');
 const qsstringify = require('qs');
 const jst = require("javascript-stringify");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-const full_db_call = 'SELECT game_structure.id, timers.id, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id ORDER BY game_structure.id ASC, timers.id asc;'
+const full_db_call = 'SELECT game_structure.id as "gid", timers.id, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id ORDER BY game_structure.id ASC, timers.id asc;'
 const phases_db_call = 'SELECT * from timers ORDER BY id;'
 const rounds_db_call = 'SELECT * from round_types ORDER BY id;'
 const game_db_call = 'SELECT * FROM game_structure ORDER BY id;'
+
 
 router.get('/editor', async (req, res) => {
     try {
@@ -59,7 +60,9 @@ router.get('/controller', async (req, res) => {
 router.get('/view', async (req, res) => {
     try {
         const phase_list = await db.any(full_db_call);
-        res.render('timer', { "phases": phase_list });
+        const game_struct = await db.any(game_db_call);
+        res.render('timer', { "phases": phase_list,"sphases": jst.stringify(phase_list), "sstruct": jst.stringify(game_struct) });
+        console.log(phase_list)
     }
     catch (e) {
         res.send(e)
@@ -136,8 +139,12 @@ router.post('/rmround', urlencodedParser, async (req, res) => {
     await db.none(`DELETE FROM round_types WHERE id = '${req.body.id}';`);
 })
 ;
-router.post('/reloadoptions', urlencodedParser, async (req, res) => {
-    var rounds = await db.any(`SELECT `); //working here
+router.post('/editstructure', urlencodedParser, async (req, res) => {
+    if (req.body.method == "ad"){
+        await db.none("INSERT INTO game_structure (id, round_id) VALUES (((SELECT id FROM game_structure ORDER BY id desc LIMIT 1)+1), (SELECT id FROM round_types ORDER BY id ASC LIMIT 1));");
+    } else if (req.body.method == "rm"){
+        await db.none("DELETE FROM game_structure WHERE id in (SELECT id FROM game_structure ORDER BY id desc LIMIT 1);");
+    }
 })
 ;
 async function save_phase(id, type, content) {
@@ -152,6 +159,8 @@ async function save_phase(id, type, content) {
             console.log(`UPDATE round_types SET round_name = '${content}' WHERE id = ${id};`)
             await db.none(`UPDATE round_types SET round_name = '${content}' WHERE id = ${id}`);
             
+        } else if (type == "g"){
+            await db.none(`UPDATE game_structure SET round_id = (SELECT id FROM round_types WHERE round_name = '${content}') WHERE id = ${id};`)
         };
         console.log("database updated")
         return true

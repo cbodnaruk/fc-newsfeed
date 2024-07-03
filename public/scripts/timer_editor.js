@@ -24,6 +24,20 @@ function deleteRow(){
 
 }
 
+function addRoundRow(){
+$.post("./timer/editstructure", {"method": "ad"})
+setTimeout(() => {
+    $("#timer_editor_gamestructure").load("./timer/editor/game");
+}, 300);
+}
+
+function deleteRoundRow() {
+    $.post("./timer/editstructure",{"method": "rm"})
+    setTimeout(() => {
+        $("#timer_editor_gamestructure").load("./timer/editor/game");
+    }, 300);
+}
+
 function updatePhase(event){
 var trig_str = event.target.id.replace(/[^0-9.]/g, "").split('.');
 var trig_id = trig_str[0]
@@ -45,6 +59,13 @@ function updateName(){
         $("#timer_editor_gamestructure").load("./timer/editor/game");
     }, 300);
 };
+
+function updateGameRound(event){
+    var trig_str = event.target.id.replace(/[^0-9.]/g, "").split('.');
+var trig_id = trig_str[0]
+var trig_val = $(event.target).find('option:selected').text();
+$.post("./timer/update", { "id": trig_id , "type": "g" , "content": trig_val })
+}
 
 function reloadOptions(){
     $("#timer_editor_gamestructure").load("./timer/editor/game")
@@ -110,11 +131,13 @@ function startTimer(newState) {
     if (newState){
         wsocket.send("start");
         $(".phase_input").attr('disabled',true)
+        $("#roundlist").attr('disabled',true)
         $("#start_timer").text('Stop');
         $("#start_timer").attr('onClick','startTimer(false)');
         } else {
             wsocket.send("stop");
             $(".phase_input").attr('disabled',false)
+            $("#roundlist").attr('disabled',false)
             $("#start_timer").text('Start');
             $("#start_timer").attr('onClick','startTimer(true)');
         }

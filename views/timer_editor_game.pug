@@ -19,7 +19,7 @@ table
             tr 
               td=y.id   
               td
-                select(id="round"+y.id, name="round"+y.id)
+                select(id="round"+y.id, name="round"+y.id, onchange="updateGameRound(event)")
                   each round in rounds
                     if y.round_id == round.id
                       option(value=round.id selected)=round.round_name
