@@ -1,6 +1,5 @@
 var fs = require('fs');
 var http = require('http');
-var https = require('https');
 var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
 var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
 var dblog = fs.readFileSync('database_login.txt', 'utf8');
@@ -15,8 +14,7 @@ const pgp = require('pg-promise')();
 global.db = pgp(dblog);
 const pug = require('pug');
 var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
-const expressWs = require('express-ws')(app,httpsServer);
+const expressWs = require('express-ws')(app,httpServer);
 
 app.use((req, res, next) => {
     if (req.path.slice(-1) === '/' && req.path.length > 1) {
