@@ -70,6 +70,7 @@ button.landingbtn {
     position: sticky;
     bottom: 0;
     float: right;
+    cursor: pointer;
 }
 
 #subtitle {
