@@ -35,9 +35,13 @@ app.set('views', './views');
 
 app.get('/', async (req, res) => {
 
-    res.send('Home');
+    res.render('landing', {"is404": false});
 })
 
+
+app.use((req, res, next) => {
+    res.status(404).render('landing', {"is404": true})
+  })
 
 httpServer.listen(8080, () => {
     console.log('Port 8080 Open')

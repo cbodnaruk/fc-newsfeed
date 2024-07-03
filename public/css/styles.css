@@ -20,6 +20,58 @@ font-family: "Rubik Mono One", monospace;
   font-style: normal;
 }
 
+#landing_info{
+    position: absolute;
+    text-align: center;
+    color:rgb(224, 224, 224);
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#dashboard_id{
+    margin:5px;
+    padding: 6px 12px;
+    background: rgb(31, 32, 35);
+    border: 1px solid rgb(60, 63, 68);
+    border-radius: 4px;
+    font-size: 13px;
+    color: rgb(247, 248, 248);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    height: 46px;
+    appearance: none;
+    transition: border 0.15s ease 0s;
+    :focus{
+        outline: none;
+        box-shadow: none;
+        border-color: rgb(100, 153, 255);
+    }
+
+}
+
+button.landingbtn {
+    margin: 5px;
+    padding: 6px 12px;
+    background: rgb(31, 32, 35);
+    border: 1px solid rgb(60, 63, 68);
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: rgb(247, 248, 248);
+    height: 46px;
+    appearance: none;
+    transition: border 0.15s ease 0s;
+}
+
+#homebutton{
+    color:#EFEFEF;
+    font-size: 1.5em;
+    position: sticky;
+    bottom: 0;
+    float: right;
+}
+
 #subtitle {
 font-size: 1.7vw;
 font-family: "Rubik Mono One", monospace;
