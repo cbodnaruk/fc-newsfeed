@@ -1,3 +1,4 @@
 node_modules/
 sslcert/
 database_login.txt
+/node_modules
