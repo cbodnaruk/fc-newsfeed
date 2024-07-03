@@ -18,6 +18,16 @@ var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 const expressWs = require('express-ws')(app,httpsServer);
 
+app.use((req, res, next) => {
+    if (req.path.slice(-1) === '/' && req.path.length > 1) {
+      const query = req.url.slice(req.path.length)
+      const safepath = req.path.slice(0, -1).replace(/\/+/g, '/')
+      res.redirect(301, safepath + query)
+    } else {
+      next()
+    }
+  })
+
 const demo = require('./routes/demo.js');
 app.use('/demo', demo);
 
@@ -41,7 +51,10 @@ app.get('/', async (req, res) => {
 
 app.use((req, res, next) => {
     res.status(404).render('landing', {"is404": true})
-  })
+  });
+
+
+  
 
 httpServer.listen(8080, () => {
     console.log('Port 8080 Open')
