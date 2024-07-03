@@ -1,0 +1,31 @@
+div
+    - var inner_rounds = []
+    each round in rounds 
+        - inner_rounds[round.id] = round
+table
+        tbody#phaselist
+          tr(class="head")
+            th Phase 
+            th Duration
+          if is_running 
+            tr(class="head")
+              td(colspan="2", style="padding-left: 25%;")
+                input(class="phase_input", id='round_name', type='text', value=inner_rounds[selection].round_name, onchange='updateName()', disabled)
+            each x in phases
+                if x.round_id == selection
+                    tr(id="pir"+x.round_id)
+                      td
+                        input(class="phase_input", id='phase'+x.id, type='text', value=x.phase, onchange='updatePhase(event)', disabled)
+                      td
+                        input(class="phase_input", id='duration'+x.id, type='text', value=x.duration, onchange='updatePhase(event)', disabled)
+          else
+            tr(class="head")
+              td(colspan="2", style="padding-left: 25%;")
+                input(class="phase_input", id='round_name', type='text', value=inner_rounds[selection].round_name, onchange='updateName()')       
+            each x in phases
+                if x.round_id == selection
+                    tr(id="pir"+x.round_id)
+                      td
+                        input(class="phase_input", id='phase'+x.id, type='text', value=x.phase, onchange='updatePhase(event)')
+                      td
+                        input(class="phase_input", id='duration'+x.id, type='text', value=x.duration, onchange='updatePhase(event)')

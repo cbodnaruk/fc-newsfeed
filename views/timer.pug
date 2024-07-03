@@ -1,4 +1,7 @@
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+script. 
+  const phaseData = !{sphases};
+  const gameStructure = !{sstruct};
 script(src='/scripts/timer.js')
 div#timer_module
   div.clock_block
@@ -18,7 +21,7 @@ div#timer_module
           th Duration
 
         each x in phases
-          tr(id='row'+x.id)
+          tr(id='row'+x.id, class='gid'+x.gid)
             td
               span(id='phase'+x.id)= x.phase
             td

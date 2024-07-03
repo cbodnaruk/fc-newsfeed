@@ -4,20 +4,20 @@ $(document).ready(function () {
 
 function submitPost() {
     var post_text = $("#postinput").val();
-    $.post("/newsfeed/postcreate", { "text": post_text }, reloadNewsfeed());
+    $.post("./newsfeed/postcreate", { "text": post_text }, reloadNewsfeed());
 }
 function reloadNewsfeed() {
-    $("#newsfeed").load("/newsfeed/editorload", function (response, status, xhr) {
+    $("#newsfeed").load("./newsfeed/editorload", function (response, status, xhr) {
 
     });
-    $("#newpost").load("/newsfeed/authorload", function (response, status, xhr) {
+    $("#newpost").load("./newsfeed/authorload", function (response, status, xhr) {
 
     });
 }
 
 function deletePost(post_id) {
     if (confirm("Please confirm delete post") == true) {
-        $.post("/newsfeed/postdelete", { "id": post_id }, reloadNewsfeed())
+        $.post("./newsfeed/postdelete", { "id": post_id }, reloadNewsfeed())
     }
 }
 
@@ -40,7 +40,7 @@ function endEdit(post_id) {
     var post_text = $("#editinput").val();
     //send update
     if (confirm("Please confirm edit") == true) {
-        $.post("newsfeed/postupdate", { "id": post_id, "text": post_text }, reloadNewsfeed())
+        $.post("./newsfeed/postupdate", { "id": post_id, "text": post_text }, reloadNewsfeed())
     }
     else {
         reloadNewsfeed()

@@ -27,6 +27,14 @@ align-self: flex-start;
     font-weight: bold;
 width: 100%;
 }
+
+#phaseflex{
+    display: flex;
+}
+#pfl{}
+
+#pfr{}
+
 .clock_block{
     padding: 3%;
 text-align: center;
@@ -51,6 +59,17 @@ font-size: 4em;
     font-size: 1em;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     align-content: center;
+}
+
+.ctext{
+    padding: 3%;
+    margin: 3%;
+    color: white;
+    font-size: 1em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.paddedbtn{
+    padding: 3%;
 }
 
 td,th{
@@ -80,6 +99,24 @@ table{
     background-color: #2f692c;
 }
 
+.btnb {
+    font-size: 0.8em;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #16b5e9;
+    padding: 1%;
+    border-radius: 3px;
+    margin: 2%;
+    color: #fff;
+}
+
+.btnb:hover{
+    cursor: pointer;
+}
+
+.btnb:active {
+    background-color: #1083a9;
+}
+
 #timer_editor_control{
     padding-top: 5%;
 }
@@ -87,5 +124,5 @@ table{
 .this_phase{
     outline: 5px solid #ffffff;
     outline-offset: 0px;
-    outline-style: double;
+    outline-style: double; 
 }
