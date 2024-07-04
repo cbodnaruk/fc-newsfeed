@@ -68,8 +68,8 @@ function updateClock(tc) {
         var phase_name = document.getElementById("phaselist").children[i].children[0].children[0].innerHTML
         $("#current_phase").text(phase_name);
         if (i != this_phase_id) {
-            document.getElementById("phaselist").children[i+1].classList.toggle("this_phase")
-            document.getElementById("phaselist").children[this_phase_id+1].classList.toggle("this_phase")
+            document.getElementById("phaselist").children[i+1].classList.add("this_phase")
+            document.getElementById("phaselist").children[this_phase_id+1].classList.remove("this_phase")
             this_phase_id = i;
         }
 
