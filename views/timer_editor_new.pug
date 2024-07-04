@@ -5,25 +5,39 @@ script.
   const runningData = {is_running: !{is_running}, is_paused: !{is_paused}};
   console.log("find me")
 script(src='/scripts/timer_editor.js')
-div#timer_editor
-  div 
-    div#timer_editor_gamestructure
-    div#timer_editor_control
-          span.btn#add_round_row(onclick="addRoundRow()") New Round
-          span.btn#delete_round__row(onClick="deleteRoundRow()") Remove Round      
-  div#phaseflex
-    div
-      div.ctext Select a Round Type to Edit: 
-      div#round_selectors
-        each round in rounds 
-          div.paddedbtn(id="sdiv"+round.id)
-            span.btnb(id="select"+round.id, onClick="changeRound(event)")=round.round_name
-      div.paddedbtn
-        span.btn(id="new_round_type", onClick="newRound()") New Round Type
-      div.paddedbtn
-        span.btn(id="rm_round_type", onClick="rmRound()") Delete Round Type
+script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+
+script(src='/scripts/timer_editor.js')
+div(style={'flex-basis': '600px'})
+  div#timer_controller
+    if is_running 
+      span.btn#start_timer(onClick='startTimer(false)') Stop
+    else
+      span.btn#start_timer(onClick='startTimer(true)') Start
+    if is_paused 
+      span.btn#pause_timer(onClick='pauseTimer(false)') Unpause
+    else 
+      span.btn#pause_timer(onClick='pauseTimer(true)') Pause
+    span.btn#reset_timer(onClick='resetTimer("f")') Reset to Start 
+    span.btn#resetphase_timer(onClick='resetTimer("p")') Reset to Current Phase
+  div#timer_editor
     div 
-      div#round_editor
+      div#timer_editor_gamestructure
       div#timer_editor_control
-        span.btn#add_row(onclick="addRow()") New Phase
-        span.btn#delete_row(onClick="deleteRow()") Remove Phase
+            span#add_round_row(class="material-symbols-outlined btn" onclick="addRoundRow()") add
+            span#delete_round__row(class="material-symbols-outlined btn" onClick="deleteRoundRow()") remove    
+    div#phaseflex
+      div
+        div.ctext Select a Round Type to Edit: 
+        div#round_selectors
+          each round in rounds 
+            div.paddedbtn(id="sdiv"+round.id)
+              span.btnb(id="select"+round.id, onClick="changeRound(event)")=round.round_name
+        div.paddedbtn
+          span(class="material-symbols-outlined btn" id="new_round_type", onClick="newRound()") add_box
+          span(class="material-symbols-outlined btn" id="rm_round_type", onClick="rmRound()") delete
+      div 
+        div#round_editor
+        div#timer_editor_control
+          span#add_row(class="material-symbols-outlined btn" onclick="addRow()") add
+          span#delete_row(class="material-symbols-outlined btn" onClick="deleteRow()") remove

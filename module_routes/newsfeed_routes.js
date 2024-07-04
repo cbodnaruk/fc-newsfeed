@@ -24,15 +24,11 @@ router.get('/editorload', async (req, res) => {
     try {
         let dash_id = req.params.dash_id
         const post_list = await db.any(`SELECT * FROM posts WHERE dash_id = '${dash_id}' ORDER BY id`);
-        res.render('newsfeed_editor', { "posts": post_list });
+        res.render('newsfeed_admin', { "posts": post_list });
     }
     catch (e) {
         res.send(error)
     }
-})
-
-router.get('/authorload', async (req, res) => {
-    res.render('newsfeed_author');
 })
 
 router.get('/postsload', async (req, res) => {

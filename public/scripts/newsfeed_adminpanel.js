@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    reloadNewsfeed();
+
 });
 
 function submitPost() {
@@ -8,9 +8,6 @@ function submitPost() {
 }
 function reloadNewsfeed() {
     $("#newsfeed").load("./newsfeed/editorload", function (response, status, xhr) {
-
-    });
-    $("#newpost").load("./newsfeed/authorload", function (response, status, xhr) {
 
     });
 }

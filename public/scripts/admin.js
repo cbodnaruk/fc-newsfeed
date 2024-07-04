@@ -1,15 +1,43 @@
+const dashboard_settings = {
+    show(dash_id) {
+        var modal = document.getElementById("prefsmodal");
+        modal.style.display = "block";
+    
+    },
+    hide(){
+        var modal = document.getElementById("prefsmodal");
+        if (this.needs_refresh){
+            location.reload()
+        }
+        modal.style.display = "none";
+    },
+    update(event){
+    
+        var trig_str = event.target.id.substring(2);
+    var trig_val = $(event.target).val();
+        $.post("./updatepreferences", {"preference": trig_str,"value": trig_val})
+    
+    this.needs_refresh = true;
+    
+    },
+    needs_refresh: false
+    }
+
 $(document).ready(function () {
-    loadTimerAdmin()
+    $("#timer").load("/"+dash_id+"/timer/editor", function (response, status, xhr) {
+
+    });
+    $("#newsfeed").load("./newsfeed/editorload", function (response, status, xhr) {
+
+    });
+    dashboard_settings.needs_refresh = false
 });
 
 
-function loadTimerAdmin() {
-    $("#timer_controller").load("/"+dash_id+"/timer/controller", function (response, status, xhr) {
 
-    });
-    $("#timer_editor").load("/"+dash_id+"/timer/editor", function (response, status, xhr) {
-
-    });
-    $("#timer").load("/"+dash_id+"/timer/view")
-}
-
+window.onclick = function(event) {
+    var modal = document.getElementById("prefsmodal");
+    if (event.target == modal) {
+      dashboard_settings.hide()
+    }
+  }

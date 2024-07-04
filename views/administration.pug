@@ -1,31 +1,51 @@
 html
   head
-    title= site_title
+    title= preferences.site_title
     link(rel='stylesheet', href='/css/styles.css')
     link(rel='stylesheet', href='/css/newsfeed_styles.css')
     link(rel='stylesheet', href='/css/timer_styles.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
-    script(src='/scripts/admin.js')
-    script(src='/scripts/newsfeed_adminpanel.js')
-    link(href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0", rel="stylesheet")
+
+    
+    link(href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0", rel="stylesheet")
     script. 
       const dash_id = "#{dash_id}";
+      const preferences = !{prefsobj};
+    script(src='/scripts/admin.js')
   body
     
       div#header 
-        div#title= header_title
-        div#subtitle= header_subtitle
+        div#title= preferences.header_title
+        div#subtitle= preferences.header_subtitle
       div#subsubtitle Administration Panel
       div#content
-        div
-          div#newpost
-          div#newsfeed
-        div(style={'flex-basis': '600px'})
-          div#timer_controller
-          div#timer_editor 
+        div(id=preferences.slot_a)
+        div(id=preferences.slot_b)
       div#homebutton
-        span(class="material-symbols-outlined", onclick="window.location='/'" title="Back to main page") home
-        span(class="material-symbols-outlined", onclick="window.location='./'" title="Back to main view") exit_to_app
-  
+        span(class="material-symbols-outlined big", onclick="window.location='/'", title="Back to main page") home
+        span(class="material-symbols-outlined big", onclick="window.location='./'", title="Back to public view") exit_to_app
+        span(class="material-symbols-outlined big", onclick="dashboard_settings.show('"+dash_id+"')", title="Edit dashboard settings") display_settings
+      div.modal#prefsmodal
+        div.modal-content
+          h3 Dashboard Settings 
+          p 
+            label(for="p_site_title") Tab Title: 
+            input(id="p_site_title", value=preferences.site_title, onChange="dashboard_settings.update(event)")
+          p 
+            label(for="p_header_title") Header: 
+            input(id="p_header_title", value=preferences.header_title, onChange="dashboard_settings.update(event)")         
+          p 
+            label(for="p_header_subtitle") Subheader: 
+            input(id="p_header_subtitle", value=preferences.header_subtitle, onChange="dashboard_settings.update(event)")
+          p 
+            label(for="p_slot_a") Content Slot A (left): 
+            select(id="p_slot_a", onChange="dashboard_settings.update(event)")
+              option(value="timer", selected=(preferences.slot_a == "timer")) Timer
+              option(value="newsfeed", selected=(preferences.slot_a == "newsfeed")) Newsfeed
+          p 
+            label(for="p_slot_b") Content Slot B (right): 
+            select(id="p_slot_b", onChange="dashboard_settings.update(event)")
+              option(value="timer", selected=(preferences.slot_b == "timer")) Timer
+              option(value="newsfeed", selected=(preferences.slot_b == "newsfeed")) Newsfeed

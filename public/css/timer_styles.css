@@ -31,9 +31,6 @@ width: 100%;
 #phaseflex{
     display: flex;
 }
-#pfl{}
-
-#pfr{}
 
 .clock_block{
     padding: 3%;
@@ -118,11 +115,16 @@ table{
 }
 
 #timer_editor_control{
-    padding-top: 5%;
+    padding-top: 2.5%;
+    text-align: center;
 }
 
 .this_phase{
     outline: 5px solid #ffffff;
     outline-offset: 0px;
     outline-style: double; 
+}
+
+.material-symbols-outlined.big{
+    font-size: 2em;
 }
