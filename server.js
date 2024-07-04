@@ -26,8 +26,6 @@ app.use((req, res, next) => {
     }
   })
 
-const demo = require('./routes/demo.js');
-app.use('/demo', demo);
 
 app.use(express.static('public'));
 let sqlSanitizer = require('sql-sanitizer');
@@ -37,14 +35,14 @@ app.use(express.json());
 app.set('view engine', 'pug');
 app.set('views', './views');
 
-
-
-
+const dash_routes = require('./routes/dash_routes.js');
+app.use('/:dash_id', dash_routes);
 
 app.get('/', async (req, res) => {
 
     res.render('landing', {"is404": false});
 })
+
 
 
 app.use((req, res, next) => {

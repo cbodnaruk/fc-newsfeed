@@ -1,16 +1,15 @@
 const express = require('express')
-const router = express.Router()
+const router = express.Router({mergeParams: true})
 
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-
 
 
 router.post('/postcreate', urlencodedParser, async (req, res) => {
     var new_post = ''
     try {
         new_post = req.body.text;
-        var success = save_post(new_post);
+        var success = save_post(new_post,req.params.dash_id);
         while (!success) { }
 
         res.sendStatus(201);
@@ -23,7 +22,8 @@ router.post('/postcreate', urlencodedParser, async (req, res) => {
 
 router.get('/editorload', async (req, res) => {
     try {
-        const post_list = await db.any('SELECT * FROM posts ORDER BY id');
+        let dash_id = req.params.dash_id
+        const post_list = await db.any(`SELECT * FROM posts WHERE dash_id = '${dash_id}' ORDER BY id`);
         res.render('newsfeed_editor', { "posts": post_list });
     }
     catch (e) {
@@ -37,7 +37,8 @@ router.get('/authorload', async (req, res) => {
 
 router.get('/postsload', async (req, res) => {
     try {
-        const post_list = await db.any('SELECT * FROM posts ORDER BY id');
+        let dash_id = req.params.dash_id
+        const post_list = await db.any(`SELECT * FROM posts WHERE dash_id = '${dash_id}' ORDER BY id`);
         res.render('newsfeed', { "posts": post_list });
     }
     catch (e) {
@@ -74,10 +75,13 @@ router.post('/postupdate', urlencodedParser, async (req, res) => {
     }
 })
 
-async function save_post(post_text) {
+async function save_post(post_text,dash_id) {
+    console.log(`INSERT INTO posts (posttext,timecode,active,dash_id) VALUES ('${post_text}', LOCALTIME(0),true,${dash_id})`)
     try {
-        await db.none(`INSERT INTO posts (posttext,timecode,active) VALUES ('${post_text}', LOCALTIME(0),true)`
-        );
+        
+
+        await db.none(`INSERT INTO posts (posttext,timecode,active,dash_id) VALUES ('${post_text}', LOCALTIME(0),true,'${dash_id}')`);
+
         return true
     }
     catch (e) {

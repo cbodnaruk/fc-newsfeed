@@ -1,4 +1,4 @@
 $( document ).ready(function() {
-    $("#timer").load("demo/timer/view")
+    $("#timer").load(dash_id+"/timer/view")
 });
 

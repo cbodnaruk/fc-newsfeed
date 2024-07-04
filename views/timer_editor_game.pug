@@ -1,12 +1,14 @@
 table 
+  - var count = 0
       tbody#roundlist 
         tr.head
          th 
          th Round Type
         if is_running 
-          each y in structure 
+          each y in structure
+            - count ++
             tr 
-              td=y.id
+              td=count
               td 
                 select(id="round"+y.id, name="round"+y.id, disabled)
                   each round in rounds
@@ -16,8 +18,9 @@ table
                       option(value=round.id)=round.round_name
         else 
           each y in structure 
+            - count ++
             tr 
-              td=y.id   
+              td=count  
               td
                 select(id="round"+y.id, name="round"+y.id, onchange="updateGameRound(event)")
                   each round in rounds

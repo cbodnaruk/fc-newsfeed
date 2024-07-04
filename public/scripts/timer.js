@@ -1,4 +1,4 @@
-wsocket = new WebSocket('wss://' + location.host + '/demo/timer/sync');
+wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync');
 var this_phase_id = 0;
 console.log(wsocket.readyState);
 wsocket.addEventListener("open", (event) => {
