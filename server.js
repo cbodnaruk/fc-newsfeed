@@ -54,7 +54,7 @@ app.use((req, res, next) => {
 
   
 
-httpServer.listen(8080, () => {
+app.listen(8080, () => {
     console.log('Port 8080 Open')
 });
 
