@@ -14,7 +14,7 @@ const pgp = require('pg-promise')();
 global.db = pgp(dblog);
 const pug = require('pug');
 var httpServer = http.createServer(app);
-const expressWs = require('express-ws')(app,httpServer);
+const expressWs = require('express-ws')(app);
 
 app.use((req, res, next) => {
     if (req.path.slice(-1) === '/' && req.path.length > 1) {
@@ -56,9 +56,6 @@ app.use((req, res, next) => {
 
 httpServer.listen(8080, () => {
     console.log('Port 8080 Open')
-});
-httpsServer.listen(8443, () => {
-    console.log('Port 8443 Open')
 });
 
 global.aWss = expressWs.getWss();
