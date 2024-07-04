@@ -44,8 +44,10 @@ html
             select(id="p_slot_a", onChange="dashboard_settings.update(event)")
               option(value="timer", selected=(preferences.slot_a == "timer")) Timer
               option(value="newsfeed", selected=(preferences.slot_a == "newsfeed")) Newsfeed
+              option(value="", selected=(preferences.slot_a == "")) None
           p 
             label(for="p_slot_b") Content Slot B (right): 
             select(id="p_slot_b", onChange="dashboard_settings.update(event)")
               option(value="timer", selected=(preferences.slot_b == "timer")) Timer
               option(value="newsfeed", selected=(preferences.slot_b == "newsfeed")) Newsfeed
+              option(value="", selected=(preferences.slot_a == "")) None
