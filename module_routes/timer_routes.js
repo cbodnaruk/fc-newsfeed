@@ -112,7 +112,7 @@ router.ws('/sync', (ws, req) => {
 
 router.post('/update', urlencodedParser, async (req, res) => {
     console.log("recieved post")
-    console.log(save_phase(req.body.id, req.body.type, req.body.content))
+    console.log(save_phase(req.body.id, req.body.type, req.body.content, req.params.dash_id))
     aWss.clients.forEach(function (client) {
 
         client.send("s");
@@ -150,7 +150,7 @@ router.post('/editstructure', urlencodedParser, async (req, res) => {
     }
 })
 ;
-async function save_phase(id, type, content) {
+async function save_phase(id, type, content,dash_id) {
     try {
         if (type == "p") {
             await db.none(`UPDATE timers SET phase = '${content}' WHERE id = ${id}`
@@ -162,7 +162,7 @@ async function save_phase(id, type, content) {
             await db.none(`UPDATE round_types SET round_name = '${content}' WHERE id = ${id}`);
             
         } else if (type == "g"){
-            await db.none(`UPDATE game_structure SET round_id = (SELECT id FROM round_types WHERE round_name = '${content}') WHERE id = ${id};`)
+            await db.none(`UPDATE game_structure SET round_id = (SELECT id FROM round_types WHERE round_name = '${content}' AND dash_id = '${dash_id}') WHERE id = ${id};`)
         };
         console.log("database updated")
         return true
