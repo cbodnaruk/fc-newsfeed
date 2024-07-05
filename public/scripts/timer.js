@@ -1,6 +1,6 @@
 // for testing only:
-//wsocket = new WebSocket('ws://' + location.host + '/demo/timer/sync');
-wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync');
+wsocket = new WebSocket('ws://' + location.host + '/demo/timer/sync');
+//wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync');
 var this_phase_id = 0;
 
 console.log(wsocket.readyState);
@@ -62,14 +62,14 @@ function updateClock(tc) {
             }
         }
         i--
-        var current_turn = phaseData[i].gid + " ("+phaseData[i].round_name+")";
+        var current_turn = phaseData[i].gid ;
         checkTurn(current_turn);
         let remaining_s = phase_lengths[i] - (current_time - phase_points[i]);
         let rmins = checkTime(Math.floor(remaining_s / 60));
         let rsecs = checkTime(remaining_s % 60);
 
         $("#time").text(rmins + ":" + rsecs);
-        $("#current_turn").text(current_turn);
+        $("#current_turn").text((i+1)+ " ("+phaseData[i].round_name+")");
         var phase_name = document.getElementById("phaselist").children[i+1].children[0].children[0].innerHTML
         $("#current_phase").text(phase_name);
         if (i != this_phase_id) {
