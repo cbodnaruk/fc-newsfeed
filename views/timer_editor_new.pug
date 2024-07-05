@@ -11,15 +11,15 @@ script(src='/scripts/timer_editor.js')
 div(style={'flex-basis': '600px'})
   div#timer_controller
     if is_running 
-      span.btn#start_timer(onClick='startTimer(false)') Stop
+      span.btn.controller#start_timer(onClick='startTimer(false)') Stop
     else
-      span.btn#start_timer(onClick='startTimer(true)') Start
+      span.btn.controller#start_timer(onClick='startTimer(true)') Start
     if is_paused 
-      span.btn#pause_timer(onClick='pauseTimer(false)') Unpause
+      span.btn.controller#pause_timer(onClick='pauseTimer(false)') Unpause
     else 
-      span.btn#pause_timer(onClick='pauseTimer(true)') Pause
-    span.btn#reset_timer(onClick='resetTimer("f")') Reset to Start 
-    span.btn#resetphase_timer(onClick='resetTimer("p")') Reset to Current Phase
+      span.btn.controller#pause_timer(onClick='pauseTimer(true)') Pause
+    span.btn.controller#reset_timer(onClick='resetTimer("f")') Reset to Start 
+    span.btn.controller#resetphase_timer(onClick='resetTimer("p")') Reset to Current Phase
   div#timer_editor
     div 
       div#timer_editor_gamestructure

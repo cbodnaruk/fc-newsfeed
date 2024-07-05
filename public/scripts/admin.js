@@ -31,6 +31,9 @@ $(document).ready(function () {
 
     });
     dashboard_settings.needs_refresh = false
+    if ($("#viewcontrol").css("display") == "block"){
+        $(".slot_b").css("display","none")
+    }
 });
 
 
