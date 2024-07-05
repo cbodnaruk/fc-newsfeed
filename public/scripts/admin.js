@@ -41,3 +41,10 @@ window.onclick = function(event) {
       dashboard_settings.hide()
     }
   }
+
+  function switchTab(new_tab){
+    $(".tabbtn").removeClass("clicked")
+    $("#tab_"+new_tab).addClass("clicked")
+    $(".slot").css("display","none")
+    $(".slot_"+new_tab).css("display","block")
+}
