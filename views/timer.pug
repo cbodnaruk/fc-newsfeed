@@ -19,10 +19,11 @@ div#timer_module
         tr 
           th Phase 
           th Duration
-
+        - i = 0
         each x in phases
-          tr(id='row'+x.id, class='gid'+x.gid)
+          tr(id='row'+x.id, class='gid'+x.gid, style=("display:"+(i > 0 ? "none" : "")))
             td
               span(id='phase'+x.id)= x.phase
             td
               span(id='duration'+x.id)= x.duration + " mins"
+          - i++
