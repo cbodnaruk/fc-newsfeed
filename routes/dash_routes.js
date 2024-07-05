@@ -31,6 +31,5 @@ router.get('/', async (req, res) => {
 router.post('/updatepreferences',urlencodedParser, (req,res) => {
   let dashId = req.params.dash_id
   prefs[dashId][req.body.preference] = req.body.value;
-  console.log(req.body.preference, req.body.value, prefs[dashId])
 })
 module.exports = router;

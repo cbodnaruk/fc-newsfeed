@@ -18,9 +18,6 @@ router.get('/editor', async (req, res) => {
         let round_list = await db.any(rounds_db_call(req.params.dash_id));
         let phase_list = await db.any(phases_db_call(req.params.dash_id));
         let game_list = await db.any(game_db_call(req.params.dash_id));
-        console.log(req.params.dash_id)
-        console.log(rounds_db_call(req.params.dash_id)+" -> ")
-        console.log(round_list)
         res.render('timer_editor_new', { "phases": phase_list, "sphases": jst.stringify(phase_list), "rounds": round_list, "srounds": jst.stringify(round_list), "structure": game_list, "is_running": timer.is_running, "is_paused": timer.is_paused });
     }
     catch (e) {
@@ -129,6 +126,7 @@ router.post('/add', urlencodedParser, async (req, res) => {
 
 router.post('/remove', urlencodedParser, async (req, res) => {
     remove_phase(req.params.dash_id)
+    console.log("remove from", req.params.dash_id)
 
 });
 
@@ -148,7 +146,7 @@ router.post('/editstructure', urlencodedParser, async (req, res) => {
     if (req.body.method == "ad"){
         await db.none(`INSERT INTO game_structure (id, round_id) VALUES (((SELECT id FROM game_structure ORDER BY id desc LIMIT 1)+1), (SELECT id FROM round_types WHERE dash_id = '${dash_id}' ORDER BY id ASC LIMIT 1));`);
     } else if (req.body.method == "rm"){
-        await db.none(`DELETE FROM game_structure WHERE id in (SELECT id FROM game_structure WHERE dash_id = '${dash_id}' ORDER BY id desc LIMIT 1);`);
+        await db.none(`DELETE FROM game_structure WHERE id in (SELECT game_structure.id FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id WHERE dash_id = '${dash_id}' ORDER BY id desc LIMIT 1);`);
     }
 })
 ;
@@ -161,7 +159,6 @@ async function save_phase(id, type, content) {
             await db.none(`UPDATE timers SET duration = ${content} WHERE id = ${id}`
             );
         } else if (type == "n") {
-            console.log(`UPDATE round_types SET round_name = '${content}' WHERE id = ${id};`)
             await db.none(`UPDATE round_types SET round_name = '${content}' WHERE id = ${id}`);
             
         } else if (type == "g"){
@@ -179,7 +176,7 @@ async function save_phase(id, type, content) {
 async function add_phase(id,round_id,dash_id) {
 
     try {
-        await db.none(`INSERT INTO timers (id,phase,duration,round_id,dash_id) VALUES (${id},'',0,${round_id},${dash_id})`
+        await db.none(`INSERT INTO timers (id,phase,duration,round_id) VALUES (${id},'',0,${round_id})`
         );
         return true
     }
@@ -190,7 +187,7 @@ async function add_phase(id,round_id,dash_id) {
 
 async function remove_phase(dash_id) {
     try {
-        await db.none(`DELETE FROM timers WHERE id in (SELECT id FROM timers WHERE dash_id = '${dash_id}' ORDER BY id desc LIMIT 1)`
+        await db.none(`DELETE FROM timers WHERE id = (SELECT timers.id FROM timers inner join round_types on round_types.id = timers.round_id WHERE dash_id = '${dash_id}' ORDER BY id desc LIMIT 1)`
         );
         return true
     }

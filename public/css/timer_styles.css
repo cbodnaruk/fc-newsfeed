@@ -5,15 +5,25 @@ border-radius: 4px;
 padding: 2%;
 margin-top: 3%;
 }
-
+@media screen and (min-width: 650px){
 #timer{
 top: 25%;
     max-width: 600px;
     flex-basis: 600px;
 position: sticky;
 align-self: flex-start;
-}
+}}
 
+@media screen and (max-width: 649px){
+    #timer{
+    top: 25%;
+        max-width: 95%;
+        flex-basis: 600px;
+    position: sticky;
+    align-self: flex-start;
+    }}
+
+@media screen and (min-width: 800px){
 #timer_module{
 
     border: 2px solid #ccc;
@@ -26,6 +36,23 @@ align-self: flex-start;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: bold;
 width: 100%;
+}}
+@media screen and (max-width:799px){
+    #timer_module{
+
+        border: 2px solid #ccc;
+        box-sizing: border-box;
+        border-radius: 4px;
+        padding: 3%;
+        margin: 3%;
+        color: #fff;
+        font-size: 2vw;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-weight: bold;
+    width: 100%;
+
+    }
+
 }
 
 #phaseflex{

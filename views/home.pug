@@ -18,9 +18,13 @@ html
     div#header 
       div#title= preferences.header_title
       div#subtitle= preferences.header_subtitle
+
     div#content
-        div(id=preferences.slot_a)
-        div(id=preferences.slot_b)
+        div#viewcontrol
+          span#tab_a.tabbtn(class="clicked", onclick="switchTab('a')")= (preferences.slot_a.charAt(0).toUpperCase()+preferences.slot_a.slice(1)) 
+          span#tab_b.tabbtn(onclick="switchTab('b')")= (preferences.slot_b.charAt(0).toUpperCase()+preferences.slot_b.slice(1)) 
+        div(id=preferences.slot_a, class="slot slot_a")
+        div(id=preferences.slot_b, class="slot slot_b")
         
     div#homebutton
       span(class="material-symbols-outlined big", onclick="window.location='/'" title="Back to main page") home
