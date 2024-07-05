@@ -62,7 +62,7 @@ function updateClock(tc) {
             }
         }
         i--
-        var current_turn = phaseData[i].gid;
+        var current_turn = phaseData[i].gid + " ("+phaseData[i].round_name+")";
         checkTurn(current_turn);
         let remaining_s = phase_lengths[i] - (current_time - phase_points[i]);
         let rmins = checkTime(Math.floor(remaining_s / 60));

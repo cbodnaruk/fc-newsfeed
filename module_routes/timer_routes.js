@@ -8,7 +8,7 @@ const qsstringify = require('qs');
 const jst = require("javascript-stringify");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 function full_db_call(dash_id){ return `SELECT game_structure.id as "gid", timers.id, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id WHERE dash_id = '${dash_id}' ORDER BY game_structure.id ASC, timers.id asc;`}
-function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, dash_id from timers inner join round_types on round_types.id = timers.round_id where dash_id = '${dash_id}' ORDER BY id;`}
+function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, round_name, dash_id from timers inner join round_types on round_types.id = timers.round_id where dash_id = '${dash_id}' ORDER BY id;`}
 function rounds_db_call(dash_id){return `SELECT * from round_types WHERE dash_id = '${dash_id}' ORDER BY id;`}
 function game_db_call(dash_id){return `SELECT game_structure.id, round_id, dash_id FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id WHERE dash_id = '${dash_id}' ORDER BY id;`}
 
