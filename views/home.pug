@@ -13,9 +13,10 @@ html
     script(src='/scripts/page_load.js')
     script. 
       const dash_id = "#{dash_id}";
+
   body
-  
-    div#header 
+  - const header_bool = JSON.parse(preferences.header_visible);
+    div#header(style={display:header_bool ? "block" : "none"}) 
       div#title= preferences.header_title
       div#subtitle= preferences.header_subtitle
 

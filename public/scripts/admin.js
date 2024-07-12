@@ -14,11 +14,15 @@ const dashboard_settings = {
     update(event){
     
         var trig_str = event.target.id.substring(2);
+        if (trig_str == "header_visible"){
+var trig_val = document.getElementById(event.target.id).checked;
+        } else {
     var trig_val = $(event.target).val();
+
+        }
         $.post("./updatepreferences", {"preference": trig_str,"value": trig_val})
     
-    this.needs_refresh = true;
-    
+        this.needs_refresh = true;
     },
     needs_refresh: false
     }

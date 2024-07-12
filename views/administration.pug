@@ -13,9 +13,10 @@ html
     script. 
       const dash_id = "#{dash_id}";
       const preferences = !{prefsobj};
+
     script(src='/scripts/admin.js')
   body
-    
+    - const header_bool = JSON.parse(preferences.header_visible);
       div#header 
         div#title= preferences.header_title
         div#subtitle= preferences.header_subtitle
@@ -33,6 +34,10 @@ html
       div.modal#prefsmodal
         div.modal-content
           h3 Dashboard Settings 
+          p 
+            label(for="p_header_visible") Show Header: 
+            input(id="p_header_visible", type="checkbox", value=preferences.header_visible, onChange="dashboard_settings.update(event)", checked=header_bool)
+            span NB: only affects public view, not admin panel
           p 
             label(for="p_site_title") Tab Title: 
             input(id="p_site_title", value=preferences.site_title, onChange="dashboard_settings.update(event)")
