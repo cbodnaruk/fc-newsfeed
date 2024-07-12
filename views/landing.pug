@@ -4,6 +4,7 @@ html
     link(rel='stylesheet', href='/css/styles.css')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+    
   body 
     div#landing_info
       p(style='font-size: 2em;') megagame.space
@@ -15,5 +16,6 @@ html
       p or, if you have been given a dashboard id, enter it below 
       div
         input#dashboard_id
-        button.landingbtn(onclick='window.location=$("#dashboard_id").val(); console.log("test")') go  
+        button#gobtn.landingbtn(onclick='window.location=$("#dashboard_id").val(); console.log("test")') go  
       div(style='color:red;', hidden=!is404) invalid dashboard id  
+script(src='/scripts/landing.js')
