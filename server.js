@@ -36,7 +36,14 @@ app.set('view engine', 'pug');
 app.set('views', './views');
 
 const dash_routes = require('./routes/dash_routes.js');
+
+app.get('/login', (req, res) => {
+  res.send("test")
+})
+
 app.use('/:dash_id', dash_routes);
+
+
 
 app.get('/', async (req, res) => {
 
