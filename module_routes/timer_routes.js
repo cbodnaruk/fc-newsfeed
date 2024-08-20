@@ -62,7 +62,7 @@ router.get('/view', async (req, res) => {
     try {
         const phase_list = await db.any(full_db_call(req.params.dash_id));
         const game_struct = await db.any(game_db_call(req.params.dash_id));
-        res.render('timer', { "phases": phase_list,"sphases": jst.stringify(phase_list), "sstruct": jst.stringify(game_struct) });
+        res.render('timer', { "phases": phase_list,"sphases": jst.stringify(phase_list), "sstruct": jst.stringify(game_struct), "dash_id": req.params.dash_id });
     }
     catch (e) {
         res.send(e)

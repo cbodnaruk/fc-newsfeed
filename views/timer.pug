@@ -27,3 +27,8 @@ div#timer_module
             td
               span(id='duration'+x.id)= x.duration + " mins"
           - i++
+if dash_id == "dmelb"
+  audio#phase_end_audio
+    source(src="/assets/audio/Phase_End-converted.mp3" type="audio/mpeg")
+  audio#round_end_audio
+    source(src="/assets/audio/Round_End-converted.mp3" type="audio/mpeg")

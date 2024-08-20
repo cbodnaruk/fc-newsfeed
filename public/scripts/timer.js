@@ -1,6 +1,6 @@
 // for testing only:
-//wsocket = new WebSocket('ws://' + location.host + '/demo/timer/sync');
-wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync');
+wsocket = new WebSocket('ws://' + location.host + '/demo/timer/sync');
+//wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync');
 var this_phase_id = 0;
 
 console.log(wsocket.readyState);
@@ -19,6 +19,10 @@ var game_length = 0
 var phase_lengths = []
 var phase_points = []
 var numturns = 0
+var current_turn_id = 0
+var end_phase = false
+var turn_phases = []
+var gid_list = []
 $(document).ready(function () {
     var numphases = document.getElementById("phaselist").childElementCount - 1;
     for (let i = 0; i < numphases; i++) {
@@ -29,6 +33,17 @@ $(document).ready(function () {
         } else {
             phase_points[i + 1] = phase_lengths[i];
             phase_points[i] = 0
+        }
+        gid_list.push(phaseData[i].gid)
+    }
+    for (let i = 0; i < gid_list.length; i++){
+        if (i==0){
+            turn_phases.push(1)
+        } else if (gid_list[i] != gid_list[i-1]){
+            turn_phases.push(1)
+        } else {
+            var new_val = turn_phases.pop() + 1
+            turn_phases.push(new_val)
         }
     }
     numturns = gameStructure.length;
@@ -67,9 +82,19 @@ function updateClock(tc) {
         let remaining_s = phase_lengths[i] - (current_time - phase_points[i]);
         let rmins = checkTime(Math.floor(remaining_s / 60));
         let rsecs = checkTime(remaining_s % 60);
-
+        var turncalc = 0
+        var current_turn_count = 0
+        while (turncalc < phase_points.length){
+            if (turncalc < i-1){
+                turncalc += turn_phases[current_turn_count]
+                current_turn_count ++
+            } else {
+                break
+            }
+            
+        }
         $("#time").text(rmins + ":" + rsecs);
-        $("#current_turn").text((i+1)+ " ("+phaseData[i].round_name+")");
+        $("#current_turn").text((current_turn_count+1)+ " ("+phaseData[i].round_name+")");
         var phase_name = document.getElementById("phaselist").children[i+1].children[0].children[0].innerHTML
         $("#current_phase").text(phase_name);
         if (i != this_phase_id) {
@@ -77,6 +102,8 @@ function updateClock(tc) {
             document.getElementById("phaselist").children[this_phase_id+1].classList.remove("this_phase")
             this_phase_id = i;
         }
+
+        playAudio(remaining_s, i)
 
     }
 }
@@ -90,4 +117,27 @@ for (let i = 1; i < document.getElementById("phaselist").childElementCount; i++)
         row.style.display = "none"
     }
 }
+}
+
+function playAudio(secs, turn){
+    if (current_turn_id == 0){
+        //run if start of game
+        current_turn_id = phaseData[turn].gid
+    } else if (current_turn_id != phaseData[turn].gid){
+        //run if new turn
+        var audio = document.getElementById("round_end_audio");
+        audio.play()
+        end_phase = false
+        current_turn_id = phaseData[turn].gid
+    } else if (end_phase == true){
+        //run if new phase
+        var audio = document.getElementById("phase_end_audio");
+        audio.play()
+        end_phase = false
+    }
+    
+    if (secs == 0){
+        end_phase = true
+    }
+
 }
