@@ -2,7 +2,16 @@ body {
     background-color: #000000;
 
 }
-
+#nflogo{
+    max-height: 100px;
+    text-align: center;
+    margin: auto;
+    padding: 1%;
+    border-radius: 100%;
+    border: #fff 2px solid;
+    display: block;
+    margin-top: 2%;
+}
 #landing_info{
     position: absolute;
     text-align: center;

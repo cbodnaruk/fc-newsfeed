@@ -35,7 +35,7 @@ router.get('/postsload', async (req, res) => {
     try {
         let dash_id = req.params.dash_id
         const post_list = await db.any(`SELECT * FROM posts WHERE dash_id = '${dash_id}' ORDER BY id`);
-        res.render('newsfeed', { "posts": post_list });
+        res.render('newsfeed', { "posts": post_list, "dash_id": dash_id });
     }
     catch (e) {
         res.send(error)

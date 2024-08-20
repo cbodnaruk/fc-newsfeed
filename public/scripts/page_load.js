@@ -3,6 +3,7 @@ $( document ).ready(function() {
     if ($("#viewcontrol").css("display") == "block"){
         $(".slot_b").css("display","none")
     }
+
 });
 
 function switchTab(new_tab){
