@@ -1,0 +1,28 @@
+html
+  head
+    title= preferences.site_title
+    link(rel='stylesheet', href='/css/styles.css')
+    link(rel='stylesheet', href='/css/newsfeed_styles.css')
+    link(rel='stylesheet', href='/css/timer_styles.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+
+    
+    link(href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0", rel="stylesheet")
+    script. 
+      const dash_id = "#{dash_id}";
+      const preferences = !{prefsobj};
+
+    script(src='/scripts/admin.js')
+  body
+    - const header_bool = JSON.parse(preferences.header_visible);
+      div#header 
+        div#title= preferences.header_title
+        div#subtitle= preferences.header_subtitle
+      div#subsubtitle Media Panel
+      div#content
+        div(id="newsfeed", class="slot slot_a")
+      div#homebutton
+        span(class="material-symbols-outlined big", onclick="window.location='/'", title="Back to main page") home
+        span(class="material-symbols-outlined big", onclick="window.location='./'", title="Back to public view") exit_to_app

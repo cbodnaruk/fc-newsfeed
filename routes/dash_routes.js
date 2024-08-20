@@ -34,6 +34,17 @@ router.get('/', async (req, res) => {
       res.render('landing', {"is404": true})
     }
   })
+
+  router.get('/media', async (req, res) => {
+    let dashId = req.params.dash_id
+    if (dash_list.includes(dashId)){
+      prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'))
+      dash_list = fs.readFileSync('dash_list.txt', 'utf8');
+      res.render('media', {'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]) });
+    } else {
+      res.render('landing', {"is404": true})
+    }
+  })
 router.post('/updatepreferences',urlencodedParser, (req,res) => {
   let dashId = req.params.dash_id
   prefs[dashId][req.body.preference] = req.body.value;
