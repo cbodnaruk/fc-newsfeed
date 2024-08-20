@@ -16,6 +16,7 @@ html
 
   body
   - const header_bool = JSON.parse(preferences.header_visible);
+  - const settings_bool = JSON.parse(preferences.settings_visible);
     div#header(style={display:header_bool ? "block" : "none"}) 
       div#title= preferences.header_title
       div#subtitle= preferences.header_subtitle
@@ -30,5 +31,5 @@ html
         
     div#homebutton
       span(class="material-symbols-outlined big", onclick="window.location='/'" title="Back to main page") home
-      span(class="material-symbols-outlined big", onclick="window.location=window.location.pathname+'/admin'" title="Dashboard controls") settings_applications
+      span(class="material-symbols-outlined big", onclick="window.location=window.location.pathname+'/admin'" title="Dashboard controls" style={display:settings_bool ? "inline" : "none"}) settings_applications
       

@@ -16,6 +16,8 @@ const dashboard_settings = {
         var trig_str = event.target.id.substring(2);
         if (trig_str == "header_visible"){
 var trig_val = document.getElementById(event.target.id).checked;
+        } else if (trig_str == "settings_visible"){
+            var trig_val = document.getElementById(event.target.id).checked;
         } else {
     var trig_val = $(event.target).val();
 
