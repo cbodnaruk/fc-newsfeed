@@ -19,7 +19,8 @@ html
     div#header(style={display:header_bool ? "block" : "none"}) 
       div#title= preferences.header_title
       div#subtitle= preferences.header_subtitle
-
+      if preferences.logo_path
+        img(src=preferences.logo_path, alt=preferences.logo_alt)
     div#content
         div#viewcontrol
           span#tab_a.tabbtn(class="clicked", onclick="switchTab('a')")= (preferences.slot_a.charAt(0).toUpperCase()+preferences.slot_a.slice(1)) 
