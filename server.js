@@ -1,12 +1,12 @@
 var fs = require('fs');
 var http = require('http');
-var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
-var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
+//var privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
+//var certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
 var dblog = fs.readFileSync('database_login.txt', 'utf8');
 
 
 
-var credentials = {key: privateKey, cert: certificate};
+//var credentials = {key: privateKey, cert: certificate};
 
 const express = require('express')
 const app = express()

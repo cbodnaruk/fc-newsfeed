@@ -6,6 +6,7 @@
         "header_subtitle": "Yugenya Information Service",
         "slot_a": "timer",
         "slot_b": "newsfeed",
+        "settings_visible": "true",
         "header_visible": "true"
     },
     "dniwa": {
@@ -15,6 +16,7 @@
         "header_subtitle": "Round Timer",
         "slot_a": "timer",
         "slot_b": "newsfeed",
+        "settings_visible": "true",
         "header_visible": "true"
     },
     "dmelb": {
@@ -24,8 +26,9 @@
         "header_subtitle": "",
         "slot_a": "newsfeed",
         "slot_b": "timer",
-        "logo_path": "/images/logos/MM_white.png",
+        "logo_path": "/assets/images/logos/MM_white.png",
         "logo_alt": "Melbourne Megagames Logo",
+        "settings_visible": "true",
         "header_visible": "true"
     }
 }
