@@ -17,10 +17,13 @@ html
   body
   - const header_bool = JSON.parse(preferences.header_visible);
   - const settings_bool = JSON.parse(preferences.settings_visible);
-    div#header(style={display:header_bool ? "block" : "none"}) 
-      div#title= preferences.header_title
+    header#header(style={display:header_bool ? "block" : "none"})
+      //- Change to class when not 12am
+      div#title_and_logo(style={display:"flex", "justify-content":"space-between", "align-items":"center"}) 
+        div#title= preferences.header_title
+        if preferences.logo_path
+          img(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;")
       div#subtitle= preferences.header_subtitle
-
     div#content
         div#viewcontrol
           span#tab_a.tabbtn(class="clicked", onclick="switchTab('a')")= (preferences.slot_a.charAt(0).toUpperCase()+preferences.slot_a.slice(1)) 

@@ -1,1 +1,34 @@
-{"demo":{"dash_id":"demo","site_title":"Demo - Yugenya Informat","header_title":"ІНФОРМАТ СЕРВИС ЮҐЕНЯ","header_subtitle":"Yugenya Information Service","slot_a":"timer","slot_b":"newsfeed","header_visible":"true","settings_visible":"true"},"dniwa":{"dash_id":"dniwa","site_title":"Infinite Horizons","header_title":"Infinite Horizons","header_subtitle":"Round Timer","slot_a":"timer","slot_b":"newsfeed","header_visible":"true","settings_visible":"true"},"dmelb":{"dash_id":"dmelb","site_title":"First Contact","header_title":"First Contact","header_subtitle":"","slot_a":"newsfeed","slot_b":"timer","header_visible":"true","settings_visible":"false"}}
+{
+    "demo": {
+        "dash_id": "demo",
+        "site_title": "Demo - Yugenya Informat",
+        "header_title": "ІНФОРМАТ СЕРВИС ЮҐЕНЯ",
+        "header_subtitle": "Yugenya Information Service",
+        "slot_a": "timer",
+        "slot_b": "newsfeed",
+        "settings_visible": "true",
+        "header_visible": "true"
+    },
+    "dniwa": {
+        "dash_id": "dniwa",
+        "site_title": "Infinite Horizons",
+        "header_title": "Infinite Horizons",
+        "header_subtitle": "Round Timer",
+        "slot_a": "timer",
+        "slot_b": "newsfeed",
+        "settings_visible": "true",
+        "header_visible": "true"
+    },
+    "dmelb": {
+        "dash_id": "dmelb",
+        "site_title": "First Contact",
+        "header_title": "First Contact",
+        "header_subtitle": "",
+        "slot_a": "newsfeed",
+        "slot_b": "timer",
+        "logo_path": "/assets/images/logos/MM_white.png",
+        "logo_alt": "Melbourne Megagames Logo",
+        "settings_visible": "true",
+        "header_visible": "true"
+    }
+}
