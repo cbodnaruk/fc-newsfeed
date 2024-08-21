@@ -165,7 +165,7 @@ async function save_phase(id, type, content,dash_id) {
         } else if (type == "g"){
             await db.none(`UPDATE game_structure SET round_id = (SELECT id FROM round_types WHERE round_name = '${content}' AND dash_id = '${dash_id}') WHERE id = ${id};`)
         } else if (type == "m"){
-            await db.none(`UPDATE timers SET minor = '${content}' WHERE id = ${id}`
+            await db.none(`UPDATE timers SET minor = ${content} WHERE id = ${id}`
             );
         }
         ;
