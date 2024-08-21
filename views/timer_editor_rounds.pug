@@ -33,4 +33,5 @@ table
                       td
                         input(class="phase_input", id='duration'+x.id, type='text', value=x.duration, onchange='updatePhase(event)')
                       td
+                        span=x.minor
                         input(class="phase_input", id='minor'+x.id, type='checkbox', checked=x.minor, onchange='updatePhaseBool(event)')
