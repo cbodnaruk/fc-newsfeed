@@ -7,8 +7,8 @@ var bodyParser = require('body-parser');
 const qsstringify = require('qs');
 const jst = require("javascript-stringify");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-function full_db_call(dash_id){ return `SELECT game_structure.id as "gid", timers.id, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id WHERE dash_id = '${dash_id}' ORDER BY game_structure.id ASC, timers.id asc;`}
-function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, round_name, dash_id from timers inner join round_types on round_types.id = timers.round_id where dash_id = '${dash_id}' ORDER BY id;`}
+function full_db_call(dash_id){ return `SELECT game_structure.id as "gid", timers.id, timers.minor, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id WHERE dash_id = '${dash_id}' ORDER BY game_structure.id ASC, timers.id asc;`}
+function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, round_name, dash_id, minor from timers inner join round_types on round_types.id = timers.round_id where dash_id = '${dash_id}' ORDER BY id;`}
 function rounds_db_call(dash_id){return `SELECT * from round_types WHERE dash_id = '${dash_id}' ORDER BY id;`}
 function game_db_call(dash_id){return `SELECT game_structure.id, round_id, dash_id FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id WHERE dash_id = '${dash_id}' ORDER BY id;`}
 
@@ -63,6 +63,7 @@ router.get('/view', async (req, res) => {
         const phase_list = await db.any(full_db_call(req.params.dash_id));
         const game_struct = await db.any(game_db_call(req.params.dash_id));
         res.render('timer', { "phases": phase_list,"sphases": jst.stringify(phase_list), "sstruct": jst.stringify(game_struct), "dash_id": req.params.dash_id });
+        console.log(phase_list)
     }
     catch (e) {
         res.send(e)
@@ -163,7 +164,11 @@ async function save_phase(id, type, content,dash_id) {
             
         } else if (type == "g"){
             await db.none(`UPDATE game_structure SET round_id = (SELECT id FROM round_types WHERE round_name = '${content}' AND dash_id = '${dash_id}') WHERE id = ${id};`)
-        };
+        } else if (type == "m"){
+            await db.none(`UPDATE timers SET minor = '${content}' WHERE id = ${id}`
+            );
+        }
+        ;
         console.log("database updated")
         return true
     }
@@ -176,7 +181,7 @@ async function save_phase(id, type, content,dash_id) {
 async function add_phase(id,round_id,dash_id) {
 
     try {
-        await db.none(`INSERT INTO timers (id,phase,duration,round_id) VALUES (${id},'',0,${round_id})`
+        await db.none(`INSERT INTO timers (id,phase,duration,round_id,minor) VALUES (${id},'',0,${round_id},false)`
         );
         return true
     }
