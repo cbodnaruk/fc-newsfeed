@@ -1,5 +1,9 @@
 body {
     background-color: #000000;
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 #nflogo {
@@ -57,15 +61,6 @@ button.landingbtn {
     height: 46px;
     appearance: none;
     transition: border 0.15s ease 0s;
-}
-
-#homebutton {
-    color: #EFEFEF;
-    font-size: 1.5em;
-    position: sticky;
-    bottom: 0;
-    float: right;
-    cursor: pointer;
 }
 
 #header {
@@ -168,6 +163,19 @@ button.landingbtn {
         height: auto;
         padding-bottom: 60px;
     }
+}
+
+footer span {
+    padding: 5px;
+    cursor: pointer;
+}
+
+#homebutton {
+    color: #EFEFEF;
+    font-size: 1.5em;
+    position: sticky;
+    bottom: 0;
+    float: right;
 }
 
 textarea,

@@ -1,7 +1,11 @@
 if dash_id == "dmelb"
   img(src='/assets/images/PressRoundel_01_GNN.png' id='nflogo')
-each post in posts.sort((a, b) => {return a.timecode > b.timecode ? -1 : 1})
-  if post.active
-    div.post(id=post.id)
-      p.text= post.posttext
-      p.time= 'Posted at ' + post.timecode
+div#loading
+  div#spinner
+  p="Loading posts..."
+div#postlist
+  each post in posts.sort((a, b) => {return a.timecode > b.timecode ? -1 : 1})
+    if post.active
+      div.post(id=post.id)
+        p.text= post.posttext
+        p.time= 'Posted at ' + post.timecode
