@@ -23,7 +23,7 @@ html
   - const settings_bool = JSON.parse(preferences.settings_visible);
     header#header(style={display:header_bool ? "block" : "none"})
       //- Change to class when not 12am
-      div#title_and_logo(style={display:"flex", "justify-content":"space-between", "align-items":"center"}) 
+      div#title_and_logo 
         div#title= preferences.header_title
         if preferences.logo_path
           img(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;")
