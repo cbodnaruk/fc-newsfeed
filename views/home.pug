@@ -5,6 +5,7 @@ html
     link(rel='stylesheet', href='/css/newsfeed_styles.css')
     link(rel='stylesheet', href='/css/timer_styles.css')
     
+    
     // Fonts
     link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap')
     link(href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@32,400,0,0", rel="stylesheet")
@@ -18,16 +19,20 @@ html
     script. 
       const dash_id = "#{dash_id}";
 
+    if (dash_id)
+      // Dashboard specific styling
+      link(rel='stylesheet', href=`/css/${dash_id}_styles.css`)
+
   body
   - const header_bool = JSON.parse(preferences.header_visible);
   - const settings_bool = JSON.parse(preferences.settings_visible);
     header#header(style={display:header_bool ? "block" : "none"})
-      //- Change to class when not 12am
       div#title_and_logo 
-        div#title= preferences.header_title
+        h1#title= preferences.header_title
         if preferences.logo_path
           img(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;")
-      div#subtitle= preferences.header_subtitle
+      if preferences.header_subtitle
+        h2#subtitle= preferences.header_subtitle
     div#content
         div#viewcontrol
           span#tab_a.tabbtn(class="clicked", onclick="switchTab('a')")= (preferences.slot_a.charAt(0).toUpperCase()+preferences.slot_a.slice(1)) 

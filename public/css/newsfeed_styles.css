@@ -1,13 +1,15 @@
+#newsfeed {
+    padding-left: 5%;
+}
+
 @media screen and (min-width: 530px) {
     #newsfeed {
-        padding-left: 5%;
         max-width: 600px;
     }
 }
 
 @media screen and (max-width: 529px) {
     #newsfeed {
-        padding-left: 5%;
         max-width: 90%;
     }
 }

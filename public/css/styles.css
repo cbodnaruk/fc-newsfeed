@@ -81,15 +81,6 @@ button.landingbtn {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-#title {
-    font-family: "Rubik Mono One", monospace;
-    font-weight: 400;
-    font-style: normal;
-}
-
-#subtitle {
     font-family: "Rubik Mono One", monospace;
     font-weight: 400;
     font-style: normal;
@@ -98,9 +89,6 @@ button.landingbtn {
 #subtitle {
     color: #ffffff;
     padding: 1%;
-    font-family: "Rubik Mono One", monospace;
-    font-weight: 400;
-    font-style: normal;
 }
 
 @media screen and (min-width: 801px) {
