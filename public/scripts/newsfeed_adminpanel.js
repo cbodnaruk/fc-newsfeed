@@ -1,10 +1,10 @@
-$(document).ready(function () {
 
-});
-
+var DateTime = luxon.DateTime;
 function submitPost() {
     var post_text = $("#postinput").val();
-    $.post("./newsfeed/postcreate", { "text": post_text }, reloadNewsfeed());
+    var now = DateTime.now()
+    $.post("./newsfeed/postcreate", { "text": post_text, "time": now.toLocaleString(DateTime.TIME_SIMPLE) }, reloadNewsfeed());
+    console.log(now.toLocaleString(DateTime.TIME_SIMPLE))
 }
 function reloadNewsfeed() {
     $("#newsfeed").load("./newsfeed/editorload", function (response, status, xhr) {
