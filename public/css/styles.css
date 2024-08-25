@@ -225,6 +225,7 @@ select {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    justify-content: space-around;
 }
 
 /* The Modal (background) */
