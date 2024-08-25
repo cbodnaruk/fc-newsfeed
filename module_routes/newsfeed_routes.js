@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router({mergeParams: true})
+const router = express.Router({ mergeParams: true })
 
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -9,7 +9,7 @@ router.post('/postcreate', urlencodedParser, async (req, res) => {
     var new_post = ''
     try {
         new_post = req.body.text;
-        var success = save_post(new_post,req.body.time,req.params.dash_id);
+        var success = save_post(new_post, req.body.time, req.params.dash_id);
         while (!success) { }
 
         res.sendStatus(201);
@@ -71,13 +71,10 @@ router.post('/postupdate', urlencodedParser, async (req, res) => {
     }
 })
 
-async function save_post(post_text,post_time,dash_id) {
+async function save_post(post_text, post_time, dash_id) {
     console.log(`INSERT INTO posts (posttext,timecode,active,dash_id) VALUES ('${post_text}', LOCALTIME(0),true,${dash_id})`)
     try {
-        
-
         await db.none(`INSERT INTO posts (posttext,timecode,active,dash_id) VALUES ('${post_text}', '${post_time}',true,'${dash_id}')`);
-
         return true
     }
     catch (e) {
