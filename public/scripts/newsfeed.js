@@ -1,5 +1,6 @@
  	
-    setInterval(reloadPosts,60000);
+ 
+ setInterval(reloadPosts,60000);
     $( document ).ready(function() {
         reloadPosts();
     });
