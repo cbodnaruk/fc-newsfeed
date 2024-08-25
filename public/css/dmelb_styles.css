@@ -12,3 +12,15 @@ p {
 .text {
     font-family: 'Noto Sans', sans-serif;
 }
+
+.cphase {
+    font-family: 'Century Gothic Paneuropean', sans-serif;
+}
+
+.cturn {
+    font-family: 'Century Gothic Paneuropean', sans-serif;
+}
+
+#timer_phases {
+    font-family: 'Noto Sans', sans-serif;
+}
