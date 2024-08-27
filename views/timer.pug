@@ -22,7 +22,7 @@ div#timer_module
         - i = -1
         each x in phases
           if x.minor == false
-            tr(id='row'+x.id, class='gid'+x.gid, style=(`display:${i > 0 ? "none" : "table-row"}`))
+            tr.timer_phase_text(id='row'+x.id, class='gid'+x.gid, style=(`display:${i > 0 ? "none" : "table-row"}`))
               td
                 span(id='phase'+x.id)= x.phase
               td
