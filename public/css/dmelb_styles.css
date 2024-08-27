@@ -23,5 +23,8 @@ p {
 
 #timer_phases {
     font-family: 'Noto Sans', sans-serif;
-    font-size: 0.7em;
+}
+
+#phaselist {
+    font-size: 1.7em;
 }
