@@ -27,11 +27,12 @@ html
   - const settings_bool = JSON.parse(preferences.settings_visible);
     header#header(style={display:header_bool ? "block" : "none"})
       div#title_and_logo 
-        h1#title= preferences.header_title
+        div
+          h1#title= preferences.header_title
+          if preferences.header_subtitle
+            h2#subtitle= preferences.header_subtitle
         if preferences.logo_path
-          img(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;padding:10px;")
-      if preferences.header_subtitle
-        h2#subtitle= preferences.header_subtitle
+          img#logo(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;padding:10px;")
     div#content
         div#viewcontrol
           span#tab_a.tabbtn(class="clicked", onclick="switchTab('a')")= (preferences.slot_a.charAt(0).toUpperCase()+preferences.slot_a.slice(1)) 

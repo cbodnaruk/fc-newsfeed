@@ -81,9 +81,11 @@ button.landingbtn {
 
 #subtitle {
     color: #ffffff;
-    padding: 1%;
 }
-
+#subsubtitle{
+    color: white;
+    padding-left: 1%;
+}
 @media screen and (min-width: 801px) {
     #header {
         max-width: 100%;
@@ -94,7 +96,7 @@ button.landingbtn {
     }
 
     #subtitle {
-        font-size: 1.7vw;
+        font-size: 2vw;
     }
 
     #subsubtitle {
@@ -108,11 +110,11 @@ button.landingbtn {
     }
 
     #title {
-        font-size: 4vw;
+        font-size: 5vw;
     }
 
     #subtitle {
-        font-size: 3vw;
+        font-size: 4vw;
     }
 
     #subsubtitle {
@@ -127,18 +129,22 @@ button.landingbtn {
     }
 
     #title {
-        font-size: 8vw;
+        font-size: 10vw;
         flex: 1;
     }
 
     #subtitle {
         font-size: 1em;
-        flex: 1;
+        display: none;
         text-align: right;
     }
 
     #subsubtitle {
         font-size: 1em;
+    }
+
+    #logo {
+        display: none;
     }
 }
 
@@ -230,8 +236,10 @@ select {
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
-    overflow: auto;
+    align-items: flex-start;
 }
+
+
 
 /* The Modal (background) */
 .modal {

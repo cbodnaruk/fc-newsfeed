@@ -14,21 +14,31 @@ html
       const dash_id = "#{dash_id}";
       const preferences = !{prefsobj};
 
+    if (dash_id)
+      // Dashboard specific styling
+      link(rel='stylesheet', href=`/css/${dash_id}_styles.css`)
+
     script(src='/scripts/admin.js')
   body
     - const header_bool = JSON.parse(preferences.header_visible);
     - const settings_bool = JSON.parse(preferences.settings_visible);
-      div#header 
-        div#title= preferences.header_title
-        div#subtitle= preferences.header_subtitle
-      div#subsubtitle Administration Panel
+      header#header(style={display:header_bool ? "block" : "none"})
+        div#title_and_logo 
+          div
+            h1#title= preferences.header_title
+            if preferences.header_subtitle
+              h2#subtitle= preferences.header_subtitle
+          if preferences.logo_path
+            img#logo(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;padding:10px;")
+
+      h3#subsubtitle Administration Panel
       div#content
         div#viewcontrol
           span#tab_a.tabbtn(class="clicked", onclick="switchTab('a')")= (preferences.slot_a.charAt(0).toUpperCase()+preferences.slot_a.slice(1)) 
           span#tab_b.tabbtn(onclick="switchTab('b')")= (preferences.slot_b.charAt(0).toUpperCase()+preferences.slot_b.slice(1)) 
         div(id=preferences.slot_a, class="slot slot_a")
         div(id=preferences.slot_b, class="slot slot_b")
-      div#homebutton
+      footer#homebutton
         span(class="material-symbols-outlined big", onclick="window.location='/'", title="Back to main page") home
         span(class="material-symbols-outlined big", onclick="window.location='./'", title="Back to public view") exit_to_app
         span(class="material-symbols-outlined big", onclick="dashboard_settings.show('"+dash_id+"')", title="Edit dashboard settings") display_settings

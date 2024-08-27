@@ -3,7 +3,7 @@
     flex-basis: 600px;
     position: sticky;
     align-self: flex-start;
-    align-self: center;
+    padding-top: 1%;
 }
 
 @media screen and (min-width: 650px) {
@@ -61,6 +61,8 @@
     font-size: 38px;
 }
 
+
+
 @media screen and (min-width: 800px) {
     #timer_module {
         font-size: 1em;
@@ -110,7 +112,19 @@
     #phaseflex {
         flex-direction: column;
     }
+    input[type=checkbox]{
+        transform: scale(2);
+    }
+
 }
+@media screen and (max-width:540px) {
+    #table_container {
+        display: block; 
+        overflow-x: auto;
+        width: 100vw;
+        }
+}
+
 
 .clock_block {
     padding: 3%;

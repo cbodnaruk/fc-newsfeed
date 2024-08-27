@@ -14,15 +14,24 @@ html
       const dash_id = "#{dash_id}";
       const preferences = !{prefsobj};
 
+    if (dash_id)
+      // Dashboard specific styling
+      link(rel='stylesheet', href=`/css/${dash_id}_styles.css`)
+
     script(src='/scripts/admin.js')
   body
     - const header_bool = JSON.parse(preferences.header_visible);
-      div#header 
-        div#title= preferences.header_title
-        div#subtitle= preferences.header_subtitle
-      div#subsubtitle Media Panel
-      div#content
-        div(id="newsfeed", class="slot slot_a")
-      div#homebutton
-        span(class="material-symbols-outlined big", onclick="window.location='/'", title="Back to main page") home
-        span(class="material-symbols-outlined big", onclick="window.location='./'", title="Back to public view") exit_to_app
+    - const settings_bool = JSON.parse(preferences.settings_visible);
+    header#header(style={display:header_bool ? "block" : "none"})
+      div#title_and_logo 
+        div
+          h1#title= preferences.header_title
+          if preferences.header_subtitle
+            h2#subtitle= preferences.header_subtitle
+        if preferences.logo_path
+          img#logo(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;padding:10px;")
+    div#content
+      div(id="newsfeed", class="slot slot_a")
+    footer#homebutton
+      span(class="material-symbols-outlined big", onclick="window.location='/'", title="Back to main page") home
+      span(class="material-symbols-outlined big", onclick="window.location='./'", title="Back to public view") exit_to_app
