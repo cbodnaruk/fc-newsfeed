@@ -24,6 +24,7 @@ var end_phase = false
 var turn_phases = []
 var gid_list = []
 $(document).ready(function () {
+    // creates arrays of all rounds, points where the rounds change in seconds, and the number of rounds per turn for later calculations
     var numphases = document.getElementById("phaselist").childElementCount - 1;
     for (let i = 0; i < numphases; i++) {
         phase_lengths[i] = phaseData[i].duration * 60;
@@ -54,56 +55,67 @@ $(document).ready(function () {
 
 
 function checkTime(i) {
+    // formats times
     if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
     return i;
 }
 
 function updateClock(tc) {
+    // tc is the timecode sent from the server
     if (Number.isNaN(tc)) {
         $("#time").text("00:00");
         $("#current_turn").text("New Turn");
         $("#current_phase").text("New Turn");
     } else {
         
+
         var current_time = tc % game_length;
-        let i = 0
+
+        // calculate current phase in the context of the overall game
+        let current_phase = 0
         let this_phase = false
         while (!this_phase) {
-            if (current_time > phase_points[i]) {
-                i++
+            if (current_time > phase_points[current_phase]) {
+                current_phase++
 
             } else {
                 this_phase = true;
             }
         }
-        i--
-        var current_turn = phaseData[i].gid ;
+        current_phase--
+        var current_turn = phaseData[current_phase].gid ;
         checkTurn(current_turn);
-        let remaining_s = phase_lengths[i] - (current_time - phase_points[i]);
+        let remaining_s = phase_lengths[current_phase] - (current_time - phase_points[current_phase]);
         let rmins = checkTime(Math.floor(remaining_s / 60));
         let rsecs = checkTime(remaining_s % 60);
+
+        // calculate number of current turn
         var turncalc = 0
         var current_turn_count = 0
+
         while (turncalc < phase_points.length){
-            if (turncalc < i-1){
+            // check if a counter is less than the current phase, if so, count up to the next turn and check again
+            if (turncalc < current_phase){
                 turncalc += turn_phases[current_turn_count]
-                current_turn_count ++
+                // check if the new count (added on the number of phases in the currently counted turn) is still lower. if it is, keep counting. if not, break BEFORE incrementing the count
+                if (turncalc <= current_phase){
+                current_turn_count ++}
             } else {
                 break
             }
             
         }
         $("#time").text(rmins + ":" + rsecs);
-        $("#current_turn").text((current_turn_count+1)+ " ("+phaseData[i].round_name+")");
-        var phase_name = document.getElementById("phaselist").children[i+1].children[0].children[0].innerHTML
+        $("#current_turn").text((current_turn_count+1)+ " ("+phaseData[current_phase].round_name+")");
+        var phase_name = document.getElementById("phaselist").children[current_phase+1].children[0].children[0].innerHTML
         $("#current_phase").text(phase_name);
-        if (i != this_phase_id) {
-            document.getElementById("phaselist").children[i+1].classList.add("this_phase")
+        if (current_phase != this_phase_id) {
+            document.getElementById("phaselist").children[current_phase+1].classList.add("this_phase")
             document.getElementById("phaselist").children[this_phase_id+1].classList.remove("this_phase")
-            this_phase_id = i;
+            this_phase_id = current_phase;
         }
 
-        playAudio(remaining_s, i)
+        playAudio(remaining_s, current_phase)
 
     }
 }
