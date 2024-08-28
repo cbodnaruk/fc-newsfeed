@@ -30,7 +30,7 @@ div#timer_module
                 span(id='duration'+x.id)= x.duration + " mins"
             - i++
           if x.minor == true 
-            tr(id='row'+x.id, class='gid'+x.gid, style=(`display:${i > 0 ? "none" : "table-row"},visibility:hidden;`))
+            tr(id='row'+x.id, class='gid'+x.gid, style=(`display:${i > 0 ? "none" : "table-row"};visibility:collapse;`))
               td
                 span(id='phase'+x.id)= x.phase
               td
