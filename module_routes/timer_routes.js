@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router({mergeParams: true})
-
-const timer = require('./timer.js')
+var fs = require('fs');
+const Timer = require('./timer.js')
+//need to add last tick to args for timer methods
 const last_tick = 0;
 var bodyParser = require('body-parser');
 const qsstringify = require('qs');
@@ -11,14 +12,19 @@ function full_db_call(dash_id){ return `SELECT game_structure.id as "gid", timer
 function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, round_name, dash_id, minor from timers inner join round_types on round_types.id = timers.round_id where dash_id = '${dash_id}' ORDER BY id;`}
 function rounds_db_call(dash_id){return `SELECT * from round_types WHERE dash_id = '${dash_id}' ORDER BY id;`}
 function game_db_call(dash_id){return `SELECT game_structure.id, round_id, dash_id FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id WHERE dash_id = '${dash_id}' ORDER BY id;`}
-
+var timers = []
+var dash_list = JSON.parse(fs.readFileSync('dash_list.txt', 'utf8'));
+for (let dash in dash_list){
+    timers[dash_list[dash]] = new Timer;
+    console.log(dash_list[dash])
+}
 
 router.get('/editor', async (req, res) => {
     try {
         let round_list = await db.any(rounds_db_call(req.params.dash_id));
         let phase_list = await db.any(phases_db_call(req.params.dash_id));
         let game_list = await db.any(game_db_call(req.params.dash_id));
-        res.render('timer_editor_new', { "phases": phase_list, "sphases": jst.stringify(phase_list), "rounds": round_list, "srounds": jst.stringify(round_list), "structure": game_list, "is_running": timer.is_running, "is_paused": timer.is_paused });
+        res.render('timer_editor_new', { "phases": phase_list, "sphases": jst.stringify(phase_list), "rounds": round_list, "srounds": jst.stringify(round_list), "structure": game_list, "is_running": timers[req.params.dash_id].is_running, "is_paused": timers[req.params.dash_id].is_paused });
     }
     catch (e) {
         res.send(e)
@@ -30,7 +36,7 @@ router.get('/editor/rounds', async (req, res) => {
     try {
         let round_list = await db.any(rounds_db_call(req.params.dash_id)); 
         let phase_list = await db.any(phases_db_call(req.params.dash_id));
-        res.render('timer_editor_rounds', { "phases": phase_list, "rounds": round_list, "is_running": timer.is_running, "selection": req.query.sel });
+        res.render('timer_editor_rounds', { "phases": phase_list, "rounds": round_list, "is_running": timers[req.params.dash_id].is_running, "selection": req.query.sel });
     }
     catch (e) {
         res.send(e)
@@ -44,7 +50,7 @@ router.get('/editor/game', async (req, res) => {
     try {
         let round_list = await db.any(rounds_db_call(req.params.dash_id)); 
         let game_list = await db.any(game_db_call(req.params.dash_id));
-        res.render('timer_editor_game', { "structure": game_list, "rounds": round_list, "is_running": timer.is_running, "selection": req.query.sel });
+        res.render('timer_editor_game', { "structure": game_list, "rounds": round_list, "is_running": timers[req.params.dash_id].is_running, "selection": req.query.sel });
     }
     catch (e) {
         res.send(e)
@@ -55,7 +61,7 @@ router.get('/editor/game', async (req, res) => {
 });
 
 router.get('/controller', async (req, res) => {
-    res.render('timer_controller', { "is_running": timer.is_running, "is_paused": timer.is_paused });
+    res.render('timer_controller', { "is_running": timers[req.params.dash_id].is_running, "is_paused": timers[req.params.dash_id].is_paused });
 });
 
 router.get('/view', async (req, res) => {
@@ -74,30 +80,31 @@ router.get('/view', async (req, res) => {
 
 router.ws('/sync', (ws, req) => {
     ws.on('message', async function (msg) {
+        var dash_id = req.params.dash_id;
         console.log("connection")
         if (msg == "start") {
             console.log("starting");
-            timer.initialise(20);
-            console.log(timer.total_time);
-            timer.tick()
-            var ticker = setInterval(timer.tick, timer.update_rate);
+            timers[dash_id].initialise(20,last_tick);
+            console.log(timers[dash_id].total_time);
+            timers[dash_id].tick(last_tick)
+            var ticker = setInterval(timers[dash_id].tick, timers[dash_id].update_rate);
         } else if (msg == "stop") {
             console.log("stopping")
-            timer.stop()
+            timers[dash_id].stop()
         } else if (msg == "pause") {
             console.log("pausing");
-            timer.is_paused = true;
+            timers[dash_id].is_paused = true;
         } else if (msg == "unpause") {
             console.log("unpausing");
-            timer.is_paused = false;
+            timers[dash_id].is_paused = false;
         } else if (msg == "resetf") {
             console.log("resetting full");
-            timer.reset("f");
+            timers[dash_id].reset("f");
         } else if (msg == "resetp") {
             try {
                 const phase_list = await db.any(phases_db_call(req.params.dash_id));
                 console.log("resetting phase");
-                timer.reset("p", phase_list)
+                timers[req.params.dash_id].reset("p", phase_list)
             }
             catch (e) {
                 res.send(e)
