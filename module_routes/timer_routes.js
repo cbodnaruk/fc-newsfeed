@@ -71,7 +71,6 @@ router.get('/view', async (req, res) => {
         const phase_list = await db.any(full_db_call(req.params.dash_id));
         const game_struct = await db.any(game_db_call(req.params.dash_id));
         res.render('timer', { "phases": phase_list,"sphases": jst.stringify(phase_list), "sstruct": jst.stringify(game_struct), "dash_id": req.params.dash_id });
-        console.log(phase_list)
     }
     catch (e) {
         res.send(e)
@@ -81,10 +80,12 @@ router.get('/view', async (req, res) => {
 });
 
 router.ws('/sync/:source', (ws, req) => {
+    console.log(req.params.dash_id)
+    ws.id = req.params.dash_id+"-"+req.params.source
     ws.on('message', async function (msg) {
         var dash_id = req.params.dash_id;
         if (msg == "start") {
-            console.log("starting");
+            console.log("starting "+dash_id);
             console.log(timers[dash_id].initialise());
             console.log(timers[dash_id].last_tick)
             timers[dash_id].tick()
@@ -95,22 +96,22 @@ router.ws('/sync/:source', (ws, req) => {
                 console.log(client.id)
             });
         } else if (msg == "stop") {
-            console.log("stopping")
+            console.log("stopping "+dash_id)
             timers[dash_id].stop()
             clearInterval(tickers[dash_id])
         } else if (msg == "pause") {
-            console.log("pausing");
+            console.log("pausing "+dash_id);
             timers[dash_id].is_paused = true;
         } else if (msg == "unpause") {
-            console.log("unpausing");
+            console.log("unpausing "+dash_id);
             timers[dash_id].is_paused = false;
         } else if (msg == "resetf") {
-            console.log("resetting full");
+            console.log("resetting full "+dash_id);
             timers[dash_id].reset("f");
         } else if (msg == "resetp") {
             try {
                 const phase_list = await db.any(full_db_call(req.params.dash_id));
-                console.log("resetting phase");
+                console.log("resetting phase "+dash_id);
                 timers[req.params.dash_id].reset("p", phase_list)
             }
             catch (e) {
@@ -121,12 +122,14 @@ router.ws('/sync/:source', (ws, req) => {
         } else if (msg == "skip"){
             const phase_list = await db.any(full_db_call(req.params.dash_id));
             timers[dash_id].skip(phase_list)
+            console.log("skipping forward "+dash_id)
         };
     });
     console.log("connected WS from "+req.params.source)
-    ws.id = req.params.dash_id+"-"+req.params.source
+    
     ws.on('close', function(){
         console.log("closed "+ws.id)
+        ws.id = ""
     });
 
 });
