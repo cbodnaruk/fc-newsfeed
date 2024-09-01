@@ -2,22 +2,24 @@ const express = require('express')
 const router = express.Router({mergeParams: true})
 var fs = require('fs');
 const Timer = require('./timer.js')
-//need to add last tick to args for timer methods
-const last_tick = 0;
 var bodyParser = require('body-parser');
 const qsstringify = require('qs');
 const jst = require("javascript-stringify");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var ws_clients = [];
 function full_db_call(dash_id){ return `SELECT game_structure.id as "gid", timers.id, timers.minor, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id WHERE dash_id = '${dash_id}' ORDER BY game_structure.id ASC, timers.id asc;`}
 function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, round_name, dash_id, minor from timers inner join round_types on round_types.id = timers.round_id where dash_id = '${dash_id}' ORDER BY id;`}
 function rounds_db_call(dash_id){return `SELECT * from round_types WHERE dash_id = '${dash_id}' ORDER BY id;`}
 function game_db_call(dash_id){return `SELECT game_structure.id, round_id, dash_id FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id WHERE dash_id = '${dash_id}' ORDER BY id;`}
 var timers = []
+var tickers = []
 var dash_list = JSON.parse(fs.readFileSync('dash_list.txt', 'utf8'));
 for (let dash in dash_list){
     timers[dash_list[dash]] = new Timer;
+    timers[dash_list[dash]].dash_id = dash_list[dash];
     console.log(dash_list[dash])
 }
+
 
 router.get('/editor', async (req, res) => {
     try {
@@ -78,19 +80,24 @@ router.get('/view', async (req, res) => {
  
 });
 
-router.ws('/sync', (ws, req) => {
+router.ws('/sync/:source', (ws, req) => {
     ws.on('message', async function (msg) {
         var dash_id = req.params.dash_id;
-        console.log("connection")
         if (msg == "start") {
             console.log("starting");
-            timers[dash_id].initialise(20,last_tick);
-            console.log(timers[dash_id].total_time);
-            timers[dash_id].tick(last_tick)
-            var ticker = setInterval(timers[dash_id].tick, timers[dash_id].update_rate);
+            console.log(timers[dash_id].initialise());
+            console.log(timers[dash_id].last_tick)
+            timers[dash_id].tick()
+            let tick = timers[dash_id].tick.bind(timers[dash_id])
+            tickers[dash_id] = setInterval(tick, timers[dash_id].update_rate);
+            console.log(tickers[dash_id])
+            aWss.clients.forEach(function (client) {
+                console.log(client.id)
+            });
         } else if (msg == "stop") {
             console.log("stopping")
             timers[dash_id].stop()
+            clearInterval(tickers[dash_id])
         } else if (msg == "pause") {
             console.log("pausing");
             timers[dash_id].is_paused = true;
@@ -102,7 +109,7 @@ router.ws('/sync', (ws, req) => {
             timers[dash_id].reset("f");
         } else if (msg == "resetp") {
             try {
-                const phase_list = await db.any(phases_db_call(req.params.dash_id));
+                const phase_list = await db.any(full_db_call(req.params.dash_id));
                 console.log("resetting phase");
                 timers[req.params.dash_id].reset("p", phase_list)
             }
@@ -111,12 +118,20 @@ router.ws('/sync', (ws, req) => {
                 console.log(e)
             }
 
+        } else if (msg == "skip"){
+            const phase_list = await db.any(full_db_call(req.params.dash_id));
+            timers[dash_id].skip(phase_list)
         };
     });
-
-    console.log(req.socket.remoteAddress)
+    console.log("connected WS from "+req.params.source)
+    ws.id = req.params.dash_id+"-"+req.params.source
+    ws.on('close', function(){
+        console.log("closed "+ws.id)
+    });
 
 });
+
+
 
 router.post('/update', urlencodedParser, async (req, res) => {
     console.log("recieved post")
@@ -217,5 +232,7 @@ async function get_phases() {
         console.log(e)
     }
 }
+
+
 
 module.exports = router;
