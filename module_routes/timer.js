@@ -1,56 +1,57 @@
-const server_timer = {
-    start_time: 0,
-    total_time: 0,
-    time_elapsed: 0,
-    update_rate: 100,
-    is_running: false,
-    is_paused: false,
-    tick: function () {
+class Timer {
+    constructor() {
+    this.start_time= 0;
+    this.total_time= 0;
+    this.time_elapsed= 0;
+    this.update_rate= 100;
+    this.is_running= false;
+    this.is_paused= false;
+    this.tick= function (last_tick) {
         let s = Math.round(Date.now() / 1000);
 
         if (s > last_tick) {
-            if (!server_timer.is_paused) {
+            if (!Timer.is_paused) {
 
-                server_timer.time_elapsed += 1;
+                Timer.time_elapsed += 1;
                 aWss.clients.forEach(function (client) {
 
-                    client.send(server_timer.time_elapsed);
+                    client.send(Timer.time_elapsed);
                 });
             };
             last_tick = s;
         }
-    },
-    initialise: function (length) {
+    };
+    this.initialise= function (length,last_tick) {
         this.is_paused = false;
         this.total_time = length;
         let s = Math.round(Date.now() / 1000);
         this.start_time = last_tick = s;
-        server_timer.is_running = true;
+        Timer.is_running = true;
 
-    },
-    pause: function () {
+    };
+    this.pause= function () {
         if (!this.is_paused) {
             this.is_paused = true;
         }
-    },
-    unpause: function () {
+    };
+    this.unpause= function () {
         if (this.is_paused) {
             this.is_paused = false;
         }
-    },
-    stop: function () {
+    };
+    this.stop = function () {
         this.is_paused=true;
         this.total_time=0;
         this.start_time=0;
         this.time_elapsed=0;
-        server_timer.is_running = false;
+        Timer.is_running = false;
         aWss.clients.forEach(function (client) {
 
             client.send(this.time_elapsed);
         });
 
-    },
-    reset: function(scope,phase_list) {
+    };
+    this.reset= function(scope,phase_list) {
         if (scope == "f"){
         this.time_elapsed = 0;
         } else if (scope == "p"){
@@ -69,6 +70,6 @@ const server_timer = {
             }
         };
     }
-}
+};}
 
-module.exports = server_timer;
+module.exports = Timer;
