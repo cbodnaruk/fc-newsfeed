@@ -3,6 +3,14 @@
 wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync');
 var current_sel_round = 1;
 var next_phase_id = 0;
+let keepAliveTimer = 0;
+function keepAlive(timeout = 30000) {
+    if (wsocket.readyState == wsocket.OPEN){
+        wsocket.send('');
+    }
+    keepAliveTimer = setTimeout(keepAlive, timeout);
+}
+
 $(document).ready(function () {
     try {current_sel_round = roundData[0].id
         next_phase_id = phaseData[phaseData.length - 1].id + 1
@@ -11,7 +19,10 @@ $(document).ready(function () {
     $("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round)
     $("#timer_editor_gamestructure").load("./timer/editor/game")
 });
-
+wsocket.addEventListener("open", (event) => {
+    wsocket.send("open");
+    keepAlive()
+});
 function addRow(){
     $.post("./timer/add", { "id": next_phase_id , "round_id": current_sel_round })
     setTimeout(() => {

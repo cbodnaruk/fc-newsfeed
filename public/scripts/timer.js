@@ -2,10 +2,19 @@
 //wsocket = new WebSocket('ws://' + location.host + '/demo/timer/sync');
 wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync');
 var this_phase_id = 0;
+let keepAliveTimer = 0;
+
+function keepAlive(timeout = 30000) {
+    if (wsocket.readyState == wsocket.OPEN){
+        wsocket.send('');
+    }
+    keepAliveTimer = setTimeout(keepAlive, timeout);
+}
 
 console.log(wsocket.readyState);
 wsocket.addEventListener("open", (event) => {
     wsocket.send("open");
+    keepAlive()
 });
 wsocket.addEventListener("message", (event) => {
     if (event.data == "s") {
@@ -153,3 +162,5 @@ function playAudio(secs, turn){
     }
 
 }
+
+
