@@ -19,6 +19,15 @@ Allow your in-game media team to post messages, that display in a scrolling medi
 
 This project was started by and for [Sydney Megagamers](https://sydneymegagamers.com/), and is made available for others to use and improve on.
 
+This is [free software](https://www.gnu.org/philosophy/free-sw.html):
+you may copy, modify, and/or redistribute this work under the terms of the
+GNU Affero General Public License as published by the Free Software
+Foundation; version 3 of that license or any later version.
+
+No warranty expressed or implied. See the file
+[LICENSES/AGPL-3.0.txt](LICENSES/AGPL-3.0.txt) for details, or online at
+[https://www.gnu.org/licenses/agpl-3.0.html](https://www.gnu.org/licenses/agpl-3.0.html).
+
 
 [comment]: <> (This document is formatted as Markdown.)
 [comment]: <> (You can follow https://www.markdownguide.org/ for syntax.)
