@@ -11,12 +11,13 @@ const newsfeed_routes = require('../module_routes/newsfeed_routes.js');
 router.use('/newsfeed', newsfeed_routes);
 const timer_routes = require('../module_routes/timer_routes.js');
 router.use('/timer', timer_routes);
-
+const numbers_routes = require('../module_routes/numbers_routes.js');
+router.use('/numbers', numbers_routes);
 
 router.get('/', async (req, res) => {
   let dashId = req.params.dash_id
   prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'))
-  dash_list = fs.readFileSync('dash_list.txt', 'utf8');
+  var dash_list = JSON.parse(fs.readFileSync('dash_list.txt', 'utf8'));
   if (dash_list.includes(dashId)) {
     res.render('home', { 'dash_id': dashId, 'preferences': prefs[dashId] });
   } else {
