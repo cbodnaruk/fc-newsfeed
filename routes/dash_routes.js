@@ -50,7 +50,7 @@ router.post('/updatepreferences', urlencodedParser, (req, res) => {
   let dashId = req.params.dash_id
   prefs[dashId][req.body.preference] = req.body.value;
   fs.writeFile('prefs.json', JSON.stringify(prefs), (err) => {
-    if (err) throw err;
+    if (err) console.log("Failed to save");
     console.log('The file has been saved!');
   })
 })
