@@ -1,6 +1,6 @@
 // for testing only:
-wsocket = new WebSocket('ws://' + location.host + '/demo/timer/sync');
-//wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync');
+//wsocket = new WebSocket('ws://' + location.host + '/'+dash_id+'/timer/sync/admin');
+wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/admin');
 var current_sel_round = 1;
 var next_phase_id = 0;
 $(document).ready(function () {
@@ -170,3 +170,8 @@ function pauseTimer(newState) {
     }
 }
 
+function skipTimer(scope){
+    if (scope == "p"){
+        wsocket.send("skip")
+    }
+}

@@ -1,4 +1,3 @@
-script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
 script. 
   const phaseData = !{sphases};
   const roundData = !{srounds};
@@ -7,7 +6,6 @@ script.
 script(src='/scripts/timer_editor.js')
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
 
-script(src='/scripts/timer_editor.js')
 div(style={'flex-basis': '600px'})
   div#timer_controller
     if is_running 
@@ -18,6 +16,7 @@ div(style={'flex-basis': '600px'})
       span.btn.controller#pause_timer(onClick='pauseTimer(false)') Unpause
     else 
       span.btn.controller#pause_timer(onClick='pauseTimer(true)') Pause
+    span.btn.controller#skip_phase_timer(onClick='skipTimer("p")') Skip to Next Phase
     span.btn.controller#reset_timer(onClick='resetTimer("f")') Reset to Start 
     span.btn.controller#resetphase_timer(onClick='resetTimer("p")') Reset to Current Phase
   div#timer_editor
