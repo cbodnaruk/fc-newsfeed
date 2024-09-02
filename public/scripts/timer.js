@@ -1,11 +1,20 @@
 // for testing only:
-//wsocket = new WebSocket('ws://' + location.host + '/'+dash_id+'/timer/sync/view');
+//wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
 wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
 var this_phase_id = 0;
 let keepAliveTimer = 0;
 
+window.addEventListener("focus", (event) => {
+    if (window.screen.width < 400) {
+        // for testing only:
+        //wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
+        wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
+    }
+
+})
+console.log("find me")
 function keepAlive(timeout = 30000) {
-    if (wsocket.readyState == wsocket.OPEN){
+    if (wsocket.readyState == wsocket.OPEN) {
         wsocket.send('');
     }
     keepAliveTimer = setTimeout(keepAlive, timeout);
@@ -24,6 +33,7 @@ wsocket.addEventListener("message", (event) => {
         console.log(event.data)
     };
 });
+
 var current_phase_id = 0;
 var game_length = 0
 var phase_lengths = []
@@ -47,10 +57,10 @@ $(document).ready(function () {
         }
         gid_list.push(phaseData[i].gid)
     }
-    for (let i = 0; i < gid_list.length; i++){
-        if (i==0){
+    for (let i = 0; i < gid_list.length; i++) {
+        if (i == 0) {
             turn_phases.push(1)
-        } else if (gid_list[i] != gid_list[i-1]){
+        } else if (gid_list[i] != gid_list[i - 1]) {
             turn_phases.push(1)
         } else {
             var new_val = turn_phases.pop() + 1
@@ -59,7 +69,7 @@ $(document).ready(function () {
     }
     numturns = gameStructure.length;
     phase_points.pop();
-    document.getElementById("phaselist").children[this_phase_id+1].classList.add("this_phase")
+    document.getElementById("phaselist").children[this_phase_id + 1].classList.add("this_phase")
 });
 
 
@@ -77,7 +87,7 @@ function updateClock(tc) {
         $("#current_turn").text("New Turn");
         $("#current_phase").text("New Turn");
     } else {
-        
+
 
         var current_time = tc % game_length;
 
@@ -93,7 +103,7 @@ function updateClock(tc) {
             }
         }
         current_phase--
-        var current_turn = phaseData[current_phase].gid ;
+        var current_turn = phaseData[current_phase].gid;
         checkTurn(current_turn);
         let remaining_s = phase_lengths[current_phase] - (current_time - phase_points[current_phase]);
         let rmins = checkTime(Math.floor(remaining_s / 60));
@@ -103,62 +113,63 @@ function updateClock(tc) {
         var turncalc = 0
         var current_turn_count = 0
 
-        while (turncalc < phase_points.length){
+        while (turncalc < phase_points.length) {
             // check if a counter is less than the current phase, if so, count up to the next turn and check again
-            if (turncalc < current_phase){
+            if (turncalc < current_phase) {
                 turncalc += turn_phases[current_turn_count]
                 // check if the new count (added on the number of phases in the currently counted turn) is still lower. if it is, keep counting. if not, break BEFORE incrementing the count
-                if (turncalc <= current_phase){
-                current_turn_count ++}
+                if (turncalc <= current_phase) {
+                    current_turn_count++
+                }
             } else {
                 break
             }
-            
+
         }
         $("#time").text(rmins + ":" + rsecs);
-        $("#current_turn").text((current_turn_count+1)+ " ("+phaseData[current_phase].round_name+")");
-        var phase_name = document.getElementById("phaselist").children[current_phase+1].children[0].children[0].innerHTML
+        $("#current_turn").text((current_turn_count + 1) + " (" + phaseData[current_phase].round_name + ")");
+        var phase_name = document.getElementById("phaselist").children[current_phase + 1].children[0].children[0].innerHTML
         $("#current_phase").text(phase_name);
         if (current_phase != this_phase_id) {
-            document.getElementById("phaselist").children[current_phase+1].classList.add("this_phase")
-            document.getElementById("phaselist").children[this_phase_id+1].classList.remove("this_phase")
+            document.getElementById("phaselist").children[current_phase + 1].classList.add("this_phase")
+            document.getElementById("phaselist").children[this_phase_id + 1].classList.remove("this_phase")
             this_phase_id = current_phase;
         }
 
-        playAudio(remaining_s, current_phase)
+        //playAudio(remaining_s, current_phase)
 
     }
 }
 
-function checkTurn(current_turn){
-for (let i = 1; i < document.getElementById("phaselist").childElementCount; i++){
-    var row = document.getElementById("phaselist").children[i]
-    if (row.className == "gid"+current_turn || row.className == "gid"+current_turn+" this_phase"){
-        row.style.display = ""
-    } else {
-        row.style.display = "none"
+function checkTurn(current_turn) {
+    for (let i = 1; i < document.getElementById("phaselist").childElementCount; i++) {
+        var row = document.getElementById("phaselist").children[i]
+        if (row.className == "gid" + current_turn || row.className == "gid" + current_turn + " this_phase") {
+            row.style.display = ""
+        } else {
+            row.style.display = "none"
+        }
     }
 }
-}
 
-function playAudio(secs, turn){
-    if (current_turn_id == 0){
+function playAudio(secs, turn) {
+    if (current_turn_id == 0) {
         //run if start of game
         current_turn_id = phaseData[turn].gid
-    } else if (current_turn_id != phaseData[turn].gid){
+    } else if (current_turn_id != phaseData[turn].gid) {
         //run if new turn
         var audio = document.getElementById("round_end_audio");
         audio.play()
         end_phase = false
         current_turn_id = phaseData[turn].gid
-    } else if (end_phase == true){
+    } else if (end_phase == true) {
         //run if new phase
         var audio = document.getElementById("phase_end_audio");
         audio.play()
         end_phase = false
     }
-    
-    if (secs == 0){
+
+    if (secs == 0) {
         end_phase = true
     }
 
