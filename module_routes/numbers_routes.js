@@ -16,13 +16,9 @@ for (let dash in dash_list){
     numbers[dash_list[dash]] = new Array()
     numbers[dash_list[dash]].push(new Number("Statistic",0))
 }
-for (let i = 0; i<5; i++){
-    numbers["demo"].push(new Number(`Statistic_${i+1}`,i+10))
-}
 
 router.get('/view', (req, res) => {
     var prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'))
-    console.log(prefs[req.params.dash_id])
     res.render('numbers', { "number_list": numbers[req.params.dash_id], 'preferences': prefs[req.params.dash_id] })
 })
 

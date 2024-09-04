@@ -1,14 +1,12 @@
 function updateNumber(number_name) {
     var new_number = $(`#i_${number_name}`).val()
     var new_name = $(`#in_${number_name}`).val().replace(" ", "_")
-    console.log(new_name)
     if ($(`#i_${new_name}`).length && new_name != number_name) {
         alert("New name must be unique.")
         $(`#in_${number_name}`).hide()
         $(`#n_${number_name}`).show()
     } else {
         $.post("./numbers/update", { "name": number_name, "number": new_number, "new_name": new_name })
-        console.log(number_name + ": " + new_number)
         $(`#in_${number_name}`).hide()
         $(`#n_${number_name}`).text(new_name.replace("_", " "))
         $(`#n_${number_name}`).show()
