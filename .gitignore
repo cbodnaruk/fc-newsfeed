@@ -3,6 +3,7 @@
 # Manual page: ‘git-ignore(1)’.
 
 # Files edited specific to local instance, not version controlled.
+/config/*.toml
 /database_login.txt
 /sslcert/
 
