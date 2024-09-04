@@ -83,8 +83,8 @@
     "start": "node server.js"
   },
   "author": {
-    "name": "Carl SURNAME",
-    "email": "LOCALPART@DOMAIN"
+    "name": "Carl Bodnaruk",
+    "email": "hello@megagame.space"
   },
   "license": "AGPL-3.0+"
 }
