@@ -11,6 +11,7 @@
     "call-bind": "^1.0.7",
     "content-disposition": "^0.5.4",
     "content-type": "^1.0.5",
+    "convict": "^6.2.4",
     "cookie": "^0.5.0",
     "cookie-signature": "^1.0.6",
     "debug": "^2.6.9",
@@ -70,9 +71,11 @@
     "sql-sanitizer": "^1.0.0",
     "statuses": "^2.0.1",
     "toidentifier": "^1.0.1",
+    "toml": "^3.0.0",
     "type-is": "^1.6.18",
     "unpipe": "^1.0.0",
     "utils-merge": "^1.0.1",
+    "validator": "^13.12.0",
     "vary": "^1.1.2"
   },
   "scripts": {
