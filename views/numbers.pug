@@ -1,0 +1,10 @@
+script(src='/scripts/numbers.js')
+
+div#numbers_container
+  each number in number_list 
+    -var name_parsed = number.name.replace("_"," ")
+    -var num_diff = number.value - number.last_value
+    -var diff_sign = num_diff > 0 ? "+" : "-"
+    div.number(id=number.name)
+      div.number_name(id="n_"+number.name)=name_parsed
+      div.number_value(id="v_"+number.name)=number.value+" ("+diff_sign+num_diff+")"

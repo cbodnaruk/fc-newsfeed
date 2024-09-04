@@ -33,6 +33,7 @@
     border: 2px solid #ccc;
     box-sizing: border-box;
     border-radius: 4px;
+    display: flex;
 }
 
 .btn {
