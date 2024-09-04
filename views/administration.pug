@@ -4,6 +4,7 @@ html
     link(rel='stylesheet', href='/css/styles.css')
     link(rel='stylesheet', href='/css/newsfeed_styles.css')
     link(rel='stylesheet', href='/css/timer_styles.css')
+    link(rel='stylesheet', href='/css/numbers_styles.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
@@ -66,10 +67,15 @@ html
             select(id="p_slot_a", onChange="dashboard_settings.update(event)")
               option(value="timer", selected=(preferences.slot_a == "timer")) Timer
               option(value="newsfeed", selected=(preferences.slot_a == "newsfeed")) Newsfeed
+              option(value="numbers", selected=(preferences.slot_a == "numbers")) Numbers
               option(value="", selected=(preferences.slot_a == "")) None
           p 
             label(for="p_slot_b") Content Slot B (right): 
             select(id="p_slot_b", onChange="dashboard_settings.update(event)")
               option(value="timer", selected=(preferences.slot_b == "timer")) Timer
               option(value="newsfeed", selected=(preferences.slot_b == "newsfeed")) Newsfeed
+              option(value="numbers", selected=(preferences.slot_b == "numbers")) Numbers
               option(value="", selected=(preferences.slot_a == "")) None
+          p 
+            label(for="p_numbers_show_difference") (For Numbers module) Show difference between current and previous number: 
+            input(id="p_numbers_show_difference", type="checkbox", value=preferences.numbers_show_difference, onChange="dashboard_settings.update(event)", checked=settings_bool)

@@ -2,58 +2,63 @@ const dashboard_settings = {
     show(dash_id) {
         var modal = document.getElementById("prefsmodal");
         modal.style.display = "block";
-    
+
     },
-    hide(){
+    hide() {
         var modal = document.getElementById("prefsmodal");
-        if (this.needs_refresh){
+        if (this.needs_refresh) {
             location.reload()
         }
         modal.style.display = "none";
     },
-    update(event){
-    
+    update(event) {
+
         var trig_str = event.target.id.substring(2);
-        if (trig_str == "header_visible"){
-var trig_val = document.getElementById(event.target.id).checked;
-        } else if (trig_str == "settings_visible"){
+        if (trig_str == "header_visible") {
+            var trig_val = document.getElementById(event.target.id).checked;
+        } else if (trig_str == "settings_visible") {
+            var trig_val = document.getElementById(event.target.id).checked;
+        } else if (trig_str == "numbers_show_difference") {
             var trig_val = document.getElementById(event.target.id).checked;
         } else {
-    var trig_val = $(event.target).val();
+            var trig_val = $(event.target).val();
 
         }
-        $.post("./updatepreferences", {"preference": trig_str,"value": trig_val})
-    
+        $.post("./updatepreferences", { "preference": trig_str, "value": trig_val })
+
         this.needs_refresh = true;
     },
     needs_refresh: false
-    }
+}
 
 $(document).ready(function () {
-    $("#timer").load("/"+dash_id+"/timer/editor", function (response, status, xhr) {
+    $("#timer").load("/" + dash_id + "/timer/editor", function (response, status, xhr) {
 
     });
     $("#newsfeed").load("./newsfeed/editorload", function (response, status, xhr) {
 
     });
+    $("#numbers").load("./numbers/editor", function (response, status, xhr) {
+
+    });
     dashboard_settings.needs_refresh = false
-    if ($("#viewcontrol").css("display") == "block"){
-        $(".slot_b").css("display","none")
+    if ($("#viewcontrol").css("display") == "block") {
+        $(".slot_b").css("display", "none")
     }
 });
 
 
 
-window.onclick = function(event) {
+window.onclick = function (event) {
     var modal = document.getElementById("prefsmodal");
     if (event.target == modal) {
-      dashboard_settings.hide()
+        dashboard_settings.hide()
     }
-  }
+}
 
-  function switchTab(new_tab){
+function switchTab(new_tab) {
     $(".tabbtn").removeClass("clicked")
-    $("#tab_"+new_tab).addClass("clicked")
-    $(".slot").css("display","none")
-    $(".slot_"+new_tab).css("display","block")
+    $("#tab_" + new_tab).addClass("clicked")
+    $(".slot").css("display", "none")
+    $(".slot_" + new_tab).css("display", "block")
 }
