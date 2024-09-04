@@ -5,6 +5,7 @@ div#numbers_container
     -var name_parsed = number.name.replace("_"," ")
     -var num_diff = number.value - number.last_value
     -var diff_sign = num_diff > 0 ? "+" : "-"
+    - const diff_bool = JSON.parse(preferences.numbers_show_difference);
     div.number(id=number.name)
       div.number_name(id="n_"+number.name)=name_parsed
-      div.number_value(id="v_"+number.name)=number.value+" ("+diff_sign+num_diff+")"
+      div.number_value(id="v_"+number.name)=number.value+(diff_bool ? " ("+diff_sign+num_diff+")" : "")

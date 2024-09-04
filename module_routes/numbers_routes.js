@@ -21,7 +21,9 @@ for (let i = 0; i<5; i++){
 }
 
 router.get('/view', (req, res) => {
-    res.render('numbers', { "number_list": numbers[req.params.dash_id] })
+    var prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'))
+    console.log(prefs[req.params.dash_id])
+    res.render('numbers', { "number_list": numbers[req.params.dash_id], 'preferences': prefs[req.params.dash_id] })
 })
 
 
