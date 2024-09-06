@@ -16,7 +16,8 @@ each number in number_list
           div.number_name(id="n_"+number.name)=name_parsed
           div.number_value(id="v_"+number.name)
             if wiggle
-              - var wiggle_num = (number.value+(Math.random()*6)-3).toFixed(2)
+              - var range = 2
+              - var wiggle_num = (number.value+(Math.random()*2*range)-range).toFixed(2)
               span=wiggle_num
             else 
               span=number.value

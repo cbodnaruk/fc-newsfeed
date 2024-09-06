@@ -159,7 +159,7 @@ router.post('/remove', urlencodedParser, async (req, res) => {
 router.post('/newround', urlencodedParser, async (req, res) => {
     let dash_id = req.params.dash_id
     await db.none(`INSERT INTO round_types (id, round_name, dash_id) VALUES ('${req.body.id}','New Round','${dash_id}');`);
-    await db.none(`INSERT INTO timers (phase, duration, round_id) VALUES ('','0','${req.body.id}');`)
+    await db.none(`INSERT INTO timers (phase, duration, round_id, minor) VALUES ('','0','${req.body.id}',false);`)
     console.log("saved new round type")
 });
 
