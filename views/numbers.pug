@@ -1,11 +1,19 @@
 script(src='/scripts/numbers.js')
-
-div#numbers_container
-  each number in number_list 
-    -var name_parsed = number.name.replace("_"," ")
-    -var num_diff = number.value - number.last_value
-    -var diff_sign = num_diff > 0 ? "+" : "-"
-    - const diff_bool = JSON.parse(preferences.numbers_show_difference);
-    div.number(id=number.name)
-      div.number_name(id="n_"+number.name)=name_parsed
-      div.number_value(id="v_"+number.name)=number.value+(diff_bool ? " ("+diff_sign+num_diff+")" : "")
+-var max_cont = 1
+each number in number_list 
+ if number.separator > max_cont
+   - max_cont = number.separator
+-for (var x = 0; x < max_cont; x++)
+  div.numbers_container
+    each number in number_list
+      if number.separator == x+1
+        -var name_parsed = number.name.replace("_"," ")
+        -var num_diff = number.value - number.last_value
+        -var diff_sign = num_diff > 0 ? "+" : "-"
+        -const diff_bool = JSON.parse(preferences.numbers_show_difference);
+        div.number(id=number.name, style=`color: ${number.color}; border-color: ${number.color};`)
+          div.number_name(id="n_"+number.name)=name_parsed
+          div.number_value(id="v_"+number.name)
+            span=number.value
+            if diff_bool
+              span(style="font-size: 0.7em; padding-left:10%;")="("+diff_sign+num_diff+")"

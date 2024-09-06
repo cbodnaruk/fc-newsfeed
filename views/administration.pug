@@ -78,4 +78,4 @@ html
               option(value="", selected=(preferences.slot_a == "")) None
           p 
             label(for="p_numbers_show_difference") (For Numbers module) Show difference between current and previous number: 
-            input(id="p_numbers_show_difference", type="checkbox", value=preferences.numbers_show_difference, onChange="dashboard_settings.update(event)", checked=settings_bool)
+            input(id="p_numbers_show_difference", type="checkbox", value=preferences.numbers_show_difference, onChange="dashboard_settings.update(event)", checked=JSON.parse(preferences.numbers_show_difference))

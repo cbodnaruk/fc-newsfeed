@@ -11,6 +11,9 @@ function Number(name, value){
     this.name = name;
     this.value = value;
     this.last_value = 0;
+    this.wiggle = false;
+    this.color = "#FFFFFF";
+    this.separator = 1;
 }
 for (let dash in dash_list){
     numbers[dash_list[dash]] = new Array()
@@ -34,6 +37,9 @@ router.post('/update', urlencodedParser, (req, res) => {
             console.log(`${req.body.name}: ${req.body.number}`)
             numbers[req.params.dash_id][num].last_value = numbers[req.params.dash_id][num].value
             numbers[req.params.dash_id][num].value = req.body.number;
+            numbers[req.params.dash_id][num].color = req.body.new_color;
+            numbers[req.params.dash_id][num].wiggle = req.body.wiggle;
+            numbers[req.params.dash_id][num].separator = req.body.separator;
             console.log(`${req.body.name} > ${req.body.new_name}`)
             numbers[req.params.dash_id][num].name = req.body.new_name;
         }
