@@ -11,9 +11,14 @@ each number in number_list
         -var num_diff = number.value - number.last_value
         -var diff_sign = num_diff > 0 ? "+" : "-"
         -const diff_bool = JSON.parse(preferences.numbers_show_difference);
+        -const wiggle = JSON.parse(number.wiggle)
         div.number(id=number.name, style=`color: ${number.color}; border-color: ${number.color};`)
           div.number_name(id="n_"+number.name)=name_parsed
           div.number_value(id="v_"+number.name)
-            span=number.value
+            if wiggle
+              - var wiggle_num = (number.value+(Math.random()*6)-3).toFixed(2)
+              span=wiggle_num
+            else 
+              span=number.value
             if diff_bool
               span(style="font-size: 0.7em; padding-left:10%;")="("+diff_sign+num_diff+")"
