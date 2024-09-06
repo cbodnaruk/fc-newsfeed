@@ -4,11 +4,12 @@ const config = require('./config.js');
 
 const express = require('express')
 const app = express()
-const pgp = require('pg-promise')();
-global.db = pgp(config.get('database.url'));
 const pug = require('pug');
 var httpServer = http.createServer(app);
 const expressWs = require('express-ws')(app);
+const { getDatabaseConnection } = require('./database/connection.js')
+
+global.db = getDatabaseConnection(config.get('database.url'))
 
 app.use((req, res, next) => {
     if (req.path.slice(-1) === '/' && req.path.length > 1) {
