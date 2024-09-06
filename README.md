@@ -15,6 +15,12 @@ Define a set of timers for the round structure of the game. The current round ti
 Allow your in-game media team to post messages, that display in a scrolling media feed on the dashboard.
 
 
+## Install
+
+See the guide for how to [install the Megagame Dashboard application](
+docs/INSTALL.md).
+
+
 ## Copying
 
 This project was started by and for [Sydney Megagamers](https://sydneymegagamers.com/), and is made available for others to use and improve on.
@@ -28,6 +34,7 @@ No warranty expressed or implied. See the file
 [LICENSES/AGPL-3.0.txt](LICENSES/AGPL-3.0.txt) for details, or online at
 [https://www.gnu.org/licenses/agpl-3.0.html](https://www.gnu.org/licenses/agpl-3.0.html).
 
+
 
 [comment]: <> (This document is formatted as Markdown.)
 [comment]: <> (You can follow https://www.markdownguide.org/ for syntax.)
