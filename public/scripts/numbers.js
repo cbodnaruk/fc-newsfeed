@@ -1,4 +1,4 @@
-setInterval(reloadPosts, 60000);
+setTimeout(reloadPosts, 60000);
 
 
 function reloadPosts() {
