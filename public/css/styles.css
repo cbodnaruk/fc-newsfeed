@@ -251,7 +251,7 @@ select {
     /* Hidden by default */
     position: fixed;
     /* Stay in place */
-    z-index: 1;
+    z-index: 11;
     /* Sit on top */
     padding-top: 200px;
     /* Location of the box */
