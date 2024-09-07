@@ -23,13 +23,15 @@ function editName(number_name) {
 }
 
 function newNumber() {
-    var next_num = $(".number").length + 1
-    var number_html = `<div class="number"> <div class="number_name" id="n_Statistic_${next_num}" onclick="editName('Statistic_${next_num}')">Statistic ${next_num}</div> <input class="number_name_editor" id="in_Statistic_${next_num}" type="text" value="Statistic_${next_num}" style="text-align: center; display: none;" inputmode="text" onfocusout="updateNumber('Statistic_${next_num}')"> <input class="number_value_editor" id="i_Statistic_${next_num}" type="text" value="0" style="text-align: center;" inputmode="numeric" onchange="updateNumber('Statistic_${next_num}')"> <span> <input class="number_color_editor" id="c_Statistic_${next_num}" type="color" value="#FFFFFF" onchange="updateNumber('Statistic_${next_num}')"></span><span class="stat_setting"><label for="w_Statistic">Wiggle</label><input id="w_Statistic_${next_num}" type="checkbox" onchange="updateNumber('Statistic')"></span><span class="stat_setting"> <input class="number_separator_editor" id="s_Statistic_${next_num}" type="number" onchange="updateNumber('Statistic_${next_num}')" value="1"></span> </div>`
-    $("#numbers_container").append(number_html)
+    var next_num = $(".number_editor").length + 1
+    console.log(next_num)
+    var number_html = `<div class="number_editor"> <div class="number_name" id="n_Statistic_${next_num}" onclick="editName('Statistic_${next_num}')">Statistic ${next_num}</div> <input class="number_name_editor" id="in_Statistic_${next_num}" type="text" value="Statistic_${next_num}" style="text-align: center; display: none;" inputmode="text" onfocusout="updateNumber('Statistic_${next_num}')"> <input class="number_value_editor" id="i_Statistic_${next_num}" type="text" value="0" style="text-align: center;" inputmode="numeric" onchange="updateNumber('Statistic_${next_num}')"> <span> <input class="number_color_editor" id="c_Statistic_${next_num}" type="color" value="#FFFFFF" onchange="updateNumber('Statistic_${next_num}')"></span><span class="stat_setting"><label for="w_Statistic_${next_num}">Wiggle</label><input id="w_Statistic_${next_num}" type="checkbox" onchange="updateNumber('Statistic_${next_num}')"></span><span class="stat_setting"> <input class="number_separator_editor" id="s_Statistic_${next_num}" type="number" onchange="updateNumber('Statistic_${next_num}')" value="1"></span> </div>`
+    console.log(number_html)
+    $(".numbers_container").append(number_html)
     $.post("./numbers/add", { "name": `Statistic_${next_num}` })
 }
 
 function rmNumber() {
-    $("#numbers_container").children().last().remove()
+    $(".numbers_container").children().last().remove()
     $.post("./numbers/rm")
 }
