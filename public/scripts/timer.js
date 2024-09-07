@@ -1,6 +1,6 @@
 // for testing only:
-wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
-//wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
+//wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
+wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
 var this_phase_id = 0;
 let keepAliveTimer = 0;
 var checkInReady = false;
