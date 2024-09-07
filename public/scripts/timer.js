@@ -3,6 +3,7 @@ wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/v
 //wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
 var this_phase_id = 0;
 let keepAliveTimer = 0;
+var checkInReady = false;
 
 window.addEventListener("focus", (event) => {
     if (window.screen.width < 400) {
@@ -12,7 +13,10 @@ window.addEventListener("focus", (event) => {
     }
 
 })
+//this is for debugging to open the injected script
 console.log("find me")
+
+//stop socket from disconnecting on pause/inactivity
 function keepAlive(timeout = 30000) {
     if (wsocket.readyState == wsocket.OPEN) {
         wsocket.send('');
@@ -20,19 +24,69 @@ function keepAlive(timeout = 30000) {
     keepAliveTimer = setTimeout(keepAlive, timeout);
 }
 
-console.log(wsocket.readyState);
+//create local timer object
+const timer = {
+    time: 0,
+    running: false,
+    last_tick:0,
+    interval:0,
+    tick: function(){
+        this.tick.bind(this)
+        let s = Math.round(Date.now() / 1000);
+        if (s > this.last_tick) {
+            if (this.running) {
+
+                this.time += 1;
+                updateClock(this.time)
+            };
+
+        }
+        this.last_tick = s;
+        if (!this.running){this.stop()}
+    },
+    start: function(){
+        let tick = this.tick.bind(this)
+        this.interval = setInterval(tick,250)
+    },
+    stop: function(){
+        clearInterval(this.interval)
+    }
+
+}
+
+//wait until page is loaded and websocket is connected to check in with server and receive current time/running status
+function wsCheckIn(){
+    if (checkInReady) {
+        wsocket.send('open');
+    } else {
+        checkInReady = true;
+    }
+}
+
+
 wsocket.addEventListener("open", (event) => {
-    wsocket.send("open");
+    wsCheckIn()
     keepAlive()
+    
 });
+
+//receive timer update from server
 wsocket.addEventListener("message", (event) => {
     if (event.data == "s") {
         location.reload()
+    } else if (event.data == "p"){
+        timer.running = false;
+    } else if (event.data == "r"){
+        timer.running = true;
+        timer.start();
+        console.log("received r")
     } else {
         updateClock(parseInt(event.data));
+        timer.time = parseInt(event.data);
         console.log(event.data)
     };
 });
+
 
 var current_phase_id = 0;
 var game_length = 0
@@ -70,6 +124,7 @@ $(document).ready(function () {
     numturns = gameStructure.length;
     phase_points.pop();
     document.getElementById("phaselist").children[this_phase_id + 1].classList.add("this_phase")
+    wsCheckIn()
 });
 
 
@@ -80,6 +135,7 @@ function checkTime(i) {
     return i;
 }
 
+//takes a timecode in seconds (from server or internal clock) and resolves to the display
 function updateClock(tc) {
     // tc is the timecode sent from the server
     if (Number.isNaN(tc)) {
@@ -103,6 +159,10 @@ function updateClock(tc) {
             }
         }
         current_phase--
+
+        //handling for if time is 0
+        if (current_phase < 0){current_phase = 0;}
+
         var current_turn = phaseData[current_phase].gid;
         checkTurn(current_turn);
         let remaining_s = phase_lengths[current_phase] - (current_time - phase_points[current_phase]);

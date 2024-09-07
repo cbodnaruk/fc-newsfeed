@@ -92,19 +92,26 @@ router.ws('/sync/:source', (ws, req) => {
             let tick = timers[dash_id].tick.bind(timers[dash_id])
             tickers[dash_id] = setInterval(tick, timers[dash_id].update_rate);
             console.log(tickers[dash_id])
-            aWss.clients.forEach(function (client) {
-                console.log(client.id)
-            });
+        } else if (msg=="open"){
+            ws.send(timers[dash_id].time_elapsed)
+            if (timers[dash_id].is_running == true && timers[dash_id].is_paused == false){
+                ws.send("r")
+                console.log("sent r")
+            } else {
+                ws.send("p")
+                console.log("sent p")
+            }
+            console.log(timers[dash_id].is_running)
         } else if (msg == "stop") {
             console.log("stopping "+dash_id)
             timers[dash_id].stop()
             clearInterval(tickers[dash_id])
         } else if (msg == "pause") {
             console.log("pausing "+dash_id);
-            timers[dash_id].is_paused = true;
+            timers[dash_id].pause()
         } else if (msg == "unpause") {
             console.log("unpausing "+dash_id);
-            timers[dash_id].is_paused = false;
+            timers[dash_id].unpause()
         } else if (msg == "resetf") {
             console.log("resetting full "+dash_id);
             timers[dash_id].reset("f");
