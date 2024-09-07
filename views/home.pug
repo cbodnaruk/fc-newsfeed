@@ -17,22 +17,37 @@ html
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
     script(src='/scripts/newsfeed.js')
     script(src='/scripts/page_load.js')
+    script(src="/scripts/qrcode.js")
     script. 
       const dash_id = "#{dash_id}";
-
+      
     if (dash_id)
       // Dashboard specific styling
       link(rel='stylesheet', href=`/css/${dash_id}_styles.css`)
 
   body
-  - const header_bool = JSON.parse(preferences.header_visible);
-  - const settings_bool = JSON.parse(preferences.settings_visible);
+  - const header_bool = safeJSONParse(preferences.header_visible, true);
+  - const settings_bool = safeJSONParse(preferences.settings_visible, false);
+  - const qrcode_bool = safeJSONParse(preferences.qrcode_visible, false);
     header#header(style={display:header_bool ? "block" : "none"})
       div#title_and_logo 
         div
           h1#title= preferences.header_title
           if preferences.header_subtitle
             h2#subtitle= preferences.header_subtitle
+        div(id="qrcode", style={display: qrcode_bool ? "inline" : "none"})
+          script.
+            const preferences = !{JSON.stringify(preferences)};
+            const qrcodeSize = preferences.qrcode_size || 128;
+            const lightColour = preferences.qrcode_lightColour || "#ffffff";
+            const darkColour = preferences.qrcode_darkColour || "#000000";
+            const qrcode = new QRCode(document.getElementById("qrcode"), {
+              text: `https://megagame.space/${dash_id}`,
+              width: qrcodeSize,
+              height: qrcodeSize,
+              colorLight: lightColour,
+              colorDark: darkColour,
+            });
         if preferences.logo_path
           img#logo(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;padding:10px;")
     div#content
