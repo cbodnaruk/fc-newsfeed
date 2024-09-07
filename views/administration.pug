@@ -47,6 +47,8 @@ html
       div.modal#prefsmodal
         div.modal-content
           h3 Dashboard Settings 
+          p For details on using the dashboard and specific modules, see the 
+            a(href="https://github.com/cbodnaruk/megagame-dashboard/wiki") documentation.
           p 
             label(for="p_header_visible") Show Header: 
             input(id="p_header_visible", type="checkbox", value=preferences.header_visible, onChange="dashboard_settings.update(event)", checked=header_bool)
