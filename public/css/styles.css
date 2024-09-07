@@ -275,8 +275,34 @@ select {
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    border-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
     width: 40%;
     color: #ffffff;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.modal_tabs {
+
+    margin: auto;
+    padding: 8px;
+
+    width: 40%;
+
+}
+
+.modal_tab{
+    background-color: #1f1f1f;
+    border: 1px solid #888;
+    padding: 1%;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    color: #ffffff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    height: 100%;
+    cursor: pointer;
+}
+
+.modal_tab.selected_prefs {
+    background-color: #464646;
 }
