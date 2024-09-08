@@ -90,12 +90,26 @@ wsocket.addEventListener("message", (event) => {
 
 var current_phase_id = 0;
 var game_length = 0
+
+//the length of each phase across the entire game
 var phase_lengths = []
+
+//the cumulative timecodes where the phases change across the whole game
 var phase_points = []
+
+//the total number of turns in the game
 var numturns = 0
+
+//id of the current turn in the game_structure table
 var current_turn_id = 0
+
+//true if end of the phase, for playing audio
 var end_phase = false
+
+//list of number of rounds per turn across the whole game
 var turn_phases = []
+
+//list of all the turns by id
 var gid_list = []
 $(document).ready(function () {
     // creates arrays of all rounds, points where the rounds change in seconds, and the number of rounds per turn for later calculations
@@ -224,6 +238,7 @@ function playAudio(secs, turn) {
         current_turn_id = phaseData[turn].gid
     } else if (end_phase == true) {
         //run if new phase
+        //need to add here: determine which phase (phaseData[turn].id), determine which audio
         var audio = document.getElementById("phase_end_audio");
         audio.play()
         end_phase = false

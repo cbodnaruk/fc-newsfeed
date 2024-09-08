@@ -8,9 +8,10 @@ const jst = require("javascript-stringify");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var ws_clients = [];
 function full_db_call(dash_id){ return `SELECT game_structure.id as "gid", timers.id, timers.minor, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id WHERE dash_id = '${dash_id}' ORDER BY game_structure.id ASC, timers.id asc;`}
-function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, round_name, dash_id, minor from timers inner join round_types on round_types.id = timers.round_id where dash_id = '${dash_id}' ORDER BY id;`}
+function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, round_name, dash_id, minor, audio_cue, audio_cues.name as "audio_cue_name", audio_cues.url as "audio_cue_URL" from timers inner join round_types on round_types.id = timers.round_id INNER JOIN audio_cues on aucio_cues.id = timers.audio_cue where dash_id = '${dash_id}' ORDER BY id;`}
 function rounds_db_call(dash_id){return `SELECT * from round_types WHERE dash_id = '${dash_id}' ORDER BY id;`}
 function game_db_call(dash_id){return `SELECT game_structure.id, round_id, dash_id FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id WHERE dash_id = '${dash_id}' ORDER BY id;`}
+function audio_db_call(dash_id){return `SELECT id, url, name FROM audio_cues WHERE dash_id = '${dash_id}' ORDER BY id;`}
 var timers = []
 var tickers = []
 var dash_list = JSON.parse(fs.readFileSync('dash_list.txt', 'utf8'));
@@ -26,7 +27,8 @@ router.get('/editor', async (req, res) => {
         let round_list = await db.any(rounds_db_call(req.params.dash_id));
         let phase_list = await db.any(phases_db_call(req.params.dash_id));
         let game_list = await db.any(game_db_call(req.params.dash_id));
-        res.render('timer_editor_new', { "phases": phase_list, "sphases": jst.stringify(phase_list), "rounds": round_list, "srounds": jst.stringify(round_list), "structure": game_list, "is_running": timers[req.params.dash_id].is_running, "is_paused": timers[req.params.dash_id].is_paused });
+        let audio_list = await db.any(audio_db_call(req.params.dash_id));
+        res.render('timer_editor_new', { "phases": phase_list, "sphases": jst.stringify(phase_list), "rounds": round_list, "srounds": jst.stringify(round_list), "saudiocues": jst.stringify(audio_list), "structure": game_list, "is_running": timers[req.params.dash_id].is_running, "is_paused": timers[req.params.dash_id].is_paused });
     }
     catch (e) {
         res.send(e)
