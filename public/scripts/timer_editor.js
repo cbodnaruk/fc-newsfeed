@@ -18,6 +18,7 @@ $(document).ready(function () {
 
     $("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round)
     $("#timer_editor_gamestructure").load("./timer/editor/game")
+    loadAudio();
 });
 wsocket.addEventListener("open", (event) => {
     wsocket.send("open");
