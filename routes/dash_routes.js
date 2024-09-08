@@ -14,12 +14,23 @@ router.use('/timer', timer_routes);
 const numbers_routes = require('../module_routes/numbers_routes.js');
 router.use('/numbers', numbers_routes);
 
+
+const safeJSONParse = (JSONObj, defaultValue) => {
+  try {
+      const parsedValue = JSON.parse(JSONObj);
+      return parsedValue;
+  } catch (e) {
+      console.log("ERROR: Could not parse JSON value " + JSONObj);
+      return defaultValue;
+  }
+}
+
 router.get('/', async (req, res) => {
   let dashId = req.params.dash_id
   prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'))
   var dash_list = JSON.parse(fs.readFileSync('dash_list.txt', 'utf8'));
   if (dash_list.includes(dashId)) {
-    res.render('home', { 'dash_id': dashId, 'preferences': prefs[dashId] });
+    res.render('home', { 'dash_id': dashId, 'preferences': prefs[dashId], safeJSONParse });
   } else {
     res.render('landing', { "is404": true })
   }
@@ -30,7 +41,7 @@ router.get('/admin', async (req, res) => {
   if (dash_list.includes(dashId)) {
     prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'))
     dash_list = fs.readFileSync('dash_list.txt', 'utf8');
-    res.render('administration', { 'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]) });
+    res.render('administration', { 'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]), safeJSONParse });
   } else {
     res.render('landing', { "is404": true })
   }

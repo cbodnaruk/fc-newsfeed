@@ -12,17 +12,12 @@ const dashboard_settings = {
         modal.style.display = "none";
     },
     update(event) {
-
+        const checkboxes = ["header_visible", "settings_visible", "numbers_show_difference", "qrcode_visible"];
         var trig_str = event.target.id.substring(2);
-        if (trig_str == "header_visible") {
-            var trig_val = document.getElementById(event.target.id).checked;
-        } else if (trig_str == "settings_visible") {
-            var trig_val = document.getElementById(event.target.id).checked;
-        } else if (trig_str == "numbers_show_difference") {
+        if(checkboxes.includes(trig_str)) {
             var trig_val = document.getElementById(event.target.id).checked;
         } else {
             var trig_val = $(event.target).val();
-
         }
         $.post("./updatepreferences", { "preference": trig_str, "value": trig_val })
 

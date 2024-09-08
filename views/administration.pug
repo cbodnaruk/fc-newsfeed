@@ -22,8 +22,9 @@ html
 
     script(src='/scripts/admin.js')
   body
-    - const header_bool = JSON.parse(preferences.header_visible);
-    - const settings_bool = JSON.parse(preferences.settings_visible);
+    - const header_bool = safeJSONParse(preferences.header_visible, true);
+    - const settings_bool = safeJSONParse(preferences.settings_visible, false);
+    - const qrcode_bool = safeJSONParse(preferences.qrcode_visible, false);
       header#header(style={display:header_bool ? "block" : "none"})
         div#title_and_logo 
           div
@@ -87,6 +88,18 @@ html
                 option(value="newsfeed", selected=(preferences.slot_b == "newsfeed")) Newsfeed
                 option(value="numbers", selected=(preferences.slot_b == "numbers")) Numbers
                 option(value="", selected=(preferences.slot_a == "")) None
+             
+            p 
+              label(for="p_qrcode_size") QR Code size:
+              input(id="p_qrcode_size", type="number", value=preferences.qrcode_size, onChange="dashboard_settings.update(event)")
+
+            p 
+              label(for="p_qrcode_lightColour") QR Code light colour: 
+              input(id="p_qrcode_lightColour", type="color", value=preferences.qrcode_lightColour, onChange="dashboard_settings.update(event)")
+          
+            p 
+              label(for="p_qrcode_darkColour") QR Code dark colour: 
+              input(id="p_qrcode_darkColour", type="color", value=preferences.qrcode_darkColour, onChange="dashboard_settings.update(event)")
           div#modal_tab_Numbers.modal_tab_content(style="display: none;")
             p 
               label(for="p_numbers_show_difference") (For Numbers module) Show difference between current and previous number: 
