@@ -57,3 +57,11 @@ function switchTab(new_tab) {
     $(".slot").css("display", "none")
     $(".slot_" + new_tab).css("display", "block")
 }
+
+function changePrefsTab(event) {
+    var new_tab = $(event.target).text();
+    $(".selected_prefs").removeClass("selected_prefs")
+    $(event.target).addClass("selected_prefs")
+    $(".modal_tab_content").css("display", "none");
+    $("#modal_tab_"+new_tab).css("display", "block");
+}
