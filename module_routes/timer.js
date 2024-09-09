@@ -37,7 +37,8 @@ class Timer {
         this.is_running = true;
             aWss.clients.forEach(function (client) {
                 if (client.id == this.dash_id + "-view") {
-                    client.send("r")
+                    client.send("r");
+                    client.send("q");
                     client.send(this.time_elapsed);
                 }
             }, this);

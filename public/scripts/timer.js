@@ -1,6 +1,6 @@
 // for testing only:
-//wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
-wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
+wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
+//wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
 var this_phase_id = 0;
 let keepAliveTimer = 0;
 var checkInReady = false;
@@ -80,6 +80,10 @@ wsocket.addEventListener("message", (event) => {
         timer.running = true;
         timer.start();
         console.log("received r")
+    } else if (event.data == "q"){
+        console.log("Q")
+        var audio = document.getElementById("round_start_audio");
+        audio.play()
     } else {
         updateClock(parseInt(event.data));
         timer.time = parseInt(event.data);
@@ -196,7 +200,7 @@ function updateClock(tc) {
             this_phase_id = current_phase;
         }
 
-        //playAudio(remaining_s, current_phase)
+        playAudio(remaining_s, current_phase)
 
     }
 }
@@ -218,14 +222,18 @@ function playAudio(secs, turn) {
         current_turn_id = phaseData[turn].gid
     } else if (current_turn_id != phaseData[turn].gid) {
         //run if new turn
-        var audio = document.getElementById("round_end_audio");
+        var audio = document.getElementById("round_start_audio");
         audio.play()
         end_phase = false
         current_turn_id = phaseData[turn].gid
     } else if (end_phase == true) {
         //run if new phase
-        var audio = document.getElementById("phase_end_audio");
+        if (phaseData[turn].phase == "Voting"){
+        var audio = document.getElementById("voting_start_audio");
+        audio.play()} else {
+        var audio = document.getElementById("voting_end_audio");
         audio.play()
+        }
         end_phase = false
     }
 
@@ -236,3 +244,7 @@ function playAudio(secs, turn) {
 }
 
 
+function testAudio(){
+    var audio = document.getElementById("round_start_audio");
+    audio.play()
+}
