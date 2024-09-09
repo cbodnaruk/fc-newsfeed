@@ -1,6 +1,9 @@
 // for testing only:
-//wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
-wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
+if (window.location.hostname === "localhost"){
+    wsocket = new WebSocket('ws://' + location.host + '/'+dash_id+'/timer/sync/admin');
+    } else {
+    wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/admin');
+    }
 var this_phase_id = 0;
 let keepAliveTimer = 0;
 var checkInReady = false;
@@ -210,7 +213,7 @@ function updateClock(tc) {
             this_phase_id = current_phase;
         }
 
-        //playAudio(remaining_s, current_phase)
+        playAudio(remaining_s, current_phase)
 
     }
 }
@@ -227,20 +230,11 @@ function checkTurn(current_turn) {
 }
 
 function playAudio(secs, turn) {
-    if (current_turn_id == 0) {
-        //run if start of game
-        current_turn_id = phaseData[turn].gid
-    } else if (current_turn_id != phaseData[turn].gid) {
-        //run if new turn
-        var audio = document.getElementById("round_end_audio");
-        audio.play()
-        end_phase = false
-        current_turn_id = phaseData[turn].gid
-    } else if (end_phase == true) {
-        //run if new phase
-        //need to add here: determine which phase (phaseData[turn].id), determine which audio
-        var audio = document.getElementById("phase_end_audio");
-        audio.play()
+if (end_phase == true) {
+        //if there is an audio cue associated with this turn (not null on left join), play it
+        if (phaseData[turn].audio_cue_name){
+        var audio = document.getElementById(phaseData[turn].audio_cue_name+"_audio");
+        audio.play()}
         end_phase = false
     }
 

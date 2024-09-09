@@ -1,6 +1,9 @@
 // for testing only:
-//wsocket = new WebSocket('ws://' + location.host + '/'+dash_id+'/timer/sync/admin');
+if (window.location.hostname === "localhost"){
+wsocket = new WebSocket('ws://' + location.host + '/'+dash_id+'/timer/sync/admin');
+} else {
 wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/admin');
+}
 var current_sel_round = 1;
 var next_phase_id = 0;
 let keepAliveTimer = 0;

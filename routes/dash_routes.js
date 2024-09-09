@@ -55,4 +55,7 @@ router.post('/updatepreferences', urlencodedParser, (req, res) => {
     console.log('The file has been saved!');
   })
 })
+
+//post for the audio settings (database and not prefs file)
+
 module.exports = router;

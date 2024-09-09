@@ -7,8 +7,8 @@ const qsstringify = require('qs');
 const jst = require("javascript-stringify");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var ws_clients = [];
-function full_db_call(dash_id){ return `SELECT game_structure.id as "gid", timers.id, timers.minor, round_name, phase, duration FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id WHERE dash_id = '${dash_id}' ORDER BY game_structure.id ASC, timers.id asc;`}
-function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, round_name, round_types.dash_id, minor, audio_cue, audio_cues.name as "audio_cue_name", audio_cues.url as "audio_cue_URL" from timers inner join round_types on round_types.id = timers.round_id INNER JOIN audio_cues on audio_cues.id = timers.audio_cue where round_types.dash_id = '${dash_id}' ORDER BY id;`}
+function full_db_call(dash_id){ return `SELECT game_structure.id as "gid", timers.id, timers.minor, round_name, phase, duration, audio_cue, audio_cues.name as "audio_cue_name", audio_cues.url as "audio_cue_URL" FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id INNER JOIN timers ON round_types.id = timers.round_id LEFT JOIN audio_cues on audio_cues.id = timers.audio_cue WHERE round_types.dash_id = '${dash_id}' ORDER BY game_structure.id ASC, timers.id asc;`}
+function phases_db_call(dash_id){return `SELECT timers.id, phase, duration, round_id, round_name, round_types.dash_id, minor, audio_cue, audio_cues.name as "audio_cue_name" from timers inner join round_types on round_types.id = timers.round_id LEFT JOIN audio_cues on audio_cues.id = timers.audio_cue where round_types.dash_id = '${dash_id}' ORDER BY id;`}
 function rounds_db_call(dash_id){return `SELECT * from round_types WHERE dash_id = '${dash_id}' ORDER BY id;`}
 function game_db_call(dash_id){return `SELECT game_structure.id, round_id, dash_id FROM game_structure INNER JOIN round_types ON game_structure.round_id = round_types.id WHERE dash_id = '${dash_id}' ORDER BY id;`}
 function audio_db_call(dash_id){return `SELECT id, url, name FROM audio_cues WHERE dash_id = '${dash_id}' ORDER BY id;`}
@@ -40,7 +40,8 @@ router.get('/editor/rounds', async (req, res) => {
     try {
         let round_list = await db.any(rounds_db_call(req.params.dash_id)); 
         let phase_list = await db.any(phases_db_call(req.params.dash_id));
-        res.render('timer_editor_rounds', { "phases": phase_list, "rounds": round_list, "is_running": timers[req.params.dash_id].is_running, "selection": req.query.sel });
+        let audio_list = await db.any(audio_db_call(req.params.dash_id));
+        res.render('timer_editor_rounds', { "phases": phase_list, "rounds": round_list, "is_running": timers[req.params.dash_id].is_running, "selection": req.query.sel, "audio_cues": audio_list });
     }
     catch (e) {
         res.send(e)
@@ -72,7 +73,9 @@ router.get('/view', async (req, res) => {
     try {
         const phase_list = await db.any(full_db_call(req.params.dash_id));
         const game_struct = await db.any(game_db_call(req.params.dash_id));
-        res.render('timer', { "phases": phase_list,"sphases": jst.stringify(phase_list), "sstruct": jst.stringify(game_struct), "dash_id": req.params.dash_id });
+        const audio_list = await db.any(audio_db_call(req.params.dash_id));
+        console.log(phase_list)
+        res.render('timer', { "phases": phase_list,"sphases": jst.stringify(phase_list), "sstruct": jst.stringify(game_struct), "dash_id": req.params.dash_id, "audio_cues": audio_list });
     }
     catch (e) {
         res.send(e)
@@ -201,6 +204,8 @@ async function save_phase(id, type, content,dash_id) {
         } else if (type == "m"){
             await db.none(`UPDATE timers SET minor = ${content} WHERE id = ${id};`
             );
+        } else if (type == "a"){
+            await db.none(`UPDATE timers SET audio_cue = ${content} WHERE id = ${id}`)
         }
         ;
         console.log("database updated")
