@@ -13,6 +13,9 @@ const timer_routes = require('../module_routes/timer_routes.js');
 router.use('/timer', timer_routes);
 const numbers_routes = require('../module_routes/numbers_routes.js');
 router.use('/numbers', numbers_routes);
+const audio_routes = require('../module_routes/audio_routes.js');
+router.use('/audio', audio_routes);
+
 
 router.get('/', async (req, res) => {
   let dashId = req.params.dash_id

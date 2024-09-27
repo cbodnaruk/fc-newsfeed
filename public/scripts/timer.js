@@ -233,7 +233,7 @@ function playAudio(secs, turn) {
 if (end_phase == true) {
         //if there is an audio cue associated with this turn (not null on left join), play it
         if (phaseData[turn].audio_cue_name){
-        var audio = document.getElementById(phaseData[turn].audio_cue_name+"_audio");
+        var audio = document.getElementById(phaseData[turn].audio_cue_name.replace(/ /g,"_")+"_audio");
         audio.play()}
         end_phase = false
     }
@@ -244,4 +244,9 @@ if (end_phase == true) {
 
 }
 
+function testAudio(cue){
+    var audio = document.getElementById(cue);
+    audio.play();
+    console.log("playing audio "+ cue)
+}
 

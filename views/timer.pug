@@ -36,6 +36,10 @@ div#timer_module
               td
                 span(id='duration'+x.id)= x.duration + " mins"
             - i++          
-each cue in audio_cues
-  audio(id=cue.name+"_audio")
-    source(src=cue.url, type="audio/mpeg")
+div(style="display: flex;")
+  each cue in audio_cues
+    -let formatted_cue_name = cue.name.replace(/ /g,"_")
+    audio(id=formatted_cue_name +"_audio")
+      source(src=cue.url, type="audio/mpeg")
+    div(id="audio_test" onclick=`testAudio("${formatted_cue_name}_audio")`)
+      span(class="material-symbols-outlined") music_note
