@@ -1,18 +1,17 @@
-// for testing only:
-if (window.location.hostname === "localhost"){
-    wsocket = new WebSocket('ws://' + location.host + '/'+dash_id+'/timer/sync/admin');
-    } else {
-    wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/admin');
-    }
+//get correct prefix for environment
+var ws_prefix = (window.location.hostname == "localhost") ? "ws://" : "wss://"
+
+var wsocket = new WebSocket(ws_prefix + location.host + '/'+dash_id+'/timer/sync/view');
+
 var this_phase_id = 0;
 let keepAliveTimer = 0;
 var checkInReady = false;
 
 window.addEventListener("focus", (event) => {
     if (window.screen.width < 400) {
-        // for testing only:
-        //wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
-        wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
+        var ws_prefix = (window.location.hostname == "localhost") ? "ws://" : "wss://"
+
+        var wsocket = new WebSocket(ws_prefix + location.host + '/'+dash_id+'/timer/sync/view');
     }
 
 })

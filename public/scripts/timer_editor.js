@@ -1,9 +1,9 @@
-// for testing only:
-if (window.location.hostname === "localhost"){
-wsocket = new WebSocket('ws://' + location.host + '/'+dash_id+'/timer/sync/admin');
-} else {
-wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/admin');
-}
+//get correct prefix for environment
+var ws_prefix = (window.location.hostname == "localhost") ? "ws://" : "wss://"
+
+var wsocket = new WebSocket(ws_prefix + location.host + '/'+dash_id+'/timer/sync/admin');
+
+console.log(ws_prefix)
 var current_sel_round = 1;
 var next_phase_id = 0;
 let keepAliveTimer = 0;
