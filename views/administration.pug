@@ -93,7 +93,7 @@ html
               label(for="p_numbers_show_difference") (For Numbers module) Show difference between current and previous number: 
               input(id="p_numbers_show_difference", type="checkbox", value=preferences.numbers_show_difference, onChange="dashboard_settings.update(event)", checked=JSON.parse(preferences.numbers_show_difference))
           div#modal_tab_Audio.modal_tab_content(style="display: none;")
-            div Add audio cues here, then assign to rounds in the timer editor, also preference to enable audio. Not clear yet how to save it
+            div Add audio cues here, then assign them to rounds in the timer editor.
             div#audio_cues
             div#cue_controls 
               span#add_cue(class="material-symbols-outlined btn" onclick="addCue()") add

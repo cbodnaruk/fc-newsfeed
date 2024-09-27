@@ -55,11 +55,11 @@ div#table_container
                       td 
                         select(class="phase_input", id='audio'+x.id, onchange='updatePhase(event)')
                           if (!x.audio_cue_name)
-                            option(value="", selected) No Audio
+                            option(value="null", selected) No Audio
                             each cue in audio_cues 
                               option(value=cue.id)=cue.name
                           else 
-                            option(value="") No Audio
+                            option(value="null") No Audio
                             each cue in audio_cues 
                               if (x.audio_cue_name == cue.name) 
                                 option(value=cue.id, selected)=cue.name
