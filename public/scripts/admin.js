@@ -36,6 +36,9 @@ $(document).ready(function () {
     $("#numbers").load("./numbers/editor", function (response, status, xhr) {
 
     });
+    $("#subtimer").load("./subtimer/admin", function (response, status, xhr) {
+
+    });
     dashboard_settings.needs_refresh = false
     if ($("#viewcontrol").css("display") == "block") {
         $(".slot_b").css("display", "none")

@@ -1,0 +1,10 @@
+script(src="scripts/subtimer.js") 
+
+#subtimer_start_button(onclick=`subtimer.start(${preferences.subtimer_time})`)
+  span.subtimer_btn(onclick=`subtimer.start(${preferences.subtimer_time})`)=preferences.subtimer_start_text
+#subtimer_view(style="display: none;")
+  #subtimer_title TIME TO JUMP
+  #subtimer_time 00:00
+  #subtimer_buttons 
+    span.btn PASS 
+    span.btn FAIL

@@ -3,7 +3,8 @@ const express = require('express')
 var fs = require('fs');
 const router = express.Router({ mergeParams: true })
 var dash_list = fs.readFileSync('dash_list.txt', 'utf8');
-var prefs = fs.readFileSync('prefs.json', 'utf8')
+var prefs = fs.readFileSync('prefs.json', 'utf8');
+const default_prefs = JSON.parse(fs.readFileSync('default_prefs.json', 'utf-8'));
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const jst = require("javascript-stringify");
@@ -13,7 +14,8 @@ const timer_routes = require('../module_routes/timer_routes.js');
 router.use('/timer', timer_routes);
 const numbers_routes = require('../module_routes/numbers_routes.js');
 router.use('/numbers', numbers_routes);
-
+const subtimer_routes = require('../module_routes/subtimer_routes.js');
+router.use('/subtimer', subtimer_routes);
 
 const safeJSONParse = (JSONObj, defaultValue) => {
   try {
@@ -23,6 +25,20 @@ const safeJSONParse = (JSONObj, defaultValue) => {
       console.log("ERROR: Could not parse JSON value " + JSONObj);
       return defaultValue;
   }
+}
+
+function checkPrefCompleteness(raw_prefs) {
+let new_prefs = {}
+  for (p in default_prefs){
+    console.log(`${p}: ${raw_prefs[p]} (${default_prefs[p]})`)
+    if (raw_prefs.hasOwnProperty(p)){
+      new_prefs[p] = raw_prefs[p]
+    } else {
+      new_prefs[p] = default_prefs[p]
+    }
+  }
+  console.log(new_prefs)
+return new_prefs
 }
 
 router.get('/', async (req, res) => {
@@ -39,9 +55,10 @@ router.get('/', async (req, res) => {
 router.get('/admin', async (req, res) => {
   let dashId = req.params.dash_id
   if (dash_list.includes(dashId)) {
-    prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'))
+    prefs = checkPrefCompleteness(JSON.parse(fs.readFileSync('prefs.json', 'utf8'))[dashId])
+
     dash_list = fs.readFileSync('dash_list.txt', 'utf8');
-    res.render('administration', { 'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]), safeJSONParse });
+    res.render('administration', { 'dash_id': dashId, 'preferences': prefs, 'prefsobj': jst.stringify(prefs), safeJSONParse });
   } else {
     res.render('landing', { "is404": true })
   }
