@@ -1,10 +1,21 @@
 script(src="scripts/subtimer.js") 
+script.
+  const prefs !{JSON.stringify(prefsobj)};
 
 #subtimer_start_button(onclick=`subtimer.start(${preferences.subtimer_time})`)
   span.subtimer_btn(onclick=`subtimer.start(${preferences.subtimer_time})`)=preferences.subtimer_start_text
 #subtimer_view(style="display: none;")
-  #subtimer_title TIME TO JUMP
+  #subtimer_title=preferences.subtimer_title
   #subtimer_time 00:00
   #subtimer_buttons 
-    span.btn PASS 
-    span.btn FAIL
+    if preferences.subtimer_pass_fail
+      span.btn(onclick="subtimer.pass()") PASS 
+      audio#subtimer_pass_audio
+        source(src=preferences.subtimer_pass_audio, type="audio/mpeg")
+      span.btn(onclick="subtimer.fail()") FAIL
+      audio#subtimer_fail_audio
+        source(src=preferences.subtimer_fail_audio, type="audio/mpeg")
+    else 
+      span.btn(onclick="subtimer.timeout()") STOP
+      audio#subtimer_fail_audio
+        source(src=preferences.subtimer_fail_audio, type="audio/mpeg")

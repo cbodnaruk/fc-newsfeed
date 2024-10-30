@@ -12,4 +12,8 @@
 "qrcode_visible": "true",
 "qrcode_size": "168",
 "subtimer_start_text": "Start!",
-"subtimer_time": "120"}
+"subtimer_time": "120",
+"subtimer_pass_fail": "false",
+"subtimer_pass_audio": "",
+"subtimer_fail_audio": "",
+"subtimer_title": "Timer"}
