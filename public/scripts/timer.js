@@ -1,15 +1,17 @@
-// for testing only:
-//wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
-wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
+//get correct prefix for environment
+var ws_prefix = (window.location.hostname == "localhost") ? "ws://" : "wss://"
+
+var wsocket = new WebSocket(ws_prefix + location.host + '/'+dash_id+'/timer/sync/view');
+
 var this_phase_id = 0;
 let keepAliveTimer = 0;
 var checkInReady = false;
 
 window.addEventListener("focus", (event) => {
     if (window.screen.width < 400) {
-        // for testing only:
-        //wsocket = new WebSocket('ws://' + location.host + '/' + dash_id + '/timer/sync/view');
-        wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/view');
+        var ws_prefix = (window.location.hostname == "localhost") ? "ws://" : "wss://"
+
+        var wsocket = new WebSocket(ws_prefix + location.host + '/'+dash_id+'/timer/sync/view');
     }
 
 })
@@ -90,12 +92,26 @@ wsocket.addEventListener("message", (event) => {
 
 var current_phase_id = 0;
 var game_length = 0
+
+//the length of each phase across the entire game
 var phase_lengths = []
+
+//the cumulative timecodes where the phases change across the whole game
 var phase_points = []
+
+//the total number of turns in the game
 var numturns = 0
+
+//id of the current turn in the game_structure table
 var current_turn_id = 0
+
+//true if end of the phase, for playing audio
 var end_phase = false
+
+//list of number of rounds per turn across the whole game
 var turn_phases = []
+
+//list of all the turns by id
 var gid_list = []
 $(document).ready(function () {
     // creates arrays of all rounds, points where the rounds change in seconds, and the number of rounds per turn for later calculations
@@ -196,7 +212,7 @@ function updateClock(tc) {
             this_phase_id = current_phase;
         }
 
-        //playAudio(remaining_s, current_phase)
+        playAudio(remaining_s, current_phase)
 
     }
 }
@@ -213,19 +229,11 @@ function checkTurn(current_turn) {
 }
 
 function playAudio(secs, turn) {
-    if (current_turn_id == 0) {
-        //run if start of game
-        current_turn_id = phaseData[turn].gid
-    } else if (current_turn_id != phaseData[turn].gid) {
-        //run if new turn
-        var audio = document.getElementById("round_end_audio");
-        audio.play()
-        end_phase = false
-        current_turn_id = phaseData[turn].gid
-    } else if (end_phase == true) {
-        //run if new phase
-        var audio = document.getElementById("phase_end_audio");
-        audio.play()
+if (end_phase == true) {
+        //if there is an audio cue associated with this turn (not null on left join), play it
+        if (phaseData[turn].audio_cue_name){
+        var audio = document.getElementById(phaseData[turn].audio_cue_name.replace(/ /g,"_")+"_audio");
+        audio.play()}
         end_phase = false
     }
 
@@ -235,4 +243,9 @@ function playAudio(secs, turn) {
 
 }
 
+function testAudio(cue){
+    var audio = document.getElementById(cue);
+    audio.play();
+    console.log("playing audio "+ cue)
+}
 

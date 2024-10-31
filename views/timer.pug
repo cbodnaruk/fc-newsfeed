@@ -36,8 +36,10 @@ div#timer_module
               td
                 span(id='duration'+x.id)= x.duration + " mins"
             - i++          
-if dash_id == "dmelb"
-  audio#phase_end_audio
-    source(src="/assets/audio/Phase_End-converted.mp3" type="audio/mpeg")
-  audio#round_end_audio
-    source(src="/assets/audio/Round_End-converted.mp3" type="audio/mpeg")
+div(style="display: flex;")
+  each cue in audio_cues
+    -let formatted_cue_name = cue.name.replace(/ /g,"_")
+    audio(id=formatted_cue_name +"_audio")
+      source(src=cue.url, type="audio/mpeg")
+    div(id="audio_test" onclick=`testAudio("${formatted_cue_name}_audio")`)
+      span(class="material-symbols-outlined") music_note

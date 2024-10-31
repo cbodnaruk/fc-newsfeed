@@ -16,11 +16,13 @@ class Timer {
         if (s > this.last_tick) {
             if (!this.is_paused) {
                 this.time_elapsed += 1;
+                console.log(this.time_elapsed)
                 //every 47 seconds, the server broadcasts a sync message with its time. 47 was chosen as a prime number is less likely to have sync messages overlapping with phase starts etc, which might trigger events twice
                 if (this.time_elapsed % 47 == 0) {
                     aWss.clients.forEach(function (client) {
                         if (client.id == this.dash_id + "-view") {
                             client.send(this.time_elapsed);
+                            
                         }
                     }, this);
                 };
