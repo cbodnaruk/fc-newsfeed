@@ -18,9 +18,11 @@ const subtimer_routes = require('../module_routes/subtimer_routes.js');
 router.use('/subtimer', subtimer_routes);
 const audio_routes = require('../module_routes/audio_routes.js');
 router.use('/audio', audio_routes);
-
-
-
+function new_db_audio(dash_id){ return `INSERT INTO audio_cues (url,name,dash_id) VALUES ('url_here','Cue 1','${dash_id}');`}
+function new_db_posts(dash_id){ return `INSERT INTO posts (posttext,timecode,active,dash_id) VALUES ('Welcome to megagame.space!','00:00:00',true,'${dash_id}');`}
+function new_db_timer1(dash_id){ return `INSERT INTO round_types (round_name,dash_id) VALUES ('Main','${dash_id}') RETURNING id;`}
+function  new_db_timer2(round_id){ return `INSERT INTO game_structure (round_id) VALUES (${round_id});`}
+function  new_db_timer3(round_id){ return `INSERT INTO timers (phase,duration,round_id,minor) VALUES ('Main',20,${round_id},false);`}
 
 const safeJSONParse = (JSONObj, defaultValue) => {
     try {
@@ -42,6 +44,7 @@ function checkPrefCompleteness(raw_prefs, dashId) {
         //check if new dashboard
         if (!Object.hasOwn(raw_prefs,dash)){
             raw_prefs[dash] = {}
+            generateNewDatabase(dash)
         }
         for (p in default_prefs) {
             if (p == "dash_id"){
@@ -61,6 +64,19 @@ function checkPrefCompleteness(raw_prefs, dashId) {
         console.log('The file has been saved!');
     })
     return complete_prefs
+}
+
+async function generateNewDatabase(dash_id){
+    try {
+    await db.none(new_db_audio(dash_id));
+    await db.none(new_db_posts(dash_id));
+    let round_id = await db.any(new_db_timer1(dash_id));
+    await db.none(new_db_timer2(round_id));
+    await db.none(new_db_timer3(round_id));
+
+    } catch (e) {
+
+    }
 }
 
 router.get('/', async (req, res) => {

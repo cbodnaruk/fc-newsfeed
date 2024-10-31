@@ -37,9 +37,13 @@ function addCue(){
 
 
 function deleteCue(){
+    if (length($("#audio_cues").children()) == 1){
+        alert("Cannot delete last cue")
+    } else {
     var last_cue = $("#audio_cues").children().last()
     var last_cue_id = parseInt(last_cue.attr('id').split("_")[1])
     last_cue.remove()
     //send to db
     $.post('./audio/remove', { "id": last_cue_id })
+    }
 }
