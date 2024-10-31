@@ -16,14 +16,18 @@ div
       label(for="p_subtimer_pass_text") Text on Pass: 
       input(id="p_subtimer_pass_text", value=preferences.subtimer_pass_text, onChange="dashboard_settings.update(event)")
     p 
-     label(for="p_subtimer_pass_audio") Audio on Pass: 
-     input(id="p_subtimer_pass_audio", value=preferences.subtimer_pass_audio, onChange="dashboard_settings.update(event)")
+      label(for="p_subtimer_pass_audio") Audio on Pass: 
+      select(id="p_subtimer_pass_audio", value=preferences.subtimer_pass_audio, onChange="dashboard_settings.update(event)")
+        each cue in audio_cues
+          option(value=cue.id, selected=(preferences.subtimer_pass_audio == cue.id))=cue.name
     p 
       label(for="p_subtimer_fail_text") Text on Fail: 
       input(id="p_subtimer_fail_text", value=preferences.subtimer_fail_text, onChange="dashboard_settings.update(event)")
     p 
       label(for="p_subtimer_fail_audio") Audio on Fail: 
-      input(id="p_subtimer_fail_audio", value=preferences.subtimer_fail_audio, onChange="dashboard_settings.update(event)")
+      select(id="p_subtimer_fail_audio", value=preferences.subtimer_fail_audio, onChange="dashboard_settings.update(event)")
+        each cue in audio_cues
+          option(value=cue.id, selected=(preferences.subtimer_fail_audio == cue.id))=cue.name
   else 
     p 
       label(for="p_subtimer_fail_text") Text on Timeout (or stop): 

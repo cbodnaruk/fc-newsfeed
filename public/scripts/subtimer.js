@@ -60,6 +60,7 @@ const subtimer = {
 
 document.addEventListener('keydown', (event) => {
     if (event.key == " ") {
+        subtimer.start(prefs.subtimer_time)
     }
 });
 
