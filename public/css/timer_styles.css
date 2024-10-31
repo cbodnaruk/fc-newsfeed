@@ -81,6 +81,14 @@
     .btnb {
         font-size: 0.8em;
     }
+    #audio_test {
+        font-family: sans-serif;
+        color: #ddd;
+        background-color: #555;
+        border: 1px solid #999;
+        width: fit-content;
+        cursor: pointer;
+    }
 }
 
 @media screen and (max-width:799px) {

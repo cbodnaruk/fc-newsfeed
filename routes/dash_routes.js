@@ -13,6 +13,9 @@ const timer_routes = require('../module_routes/timer_routes.js');
 router.use('/timer', timer_routes);
 const numbers_routes = require('../module_routes/numbers_routes.js');
 router.use('/numbers', numbers_routes);
+const audio_routes = require('../module_routes/audio_routes.js');
+router.use('/audio', audio_routes);
+
 
 
 const safeJSONParse = (JSONObj, defaultValue) => {
@@ -66,4 +69,7 @@ router.post('/updatepreferences', urlencodedParser, (req, res) => {
     console.log('The file has been saved!');
   })
 })
+
+//post for the audio settings (database and not prefs file)
+
 module.exports = router;

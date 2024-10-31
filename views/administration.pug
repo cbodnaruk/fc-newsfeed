@@ -21,6 +21,7 @@ html
       link(rel='stylesheet', href=`/css/${dash_id}_styles.css`)
 
     script(src='/scripts/admin.js')
+    script(src='/scripts/audio.js')
   body
     - const header_bool = safeJSONParse(preferences.header_visible, true);
     - const settings_bool = safeJSONParse(preferences.settings_visible, false);
@@ -105,6 +106,11 @@ html
               label(for="p_numbers_show_difference") (For Numbers module) Show difference between current and previous number: 
               input(id="p_numbers_show_difference", type="checkbox", value=preferences.numbers_show_difference, onChange="dashboard_settings.update(event)", checked=JSON.parse(preferences.numbers_show_difference))
           div#modal_tab_Audio.modal_tab_content(style="display: none;")
+            div Add audio cues here, then assign them to rounds in the timer editor.
+            div#audio_cues
+            div#cue_controls 
+              span#add_cue(class="material-symbols-outlined btn" onclick="addCue()") add
+              span#delete_cue(class="material-symbols-outlined btn" onClick="deleteCue()") remove                  
           div#modal_tab_Styling.modal_tab_content(style="display: none;")
             p This tab is currently non-functional
             textarea#styling_input(rows=20, cols=100, onblur="cssUpdate()")

@@ -1,6 +1,9 @@
-// for testing only:
-//wsocket = new WebSocket('ws://' + location.host + '/'+dash_id+'/timer/sync/admin');
-wsocket = new WebSocket('wss://' + location.host + '/'+dash_id+'/timer/sync/admin');
+//get correct prefix for environment
+var ws_prefix = (window.location.hostname == "localhost") ? "ws://" : "wss://"
+
+var wsocket = new WebSocket(ws_prefix + location.host + '/'+dash_id+'/timer/sync/admin');
+
+console.log(ws_prefix)
 var current_sel_round = 1;
 var next_phase_id = 0;
 let keepAliveTimer = 0;
@@ -18,6 +21,7 @@ $(document).ready(function () {
 
     $("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round)
     $("#timer_editor_gamestructure").load("./timer/editor/game")
+    loadAudio();
 });
 wsocket.addEventListener("open", (event) => {
     wsocket.send("open");

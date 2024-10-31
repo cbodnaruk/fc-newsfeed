@@ -9,10 +9,12 @@ div#table_container
             th Phase 
             th Duration
             th Minor?
+            th Audio
           if is_running 
             tr(class="head")
               td(colspan="3", style="padding-left: 25%;")
                 input(class="phase_input", id='round_name', type='text', value=inner_rounds[selection].round_name, onchange='updateName()', disabled)
+              td  
             each x in phases
                 if x.round_id == selection
                     tr(id="pir"+x.round_id)
@@ -22,10 +24,25 @@ div#table_container
                         input(class="phase_input", id='duration'+x.id, type='text', value=x.duration, onchange='updatePhase(event)', disabled)
                       td
                         input(class="phase_input", id='minor'+x.id, type='checkbox', checked=x.minor, onchange='updatePhaseBool(event)', disabled)
+                      td 
+                        select(class="phase_input", id='audio'+x.id, onchange='updatePhase(event)',disabled)
+                          if (!x.audio_cue_name)
+                            option(value="", selected) No Audio
+                            each cue in audio_cues 
+                              option(value=cue.id)=cue.name
+                          else 
+                            option(value="") No Audio
+                            each cue in audio_cues 
+                              if (x.audio_cue_name == cue.name) 
+                                option(value=cue.id, selected)=cue.name
+                              else
+                                option(value=cue.id)=cue.name
+
           else
             tr(class="head")
               td(colspan="3", style="padding-left: 25%;")
-                input(class="phase_input", id='round_name', type='text', value=inner_rounds[selection].round_name, onchange='updateName()')       
+                input(class="phase_input", id='round_name', type='text', value=inner_rounds[selection].round_name, onchange='updateName()')    
+              td   
             each x in phases
                 if x.round_id == selection
                     tr(id="pir"+x.round_id)
@@ -35,3 +52,16 @@ div#table_container
                         input(class="phase_input", id='duration'+x.id, type='text', value=x.duration, onchange='updatePhase(event)')
                       td
                         input(class="phase_input", id='minor'+x.id, type='checkbox', checked=x.minor, onchange='updatePhaseBool(event)')
+                      td 
+                        select(class="phase_input", id='audio'+x.id, onchange='updatePhase(event)')
+                          if (!x.audio_cue_name)
+                            option(value="null", selected) No Audio
+                            each cue in audio_cues 
+                              option(value=cue.id)=cue.name
+                          else 
+                            option(value="null") No Audio
+                            each cue in audio_cues 
+                              if (x.audio_cue_name == cue.name) 
+                                option(value=cue.id, selected)=cue.name
+                              else
+                                option(value=cue.id)=cue.name
