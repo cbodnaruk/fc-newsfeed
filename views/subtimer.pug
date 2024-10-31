@@ -8,7 +8,7 @@ script.
   #subtimer_title=preferences.subtimer_title
   #subtimer_time 00:00
   #subtimer_buttons 
-    if preferences.subtimer_pass_fail
+    if preferences.subtimer_pass_fail == "true"
       span.btn(onclick="subtimer.pass()") PASS 
       audio#subtimer_pass_audio
         source(src=preferences.subtimer_pass_audio, type="audio/mpeg")
