@@ -2,7 +2,6 @@ console.log("loaded")
 var interval
 const subtimer = {
     time: 0,
-
     last_tick: 0,
     interval: 0,
     length: 0,
@@ -46,12 +45,14 @@ const subtimer = {
         var audio = document.getElementById("subtimer_fail_audio");
         audio.play()
         this.stop()
+        $("#subtimer_title").text(prefs.subtimer_fail_text)
     },
     pass: function () {
         var audio = document.getElementById("subtimer_pass_audio");
         audio.play()
 
         this.stop()
+        $("#subtimer_title").text(prefs.subtimer_pass_text)
     }
 
 }

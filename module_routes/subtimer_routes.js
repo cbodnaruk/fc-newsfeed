@@ -7,8 +7,19 @@ var fs = require('fs');
 const jst = require("javascript-stringify");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
+const safeJSONParse = (JSONObj, defaultValue) => {
+    try {
+        const parsedValue = JSON.parse(JSONObj);
+        return parsedValue;
+    } catch (e) {
+        console.log("ERROR: Could not parse JSON value " + JSONObj);
+        return defaultValue;
+    }
+  }
+
 router.get('/admin', async (req, res) => {
-res.send("Subtimer only displays from main view. Please edit it from the Admin settings panel by clicking the button in the lower right of the screen.")
+    let dash_id = req.params.dash_id
+    res.render('subtimer_admin', { "preferences": JSON.parse(fs.readFileSync('prefs.json', 'utf8'))[dash_id], safeJSONParse });
 });
 
 router.get('/view', async (req, res) => {

@@ -12,7 +12,7 @@ const dashboard_settings = {
         modal.style.display = "none";
     },
     update(event) {
-        const checkboxes = ["header_visible", "settings_visible", "numbers_show_difference", "qrcode_visible"];
+        const checkboxes = ["header_visible", "settings_visible", "numbers_show_difference", "qrcode_visible", "subtimer_pass_fail"];
         var trig_str = event.target.id.substring(2);
         if(checkboxes.includes(trig_str)) {
             var trig_val = document.getElementById(event.target.id).checked;
@@ -22,6 +22,9 @@ const dashboard_settings = {
         $.post("./updatepreferences", { "preference": trig_str, "value": trig_val })
 
         this.needs_refresh = true;
+    },
+    cssUpdate() {
+
     },
     needs_refresh: false
 }
