@@ -1,6 +1,6 @@
 script(src="scripts/subtimer.js") 
 script.
-  const prefs !{JSON.stringify(prefsobj)};
+  const prefs = !{prefsobj};
 
 #subtimer_start_button(onclick=`subtimer.start(${preferences.subtimer_time})`)
   span.subtimer_btn(onclick=`subtimer.start(${preferences.subtimer_time})`)=preferences.subtimer_start_text

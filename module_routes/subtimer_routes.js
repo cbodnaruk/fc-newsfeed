@@ -25,7 +25,7 @@ router.get('/admin', async (req, res) => {
 router.get('/view', async (req, res) => {
     let dash_id = req.params.dash_id
     console.log(JSON.parse(fs.readFileSync('prefs.json', 'utf8'))[dash_id] )
-res.render('subtimer', { "preferences": JSON.parse(fs.readFileSync('prefs.json', 'utf8'))[dash_id] });
+res.render('subtimer', { "preferences": JSON.parse(fs.readFileSync('prefs.json', 'utf8'))[dash_id], "prefsobj": jst.stringify(JSON.parse(fs.readFileSync('prefs.json', 'utf8'))[dash_id])  });
 });
 
 module.exports = router;
