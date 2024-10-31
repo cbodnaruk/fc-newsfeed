@@ -1,0 +1,40 @@
+.subtimer_btn {
+position: relative;
+display: block;
+top: 30%;
+cursor: pointer;
+}
+
+
+#subtimer{
+    flex-basis: 600px;
+    height: 100%;
+}
+#subtimer_start_button{
+    border-radius: 50%; 
+    background: red;
+    background: radial-gradient(circle, rgba(255,0,0,1) 0%, rgba(190,0,0,1) 88%);
+    color: white;
+  font-family: Avenir, Arial, sans-serif;
+  font-weight: 900;
+  font-size: 5vw;
+  text-shadow: 0 3px 1px rgba(122,17,8,.8);
+    height: 20vw;
+    width: 20vw;
+    text-align: center;
+    margin-top: 10%;
+    cursor: pointer;
+}
+
+#subtimer_start_button:active{
+    background: radial-gradient(circle, rgba(190,0,0,1) 0%, rgba(190,0,0,1) 88%);
+}
+
+#subtimer_view{
+    font-family: 'Rubik Mono One', monospace;
+    font-size: 4em;
+    text-align: center;
+}
+#subtimer_time{
+    font-size: 1.5em;
+}

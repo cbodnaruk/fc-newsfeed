@@ -6,6 +6,7 @@ html
     link(rel='stylesheet', href='/css/newsfeed_styles.css')
     link(rel='stylesheet', href='/css/timer_styles.css')
     link(rel='stylesheet', href='/css/numbers_styles.css')
+    link(rel='stylesheet', href='/css/subtimer_styles.css')
     link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Rubik+Mono+One&display=swap')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
@@ -26,14 +27,16 @@ html
     - const header_bool = safeJSONParse(preferences.header_visible, true);
     - const settings_bool = safeJSONParse(preferences.settings_visible, false);
     - const qrcode_bool = safeJSONParse(preferences.qrcode_visible, false);
+    - const numbers_bool = safeJSONParse(preferences.numbers_show_difference, false)
       header#header(style={display:header_bool ? "block" : "none"})
-        div#title_and_logo 
+        div#header_content
           div
             h1#title= preferences.header_title
             if preferences.header_subtitle
               h2#subtitle= preferences.header_subtitle
           if preferences.logo_path
-            img#logo(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;padding:10px;")
+            div#qrcode_and_logo
+              img#logo(src=preferences.logo_path, alt=preferences.logo_alt style="width:100px;padding:10px;")
 
       h3#subsubtitle Administration Panel
       div#content
@@ -76,11 +79,15 @@ html
               label(for="p_header_subtitle") Subheader: 
               input(id="p_header_subtitle", value=preferences.header_subtitle, onChange="dashboard_settings.update(event)")
             p 
+              label(for="p_logo_path") Logo: 
+              input(id="p_logo_path", value=preferences.logo_path, onChange="dashboard_settings.update(event)")
+            p 
               label(for="p_slot_a") Content Slot A (left): 
               select(id="p_slot_a", onChange="dashboard_settings.update(event)")
                 option(value="timer", selected=(preferences.slot_a == "timer")) Timer
                 option(value="newsfeed", selected=(preferences.slot_a == "newsfeed")) Newsfeed
                 option(value="numbers", selected=(preferences.slot_a == "numbers")) Numbers
+                option(value="subtimer", selected=(preferences.slot_a == "subtimer")) Subtimer
                 option(value="", selected=(preferences.slot_a == "")) None
             p 
               label(for="p_slot_b") Content Slot B (right): 
@@ -88,8 +95,11 @@ html
                 option(value="timer", selected=(preferences.slot_b == "timer")) Timer
                 option(value="newsfeed", selected=(preferences.slot_b == "newsfeed")) Newsfeed
                 option(value="numbers", selected=(preferences.slot_b == "numbers")) Numbers
+                option(value="subtimer", selected=(preferences.slot_b == "subtimer")) Subtimer
                 option(value="", selected=(preferences.slot_a == "")) None
-             
+            p 
+              label(for="p_qrcode_visible") Show QR Code: 
+              input(id="p_qrcode_visible", type="checkbox", value=preferences.qrcode_visible, onChange="dashboard_settings.update(event)", checked=qrcode_bool)             
             p 
               label(for="p_qrcode_size") QR Code size:
               input(id="p_qrcode_size", type="number", value=preferences.qrcode_size, onChange="dashboard_settings.update(event)")
@@ -104,7 +114,7 @@ html
           div#modal_tab_Numbers.modal_tab_content(style="display: none;")
             p 
               label(for="p_numbers_show_difference") (For Numbers module) Show difference between current and previous number: 
-              input(id="p_numbers_show_difference", type="checkbox", value=preferences.numbers_show_difference, onChange="dashboard_settings.update(event)", checked=JSON.parse(preferences.numbers_show_difference))
+              input(id="p_numbers_show_difference", type="checkbox", value=preferences.numbers_show_difference, onChange="dashboard_settings.update(event)", checked=numbers_bool)
           div#modal_tab_Audio.modal_tab_content(style="display: none;")
             div Add audio cues here, then assign them to rounds in the timer editor.
             div#audio_cues
@@ -113,4 +123,6 @@ html
               span#delete_cue(class="material-symbols-outlined btn" onClick="deleteCue()") remove                  
           div#modal_tab_Styling.modal_tab_content(style="display: none;")
             p This tab is currently non-functional
-            textarea#styling_input(rows=20, cols=100, onblur="cssUpdate()")
+            textarea#styling_input(rows=20, cols=100, onblur="dashboard_settings.cssUpdate()")
+          div.spacer
+          

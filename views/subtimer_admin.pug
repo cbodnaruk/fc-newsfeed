@@ -1,0 +1,33 @@
+div
+  p 
+    label(for="p_subtimer_start_text") Subtimer Start Text: 
+    input(id="p_subtimer_start_text", value=preferences.subtimer_start_text, onChange="dashboard_settings.update(event)")
+  p 
+    label(for="p_subtimer_title") Heading Text (while running): 
+    input(id="p_subtimer_title", value=preferences.subtimer_title, onChange="dashboard_settings.update(event)")
+  p 
+    label(for="p_subtimer_time") Time (in seconds): 
+    input(id="p_subtimer_time", value=preferences.subtimer_time, onChange="dashboard_settings.update(event)")
+  p 
+    label(for="p_subtimer_pass_fail") Pass/Fail: 
+    input(id="p_subtimer_pass_fail", type="checkbox", value=preferences.subtimer_pass_fail, onChange="dashboard_settings.update(event);$('#subtimer').load('./subtimer/admin')", checked=safeJSONParse(preferences.subtimer_pass_fail,false))
+  if preferences.subtimer_pass_fail
+    p 
+      label(for="p_subtimer_pass_text") Text on Pass: 
+      input(id="p_subtimer_pass_text", value=preferences.subtimer_pass_text, onChange="dashboard_settings.update(event)")
+    p 
+     label(for="p_subtimer_pass_audio") Audio on Pass: 
+     input(id="p_subtimer_pass_audio", value=preferences.subtimer_pass_audio, onChange="dashboard_settings.update(event)")
+    p 
+      label(for="p_subtimer_fail_text") Text on Fail: 
+      input(id="p_subtimer_fail_text", value=preferences.subtimer_fail_text, onChange="dashboard_settings.update(event)")
+    p 
+      label(for="p_subtimer_fail_audio") Audio on Fail: 
+      input(id="p_subtimer_fail_audio", value=preferences.subtimer_fail_audio, onChange="dashboard_settings.update(event)")
+  else 
+    p 
+      label(for="p_subtimer_fail_text") Text on Timeout (or stop): 
+      input(id="p_subtimer_fail_text", value=preferences.subtimer_fail_text, onChange="dashboard_settings.update(event)")
+    p 
+      label(for="p_subtimer_fail_audio") Audio on Timeout (or stop): 
+      input(id="p_subtimer_fail_audio", value=preferences.subtimer_fail_audio, onChange="dashboard_settings.update(event)")
