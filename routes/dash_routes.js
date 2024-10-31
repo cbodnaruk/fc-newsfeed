@@ -71,8 +71,8 @@ async function generateNewDatabase(dash_id){
     await db.none(new_db_audio(dash_id));
     await db.none(new_db_posts(dash_id));
     let round_id = await db.any(new_db_timer1(dash_id));
-    await db.none(new_db_timer2(round_id));
-    await db.none(new_db_timer3(round_id));
+    await db.none(new_db_timer2(round_id[0].id));
+    await db.none(new_db_timer3(round_id[0].id));
 
     } catch (e) {
 
