@@ -1,21 +1,32 @@
 script(src="scripts/subtimer.js") 
 script.
   const prefs = !{prefsobj};
-
+- var failcue = ""
+- var passcue = ""
 #subtimer_start_button(onclick=`subtimer.start(${preferences.subtimer_time})`)
-  span.subtimer_btn(onclick=`subtimer.start(${preferences.subtimer_time})`)=preferences.subtimer_start_text
+  span.subtimer_btn=preferences.subtimer_start_text
 #subtimer_view(style="display: none;")
   #subtimer_title=preferences.subtimer_title
   #subtimer_time 00:00
   #subtimer_buttons 
     if preferences.subtimer_pass_fail == "true"
       span.btn(onclick="subtimer.pass()") PASS 
+      
+      each cue in audio_cues 
+        if cue.id == preferences.subtimer_pass_audio
+          - passcue = cue.url
       audio#subtimer_pass_audio
-        source(src=preferences.subtimer_pass_audio, type="audio/mpeg")
+        source(src=passcue, type="audio/mpeg")
       span.btn(onclick="subtimer.fail()") FAIL
+      each cue in audio_cues 
+        if cue.id == preferences.subtimer_fail_audio
+          - failcue = cue.url
       audio#subtimer_fail_audio
-        source(src=preferences.subtimer_fail_audio, type="audio/mpeg")
+        source(src=failcue, type="audio/mpeg")
     else 
       span.btn(onclick="subtimer.timeout()") STOP
+      each cue in audio_cues 
+        if cue.id == preferences.subtimer_fail_audio
+          - failcue = cue.url
       audio#subtimer_fail_audio
-        source(src=preferences.subtimer_fail_audio, type="audio/mpeg")
+        source(src=failcue, type="audio/mpeg")

@@ -23,6 +23,7 @@ function new_db_posts(dash_id){ return `INSERT INTO posts (posttext,timecode,act
 function new_db_timer1(dash_id){ return `INSERT INTO round_types (round_name,dash_id) VALUES ('Main','${dash_id}') RETURNING id;`}
 function  new_db_timer2(round_id){ return `INSERT INTO game_structure (round_id) VALUES (${round_id});`}
 function  new_db_timer3(round_id){ return `INSERT INTO timers (phase,duration,round_id,minor) VALUES ('Main',20,${round_id},false);`}
+function audio_db_call(dash_id){return `SELECT id, url, name FROM audio_cues WHERE dash_id = '${dash_id}' ORDER BY id;`}
 
 const safeJSONParse = (JSONObj, defaultValue) => {
     try {
@@ -91,11 +92,12 @@ router.get('/', async (req, res) => {
 
 router.get('/admin', async (req, res) => {
     let dashId = req.params.dash_id
+    let audio_list = await db.any(audio_db_call(req.params.dash_id));
     if (dash_list.includes(dashId)) {
         prefs = checkPrefCompleteness(JSON.parse(fs.readFileSync('prefs.json', 'utf8')), dashId)
 
         
-        res.render('administration', { 'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]), safeJSONParse });
+        res.render('administration', { 'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]), "saudiocues": jst.stringify(audio_list), safeJSONParse });
     } else {
         res.render('landing', { "is404": true })
         
