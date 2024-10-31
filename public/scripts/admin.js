@@ -42,7 +42,6 @@ $(document).ready(function () {
     $("#subtimer").load("./subtimer/admin", function (response, status, xhr) {
 
     });
-    loadAudio();
     dashboard_settings.needs_refresh = false
     if ($("#viewcontrol").css("display") == "block") {
         $(".slot_b").css("display", "none")
