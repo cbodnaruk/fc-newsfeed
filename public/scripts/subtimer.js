@@ -10,7 +10,7 @@ const subtimer = {
         let s = Math.round(Date.now() / 1000);
         if (s > this.last_tick) {
             this.time += 1;
-            updateClock(this.time)
+            updateSubtimer(this.time)
             if (this.time > this.length) {
                 this.timeout()
             }
@@ -71,7 +71,7 @@ function st_checkTime(i) {
     return i;
 }
 
-function updateClock(t) {
+function updateSubtimer(t) {
     let rt = subtimer.length - t + 1
     let rmins = st_checkTime(Math.floor(rt / 60))
     let rsecs = st_checkTime(rt % 60)
