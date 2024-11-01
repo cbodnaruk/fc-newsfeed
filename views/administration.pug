@@ -123,7 +123,8 @@ html
               span#add_cue(class="material-symbols-outlined btn" onclick="addCue()") add
               span#delete_cue(class="material-symbols-outlined btn" onClick="deleteCue()") remove                  
           div#modal_tab_Styling.modal_tab_content(style="display: none;")
-            p This tab is currently non-functional
-            textarea#styling_input(rows=20, cols=100, onblur="dashboard_settings.cssUpdate()")
+            p Add custom CSS here. Suggested selectors can be found on the 
+              a(href="https://github.com/cbodnaruk/megagame-dashboard/wiki") wiki.
+            textarea#styling_input(rows=20, cols=100, onblur="dashboard_settings.cssUpdate()")=dash_styles
           div.spacer
           

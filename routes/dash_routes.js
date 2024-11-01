@@ -93,11 +93,11 @@ router.get('/', async (req, res) => {
 router.get('/admin', async (req, res) => {
     let dashId = req.params.dash_id
     let audio_list = await db.any(audio_db_call(req.params.dash_id));
+    let dash_styles = ""
+    try {dash_styles = fs.readFileSync(`./public/css/${dashId}_styles.css`)} catch (err){console.log(err)}
     if (dash_list.includes(dashId)) {
         prefs = checkPrefCompleteness(JSON.parse(fs.readFileSync('prefs.json', 'utf8')), dashId)
-
-        
-        res.render('administration', { 'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]), "saudiocues": jst.stringify(audio_list), safeJSONParse });
+        res.render('administration', { 'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]), "saudiocues": jst.stringify(audio_list), 'dash_styles': dash_styles , safeJSONParse });
     } else {
         res.render('landing', { "is404": true })
         
@@ -122,6 +122,16 @@ router.post('/updatepreferences', urlencodedParser, (req, res) => {
         if (err) console.log("Failed to save");
         console.log('The file has been saved!');
     })
+})
+
+router.post('/updatecss', urlencodedParser, (req,res) => {
+    let dashId = req.params.dash_id
+    console.log(req.body.css)
+    fs.writeFile(`public/css/${dashId}_styles.css`,req.body.css, function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+      })
+
 })
 
 //post for the audio settings (database and not prefs file)
