@@ -24,7 +24,7 @@ const dashboard_settings = {
         this.needs_refresh = true;
     },
     cssUpdate() {
-
+        $.post("./updatecss", { "css": $("#styling_input").val() })
     },
     needs_refresh: false
 }

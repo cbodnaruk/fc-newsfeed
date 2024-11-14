@@ -15,9 +15,13 @@ function keepAlive(timeout = 30000) {
 }
 
 $(document).ready(function () {
-    try {current_sel_round = roundData[0].id
+    try {current_sel_round = roundData[0].id;
         next_phase_id = phaseData[phaseData.length - 1].id + 1
-    } catch(e){};
+    } catch(e){
+        console.log("Failed to set current round:"+e)
+        console.log(roundData)
+        console.log(phaseData)
+    };
 
     $("#round_editor").load("./timer/editor/rounds?sel="+current_sel_round)
     $("#timer_editor_gamestructure").load("./timer/editor/game")
