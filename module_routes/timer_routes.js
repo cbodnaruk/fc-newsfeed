@@ -220,7 +220,7 @@ async function save_phase(id, type, content,dash_id) {
 async function add_phase(id,round_id,dash_id) {
 
     try {
-        await db.none(`INSERT INTO timers (id,phase,duration,round_id,minor) VALUES (${id},'',0,${round_id},false)`
+        await db.none(`INSERT INTO timers (phase,duration,round_id,minor) VALUES ('',0,${round_id},false)`
         );
         return true
     }

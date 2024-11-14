@@ -37,7 +37,7 @@ function addCue(){
 
 
 function deleteCue(){
-    if (length($("#audio_cues").children()) == 1){
+    if ($("#audio_cues").children().length == 1){
         alert("Cannot delete last cue")
     } else {
     var last_cue = $("#audio_cues").children().last()
