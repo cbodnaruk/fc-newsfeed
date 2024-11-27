@@ -74,7 +74,6 @@ router.get('/view', async (req, res) => {
         const phase_list = await db.any(full_db_call(req.params.dash_id));
         const game_struct = await db.any(game_db_call(req.params.dash_id));
         const audio_list = await db.any(audio_db_call(req.params.dash_id));
-        console.log(phase_list)
         res.render('timer', { "phases": phase_list,"sphases": jst.stringify(phase_list), "sstruct": jst.stringify(game_struct), "dash_id": req.params.dash_id, "audio_cues": audio_list });
     }
     catch (e) {
