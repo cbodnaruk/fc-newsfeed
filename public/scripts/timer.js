@@ -204,7 +204,7 @@ function updateClock(tc) {
         }
         $("#time").text(rmins + ":" + rsecs);
         $("#current_turn").text((current_turn_count + 1) + " (" + phaseData[current_phase].round_name + ")");
-        var phase_name = document.getElementById("phaselist").children[current_phase + 1].children[0].children[0].innerHTML
+        var phase_name = document.getElementById("phaselist").children[current_phase + 1].children[0].children[0].innerText
         $("#current_phase").text(phase_name);
         if (current_phase != this_phase_id) {
             document.getElementById("phaselist").children[current_phase + 1].classList.add("this_phase")
