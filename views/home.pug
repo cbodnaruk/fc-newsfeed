@@ -33,7 +33,7 @@ html
   - const qrcode_bool = safeJSONParse(preferences.qrcode_visible, false);
     header#header(style={display:header_bool ? "block" : "none"})
       div#header_content
-        div(class={dash_id == "dcity" ? "BBLogo": ""})
+        div(class=(dash_id == "dcity" ? "BBLogo": ""))
           if (dash_id  == "dcity")
             img#BelmontLogo(src="https://static.wixstatic.com/media/4b9e61_ed22c1f1f9c24e4c969a892fe19afca3~mv2.png", alt="Belmont Bay Logo")
           h1#title= preferences.header_title

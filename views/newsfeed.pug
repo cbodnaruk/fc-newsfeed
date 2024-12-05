@@ -9,5 +9,7 @@ div#postlist
   each post in posts.sort((a, b) => {return a.timecode > b.timecode ? -1 : 1})
     if post.active
       div.post(id=post.id)
-        p.text= post.posttext
+        - var post_paras = post.posttext.split('\u000a')
+        each para in post_paras
+          p.text= para
         p.time= 'Posted at ' + post.timecode
