@@ -41,5 +41,5 @@ div(style="display: flex;")
     -let formatted_cue_name = cue.name.replace(/ /g,"_")
     audio(id=formatted_cue_name +"_audio")
       source(src=cue.url, type="audio/mpeg")
-    div(id="audio_test" onclick=`testAudio("${formatted_cue_name}_audio")`)
+    div(class="audio_test" onclick=`testAudio("${formatted_cue_name}_audio")`)
       span(class="material-symbols-outlined") music_note

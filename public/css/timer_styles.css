@@ -81,7 +81,8 @@
     .btnb {
         font-size: 0.8em;
     }
-    #audio_test {
+    .audio_test {
+        margin: 4px;
         font-family: sans-serif;
         color: #ddd;
         background-color: #555;
