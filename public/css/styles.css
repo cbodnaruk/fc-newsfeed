@@ -61,6 +61,29 @@ button.landingbtn {
     height: 46px;
     appearance: none;
     transition: border 0.15s ease 0s;
+    cursor: pointer;
+}
+
+button.adminbtn {
+    margin: 5px;
+    padding: 6px 12px;
+    background: rgb(31, 32, 35);
+    border: 1px solid rgb(60, 63, 68);
+    border-radius: 4px;
+    font-size: 1.5em;
+    color: rgb(247, 248, 248);
+    height: 46px;
+    appearance: none;
+    transition: border 0.15s ease 0s;
+    cursor: pointer;
+}
+
+.dash_listing {
+    font-family: monospace;
+    font-size: 1.5em;
+    border: #464646 solid 1px;
+    border-radius: 3%;
+    padding: 3%;
 }
 
 #header {

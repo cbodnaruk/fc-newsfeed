@@ -2,7 +2,6 @@
 const express = require('express')
 var fs = require('fs');
 const router = express.Router({ mergeParams: true })
-var dash_list = JSON.parse(fs.readFileSync('dash_list.txt', 'utf8'));
 var prefs = fs.readFileSync('prefs.json', 'utf8');
 const default_prefs = JSON.parse(fs.readFileSync('default_prefs.json', 'utf-8'));
 var bodyParser = require('body-parser');
@@ -25,6 +24,16 @@ function  new_db_timer2(round_id){ return `INSERT INTO game_structure (round_id)
 function  new_db_timer3(round_id){ return `INSERT INTO timers (phase,duration,round_id,minor) VALUES ('Main',20,${round_id},false);`}
 function audio_db_call(dash_id){return `SELECT id, url, name FROM audio_cues WHERE dash_id = '${dash_id}' ORDER BY id;`}
 
+async function load_dash_list(){
+    list = await db.any('SELECT dash_id FROM dashboards;')
+    outlist = []
+    for (x in list){
+        outlist.push(list[x].dash_id)
+    }
+    return outlist
+}
+
+
 const safeJSONParse = (JSONObj, defaultValue) => {
     try {
         const parsedValue = JSON.parse(JSONObj);
@@ -35,8 +44,8 @@ const safeJSONParse = (JSONObj, defaultValue) => {
     }
 }
 
-function checkPrefCompleteness(raw_prefs, dashId) {
-
+async function checkPrefCompleteness(raw_prefs, dashId) {
+    dash_list = await load_dash_list()
     let complete_prefs = {}
     
     for (d in dash_list) {
@@ -81,6 +90,7 @@ async function generateNewDatabase(dash_id){
 }
 
 router.get('/', async (req, res) => {
+    dash_list = await load_dash_list()
     let dashId = req.params.dash_id
     prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'))
     if (dash_list.includes(dashId)) {
@@ -91,12 +101,13 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/admin', async (req, res) => {
+    dash_list = await load_dash_list()
     let dashId = req.params.dash_id
     let audio_list = await db.any(audio_db_call(req.params.dash_id));
     let dash_styles = ""
     try {dash_styles = fs.readFileSync(`./public/css/${dashId}_styles.css`)} catch (err){console.log(err)}
     if (dash_list.includes(dashId)) {
-        prefs = checkPrefCompleteness(JSON.parse(fs.readFileSync('prefs.json', 'utf8')), dashId)
+        prefs = await checkPrefCompleteness(JSON.parse(fs.readFileSync('prefs.json', 'utf8')), dashId)
         res.render('administration', { 'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]), "saudiocues": jst.stringify(audio_list), 'dash_styles': dash_styles , safeJSONParse });
     } else {
         res.render('landing', { "is404": true })
@@ -107,6 +118,7 @@ router.get('/admin', async (req, res) => {
 
 
 router.get('/media', async (req, res) => {
+    dash_list = await load_dash_list()
     let dashId = req.params.dash_id
     if (dash_list.includes(dashId)) {
         prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'))
@@ -133,7 +145,6 @@ router.post('/updatecss', urlencodedParser, (req,res) => {
       })
 
 })
-
 //post for the audio settings (database and not prefs file)
 
 module.exports = router;

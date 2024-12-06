@@ -11,12 +11,17 @@ html
       p(style='font-size: 2em;') megagame.space
       p(style='font-size: 1.5em;') live modular megagame dashboards
       br
-      p a fully customisable and user accessible interface is still in the works
-      p but for now, you can find a 
-        a(href='/demo') demo newsfeed and clock here 
-      p or, if you have been given a dashboard id, enter it below 
+      p if you have been given a dashboard id, enter it below 
       div
         input#dashboard_id
         button#gobtn.landingbtn(onclick='window.location=$("#dashboard_id").val(); console.log("test")') go  
       div(style='color:red;', hidden=!is404) invalid dashboard id  
+      p alternatively, you might be looking for: 
+      div 
+        span 
+          button#demobtn.landingbtn(onclick='window.location="/demo"') dashboard demo
+        span
+          button#demobtn.landingbtn(onclick='window.location="/org"') org admin panel
+      
+
 script(src='/scripts/landing.js')

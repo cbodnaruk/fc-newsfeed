@@ -9,6 +9,10 @@ var httpServer = http.createServer(app);
 const expressWs = require('express-ws')(app);
 const { getDatabaseConnection } = require('./database/connection.js')
 
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+
+
 global.db = getDatabaseConnection(config.get('database.url'))
 
 app.use((req, res, next) => {
@@ -22,6 +26,7 @@ app.use((req, res, next) => {
   })
 
 
+
 app.use(express.static('public'));
 let sqlSanitizer = require('sql-sanitizer');
 app.use(sqlSanitizer);
@@ -31,12 +36,12 @@ app.set('view engine', 'pug');
 app.set('views', './views');
 
 const dash_routes = require('./routes/dash_routes.js');
+const org_routes = require('./routes/org_routes.js')
 
-app.get('/login', (req, res) => {
-  res.send("test")
-})
 
+app.use('/org', org_routes)
 app.use('/:dash_id', dash_routes);
+
 
 
 
