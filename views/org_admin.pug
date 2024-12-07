@@ -7,18 +7,52 @@ html
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
     link(href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@32,400,0,0", rel="stylesheet")
     script(src='/scripts/org_admin.js')
+    script.
+      const dashes = !{JSON.stringify(dashes)};
   body 
-    div#landing_info
-      p welcome !{org_data.name}
-      p your dashboards:
-      each d in dashes 
-        p
-          span.dash_listing=d.dash_id
-          button(class="material-symbols-outlined adminbtn") edit 
-          button.adminbtn(class="material-symbols-outlined") delete
-      p 
-        button.adminbtn(class="material-symbols-outlined") library_add
-      p  
-        button.landingbtn(onClick="logout()") change password 
-      p
-        button.landingbtn(onClick="logout()") log out  
+    .loading_modal 
+      span.loader
+    div#org_header
+      h1(style="font-size: 3em") Organisation Management Panel 
+      h3(style="text-align: right;") Signed in as !{org_data.name}
+    div#org_info
+      div(style="flex-grow:1;")
+        div.org_section_header Dashboards:
+        div#dash_list
+          each d in dashes 
+            if d.org_id == org_data.id
+              div.flex_buttons
+                input.dash_listing(type="text" id=`l_${d.dash_id}` value=d.dash_id disabled)
+                span 
+                  button(id=`e_${d.dash_id}` class="material-symbols-outlined adminbtn" onClick="editDash(event)") edit
+                span 
+                  button(id=`c_${d.dash_id}` class="material-symbols-outlined adminbtn" onClick="cancelEditDash(event)" style="display: none") close
+                span 
+                  button.adminbtn(id=`d_${d.dash_id}` class="material-symbols-outlined" onClick="deleteDash(event)") delete
+                span 
+                  button.adminbtn(id=`v_${d.dash_id}` class="material-symbols-outlined" onClick="visitDash(event)") open_in_new
+        div 
+            button.adminbtn(class="material-symbols-outlined" onClick="newDash()") library_add
+      div(style="flex-grow:1;")
+        .org_section_header Files:
+        #file_list test
+    footer#org_navbar
+      #password_change 
+        #old_pw_box.password_prompt
+          div#old_pw_label(style="width: 100%; text-align: center;") Old Password 
+          input#old_pw(type="password")
+          button.adminbtn(class="material-symbols-outlined adminbtn" onClick="progressPassword()") arrow_forward
+          button#eyebtn(class="material-symbols-outlined" onmousedown="showPW()" onmouseup="hidePW()") visibility
+        #new_pw_box.password_prompt
+          div(style="width: 100%; text-align: center;") New Password 
+          input#new_pw(type="password") 
+          button.adminbtn(class="material-symbols-outlined adminbtn" onClick="savePassword()") save
+          button#eyebtn(class="material-symbols-outlined" onmousedown="showPW()" onmouseup="hidePW()") visibility
+        #success_pw_box.password_prompt
+          div(style="width: 100%; text-align: center; padding-bottom: 3%;") Saved!
+
+      .flex_buttons
+        button.adminbtntext(onClick="window.location='/'") home
+        button.adminbtntext(onClick="changePassword()") change password
+        button.adminbtntext(onClick="logout()") log out
+    #modal_layer

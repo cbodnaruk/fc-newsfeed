@@ -14,13 +14,27 @@ function game_db_call(dash_id){return `SELECT game_structure.id, round_id, dash_
 function audio_db_call(dash_id){return `SELECT id, url, name FROM audio_cues WHERE dash_id = '${dash_id}' ORDER BY id;`}
 var timers = []
 var tickers = []
-var dash_list = JSON.parse(fs.readFileSync('dash_list.txt', 'utf8'));
+
+async function load_dash_list() {
+    list = await db.any('SELECT dash_id FROM dashboards;')
+    outlist = []
+    for (x in list) {
+        outlist.push(list[x].dash_id)
+    }
+    return outlist
+}
+
+async function initialiseTimers() {
+    var dash_list = await load_dash_list();
 for (let dash in dash_list){
     timers[dash_list[dash]] = new Timer;
     timers[dash_list[dash]].dash_id = dash_list[dash];
     console.log(dash_list[dash])
 }
+}
 
+
+initialiseTimers()
 
 router.get('/editor', async (req, res) => {
     try {
@@ -84,6 +98,10 @@ router.get('/view', async (req, res) => {
 });
 
 router.ws('/sync/:source', (ws, req) => {
+    if (!timers.hasOwnProperty(req.params.dash_id)){
+        timers[req.params.dash_id] = new Timer;
+    timers[req.params.dash_id].dash_id = req.params.dash_id;
+    }
     console.log(req.params.dash_id)
     ws.id = req.params.dash_id+"-"+req.params.source
     ws.on('message', async function (msg) {
