@@ -16,7 +16,7 @@ html
       h1(style="font-size: 3em") Organisation Management Panel 
       h3(style="text-align: right;") Signed in as !{org_data.name}
     div#org_info
-      div(style="flex-grow:1;")
+      div(style="flex-grow:1; min-width:30vw;")
         div.org_section_header Dashboards:
         div#dash_list
           each d in dashes 
@@ -33,9 +33,20 @@ html
                   button.adminbtn(id=`v_${d.dash_id}` class="material-symbols-outlined" onClick="visitDash(event)") open_in_new
         div 
             button.adminbtn(class="material-symbols-outlined" onClick="newDash()") library_add
-      div(style="flex-grow:1;")
+      div(style="flex-grow:1; min-width:30vw;")
         .org_section_header Files:
-        #file_list test
+        #file_list
+        - var parse_org = org_data.name.replace(" ", "+")
+          each file in files 
+            .file_listing 
+              span 
+                a.file_link(href=`./assets/${parse_org}/${file}`)=file
+              span 
+                span.cp_url(class="material-symbols-outlined" onClick=`navigator.clipboard.writeText("/assets/${org_data.name}/${file}");`) content_copy 
+                span.cp_url(class="material-symbols-outlined") edit 
+                span.cp_url(class="material-symbols-outlined") delete 
+          div 
+            button.adminbtntext(style="width: auto;") Upload...
     footer#org_navbar
       #password_change 
         #old_pw_box.password_prompt

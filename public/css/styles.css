@@ -74,8 +74,9 @@ button.landingbtn {
     margin-bottom: 2%;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
+    bottom: 15%;
 }
 
 .org_section_header {
@@ -91,6 +92,11 @@ button.landingbtn {
 }
 
 #dash_list{
+    overflow-y: scroll;
+    max-height: 50%;
+}
+
+#file_list{
     overflow-y: scroll;
     max-height: 50%;
 }
@@ -143,7 +149,7 @@ button.adminbtntext:active {
     position:fixed;
     align-items: center;
     border: 1px solid #ffffff;
-    bottom: -10%;
+    top:100%;
     max-height: 90px;
 padding-top: 0.5%;
 transition: all 0.2s ease-out;
@@ -154,6 +160,30 @@ background-color: #000000;
 
 }
 
+.file_listing{
+    padding: 2%;
+    font-size: 1em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 1px solid white;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cp_url{
+    cursor: pointer;
+}
+
+.cp_url:active {
+    color:#888;
+    
+}
+
+a.file_link{
+    font-size: 1.3em;
+    font-family: monospace;
+}
+
 .flex_buttons { 
     display:flex;
     justify-content: center;
@@ -161,11 +191,14 @@ background-color: #000000;
 }
 
 #org_navbar{
-
+    position: fixed;
+    overflow: hidden;
     bottom: 0;
     width: 20%;
     margin: auto;
     left: 40%;
+    min-height: 10%;
+    z-index: 8;
 }
 
 #eyebtn{

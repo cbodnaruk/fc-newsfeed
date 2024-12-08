@@ -45,7 +45,8 @@ router.get('/', async (req, res) => {
     if (req.session.org) {
         var org_data = await db.any(`SELECT id, name FROM organisations WHERE name = '${req.session.org}';`)
         var dashes = await db.any(`SELECT dash_id, org_id FROM dashboards INNER JOIN organisations ON dashboards.org_id = organisations.id;`)
-        res.render('org_admin', { 'org_data': org_data[0], 'dashes': dashes })
+        file_list = fs.readdirSync(`./public/assets/${req.session.org}`)
+        res.render('org_admin', { 'org_data': org_data[0], 'dashes': dashes, "files": file_list })
     } else {
         res.redirect('/org/login')
     }

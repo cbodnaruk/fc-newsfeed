@@ -92,16 +92,16 @@ function visitDash(event){
 }
 
 function changePassword(){
-  $("#old_pw_box").css('bottom','0%')
+  $("#old_pw_box").css('top','85%')
   $("#modal_layer").show()}
 
 window.onclick = function (event) {
   var modal = document.getElementById("modal_layer");
   if (event.target == modal) {
       $(modal).hide()
-      $("#old_pw_box").css('bottom','-10%')
-      $("#new_pw_box").css('bottom','-10%')
-      $("#success_pw_box").css('bottom','-10%')
+      $("#old_pw_box").css('top','100%')
+      $("#new_pw_box").css('top','100%')
+      $("#success_pw_box").css('top','100%')
   }
 }
 
@@ -109,8 +109,8 @@ function progressPassword(){
   //check password
   $.post('./org/changepassword/check',{ "old": $("#old_pw").val() },(data)=>{
     if (data === true){
-      $("#old_pw_box").css('bottom','-10%')
-      $("#new_pw_box").css('bottom','0%')
+      $("#old_pw_box").css('top','100%')
+      $("#new_pw_box").css('top','85%')
     } else {
       $("#old_pw_label").text("Password Incorrect")
       $("#old_pw_label").css('color','red')
