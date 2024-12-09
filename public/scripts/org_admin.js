@@ -147,3 +147,66 @@ function hidePW(){
   $("#new_pw").prop('type','password')
   $("#old_pw").prop('type','password')
   }
+
+function editFile(event){
+  var raw_filename = event.target.getAttribute("data-name")
+  var filename = raw_filename.replace(".","\\.")
+  if ($(event.target).text() == "edit"){
+
+  $(`#n_${filename}`).hide()
+  $(`#e_${filename}`).show()
+  $(event.target).text("check")
+} else {
+  if (checkFile($(`#e_${filename}`).val())){
+  $(event.target).text("edit")
+  $(`#e_${filename}`).hide()
+  $(`#n_${filename}`).show()
+  $(`#n_${filename}`).text($(`#e_${filename}`).val())
+  $.post('./org/renamefile', { "file": raw_filename, "new": $(`#e_${filename}`).val() } )
+  } else {
+    alert("File name invalid: must only contain a-Z 0-9, -, _, ., (no spaces) and include a file extension.")
+  }
+
+}
+
+}
+
+function checkFile(filename) {
+  return /^[a-zA-Z0-9_\-.]+\.[a-zA-Z0-9]+$/i.test(filename)
+}
+
+function uploadFile(e) {
+  var filename = $("#file_input_box").val()
+  var files = document.getElementById("file_input_box").files
+  for (i in files){
+  if (checkFile(files[i].name)) {
+    var form_data = new FormData();
+    form_data.append("file", files[i])
+    $.ajax(
+      {url: './org/uploadfile', 
+      data: form_data,
+      processData: false,
+      contentType: false,
+      type: "POST"
+  })
+  //draw new bar
+  $("#file_list").append(newFileBox(files[i].name))
+
+  }
+  $("#file_input_box").val("")
+
+}
+}
+
+function newFileBox(name){
+  return `<div class="file_listing"> <span> <a class="file_link" href="./assets/demo/${name}" id="n_${name}">${name}</a><input class="file_edit" id="e_${name}" value="${name}"></span><span> <span class="cp_url material-symbols-outlined" onclick="navigator.clipboard.writeText('/assets/demo/${name}');">content_copy</span><span class="cp_url material-symbols-outlined" data-name="${name}" onclick="editFile(event)">edit</span><span class="cp_url material-symbols-outlined" data-name="${name}" onclick="deleteFile(event)">delete</span></span></div>`
+}
+
+function deleteFile(event){
+  var raw_filename = event.target.getAttribute("data-name")
+  var filename = raw_filename.replace(".","\\.")
+  if (confirm(`Are you sure you want to delete the file ${raw_filename}?`)){
+    $.post('./org/deletefile', {"file":raw_filename})
+    $(event.target).parent().parent().remove()
+  }
+}

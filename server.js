@@ -25,7 +25,7 @@ app.use((req, res, next) => {
     }
   })
 
-
+global.globalroot = __dirname
 
 app.use(express.static('public'));
 let sqlSanitizer = require('sql-sanitizer');

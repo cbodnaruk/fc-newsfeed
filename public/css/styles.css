@@ -184,6 +184,10 @@ a.file_link{
     font-family: monospace;
 }
 
+.file_edit { 
+    display: none;
+}
+
 .flex_buttons { 
     display:flex;
     justify-content: center;

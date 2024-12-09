@@ -5,9 +5,12 @@ var prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'));
 const default_prefs = JSON.parse(fs.readFileSync('default_prefs.json', 'utf-8'));
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
+const fileUpload = require('express-fileupload');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 var cookieSession = require('cookie-session')
+
+router.use(fileUpload())
 
 router.use(cookieSession({
     name: 'session',
@@ -124,4 +127,38 @@ router.post('/changepassword/change', urlencodedParser, async (req, res) => {
     console.log(`Password updated for ${req.session.org}.`)
     res.send(true)
 })
+
+router.post('/renamefile', urlencodedParser, async (req, res) => {
+    if (/^[a-z0-9_\-.]+\.[a-z0-9]+$/i.test(req.body.new)){
+        fs.rename(`./public/assets/${req.session.org}/${req.body.file}`,`./public/assets/${req.session.org}/${req.body.new}`, () => {console.log(`renamed ${req.body.file} to ${req.body.new}`)})
+    }
+})
+
+router.post('/uploadfile', urlencodedParser, async (req, res) => {
+    let fileInput;
+    let uploadPath;
+  
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    fileInput = req.files.file;
+    uploadPath = `${globalroot}/public/assets/${req.session.org}/${fileInput.name}`;
+    // Use the mv() method to place the file somewhere on your server
+    fileInput.mv(uploadPath, function(err) {
+    //   if (err)
+    //     return res.status(500).send(err);
+      res.send('File uploaded!');
+    });
+})
+
+router.post('/deletefile', urlencodedParser, async (req, res) => {
+    file_list = fs.readdirSync(`./public/assets/${req.session.org}`)
+    if (file_list.includes(req.body.file)){
+        fs.unlink(`./public/assets/${req.session.org}/${req.body.file}`, (err) => {
+            if (err) console.log(err)
+        })
+    }
+})
+
 module.exports = router;

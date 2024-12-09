@@ -36,17 +36,20 @@ html
       div(style="flex-grow:1; min-width:30vw;")
         .org_section_header Files:
         #file_list
-        - var parse_org = org_data.name.replace(" ", "+")
+          - var parse_org = org_data.name.replace(" ", "+")
           each file in files 
             .file_listing 
               span 
-                a.file_link(href=`./assets/${parse_org}/${file}`)=file
+                a.file_link(href=`./assets/${parse_org}/${file}` id=`n_${file}`)=file
+                input.file_edit(id=`e_${file}` value=file)
               span 
-                span.cp_url(class="material-symbols-outlined" onClick=`navigator.clipboard.writeText("/assets/${org_data.name}/${file}");`) content_copy 
-                span.cp_url(class="material-symbols-outlined") edit 
-                span.cp_url(class="material-symbols-outlined") delete 
-          div 
-            button.adminbtntext(style="width: auto;") Upload...
+                span.cp_url(class="material-symbols-outlined" onClick=`navigator.clipboard.writeText("/assets/${org_data.name}/${file}");`) content_copy
+                span.cp_url(class="material-symbols-outlined" data-name=file onClick="editFile(event)") edit
+                span.cp_url(class="material-symbols-outlined" data-name=file onClick="deleteFile(event)") delete
+        div 
+          input#file_input_box(type="file" name="fileInput")
+          button.adminbtntext(style="width: auto;" onClick="uploadFile(event)") Upload...
+            
     footer#org_navbar
       #password_change 
         #old_pw_box.password_prompt
