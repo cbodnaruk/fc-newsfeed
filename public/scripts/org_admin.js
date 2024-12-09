@@ -210,3 +210,7 @@ function deleteFile(event){
     $(event.target).parent().parent().remove()
   }
 }
+
+function updateNotes(e){
+  $.post('./org/updatenotes',{"file":e.target.id.split("_")[1],"notes":$(e.target).val()})
+}

@@ -48,7 +48,23 @@ router.get('/', async (req, res) => {
     if (req.session.org) {
         var org_data = await db.any(`SELECT id, name FROM organisations WHERE name = '${req.session.org}';`)
         var dashes = await db.any(`SELECT dash_id, org_id FROM dashboards INNER JOIN organisations ON dashboards.org_id = organisations.id;`)
-        file_list = fs.readdirSync(`./public/assets/${req.session.org}`)
+        var file_list_raw = fs.readdirSync(`./public/assets/${req.session.org}`)
+        var file_list = []
+        for (x in file_list_raw){
+            if (!/___notes$/.test(file_list_raw[x])){
+                file_list.push({"name":file_list_raw[x], "notes":""})
+            }
+        }
+        console.log(file_list)
+        for (x in file_list_raw){
+            if (/___notes$/.test(file_list_raw[x])){
+                for (y in file_list){
+                    if (file_list[y].name == file_list_raw[x].split("_")[0]) file_list[y].notes = fs.readFileSync(`./public/assets/${req.session.org}/${file_list_raw[x]}`, 'utf-8')
+                    if (file_list[y].notes == '') file_list[y].notes = "Notes"
+            }
+        }
+        }
+        console.log(file_list)
         res.render('org_admin', { 'org_data': org_data[0], 'dashes': dashes, "files": file_list })
     } else {
         res.redirect('/org/login')
@@ -159,6 +175,10 @@ router.post('/deletefile', urlencodedParser, async (req, res) => {
             if (err) console.log(err)
         })
     }
+})
+
+router.post('/updatenotes', urlencodedParser, async (req, res) => {
+fs.writeFile(`./public/assets/${req.session.org}/${req.body.file}___notes`,req.body.notes,(err)=>{console.log(err)})
 })
 
 module.exports = router;

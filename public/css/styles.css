@@ -160,6 +160,10 @@ background-color: #000000;
 
 }
 
+.file_notes {
+    font-size: 0.5em;
+}
+
 .file_listing{
     padding: 2%;
     font-size: 1em;
