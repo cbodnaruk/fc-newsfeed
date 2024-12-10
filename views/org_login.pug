@@ -9,19 +9,19 @@ html
   body 
     div#landing_info
       div 
-        p select your organisation 
+        p Select your organisation 
         p 
           select#org_select
             each org in org_list 
               option(value=org.name)=org.name
-        p password
+        p Password
         p 
           input#org_pw(type="password")
         if pw_attempt 
-          p(style="color: red;") password incorrect
+          p(style="color: red;") Password Incorrect
         p
-          button.landingbtn(onClick="login()") log in
+          button.landingbtn(onClick="login()") Log In
       div 
-        p not yet registered? see the 
+        p Not yet registered? See the 
           a(href="https://github.com/cbodnaruk/megagame-dashboard/wiki") wiki
           span  for details.

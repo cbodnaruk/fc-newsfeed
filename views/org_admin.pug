@@ -14,7 +14,7 @@ html
       span.loader
     div#org_header
       h1(style="font-size: 3em") Organisation Management Panel 
-      h3(style="text-align: right;") Signed in as !{org_data.name}
+      h3(style="text-align: right; padding-right:3%;") Signed in as !{org_data.name}
     div#org_info
       div(style="flex-grow:1; min-width:30vw;")
         div.org_section_header Dashboards:
@@ -24,35 +24,43 @@ html
               div.flex_buttons
                 input.dash_listing(type="text" id=`l_${d.dash_id}` value=d.dash_id disabled)
                 span 
-                  button(id=`e_${d.dash_id}` class="material-symbols-outlined adminbtn" onClick="editDash(event)") edit
+                  button(id=`e_${d.dash_id}` class="material-symbols-outlined adminbtn" onClick="editDash(event)" title="Edit ID") edit
                 span 
-                  button(id=`c_${d.dash_id}` class="material-symbols-outlined adminbtn" onClick="cancelEditDash(event)" style="display: none") close
+                  button(id=`c_${d.dash_id}` class="material-symbols-outlined adminbtn" onClick="cancelEditDash(event)" style="display: none" title="Cancel edit") close
                 span 
-                  button.adminbtn(id=`d_${d.dash_id}` class="material-symbols-outlined" onClick="deleteDash(event)") delete
+                  button.adminbtn(id=`d_${d.dash_id}` class="material-symbols-outlined" onClick="deleteDash(event)" title="Delete dashboard") delete
                 span 
-                  button.adminbtn(id=`v_${d.dash_id}` class="material-symbols-outlined" onClick="visitDash(event)") open_in_new
+                  button.adminbtn(id=`v_${d.dash_id}` class="material-symbols-outlined" onClick="visitDash(event)" title="Open dashboard") open_in_new
         div 
-            button.adminbtn(class="material-symbols-outlined" onClick="newDash()") library_add
+            button.adminbtn(class="material-symbols-outlined" onClick="newDash()" title="New dashboard") library_add
       div(style="flex-grow:1; min-width:30vw;")
         .org_section_header Files:
         #file_list
           - var parse_org = org_data.name.replace(" ", "+")
           each file in files 
             .file_listing 
-              span(style="flex-grow:1; text-align:left;") 
+              span(style="flex-grow:1; text-align:left;display:flex;justify-content:flex-start;align-items: center;") 
+                - var soundlist = ['mp3','wav','ogg','flac','aif']
+                - var imagelist = ['jpg','gif','png','bmp','jpeg','svg','tif','tiff']
+                if imagelist.includes(file.name.split('.')[1])
+                  span.file_type(class="material-symbols-outlined" onClick=`window.location='/assets/${org_data.name}/${file.name}'`) image
+                else if soundlist.includes(file.name.split('.')[1])
+                  span.file_type(class="material-symbols-outlined" onClick=`window.location='/assets/${org_data.name}/${file.name}'`) volume_up
+                else 
+                  span.file_type(class="material-symbols-outlined" onClick=`window.location='/assets/${org_data.name}/${file.name}'`) file_present
                 a.file_link(href=`./assets/${parse_org}/${file.name}` id=`n_${file.name}`)=file.name
                 input.file_edit(id=`e_${file.name}` value=file.name)
               
               span(style="flex-grow:1; text-align:right;display: flex; justify-content:flex-end;align-items: center;") 
-                input.file_notes(id=`notes_${file.name}` value=file.notes onChange=("updateNotes(event)"))
-                span.cp_url(class="material-symbols-outlined" onClick=`navigator.clipboard.writeText("/assets/${org_data.name}/${file.name}");`) content_copy
-                span.cp_url(class="material-symbols-outlined" data-name=file.name onClick="editFile(event)") edit
-                span.cp_url(class="material-symbols-outlined" data-name=file.name onClick="deleteFile(event)") delete
+                input.file_notes(id=`notes_${file.name}` value=file.notes onChange=("updateNotes(event)") placeholder="Notes")
+                span.cp_url(class="material-symbols-outlined" onClick=`navigator.clipboard.writeText("/assets/${org_data.name}/${file.name}");` title="Copy link") content_copy
+                span.cp_url(class="material-symbols-outlined" data-name=file.name onClick="editFile(event)" title="Edit file name") edit
+                span.cp_url(class="material-symbols-outlined" data-name=file.name onClick="deleteFile(event)" title="Delete file") delete
               
         div 
-          input#file_input_box(type="file" name="fileInput")
+          input#file_input_box(type="file" name="fileInput" accept="audio/*, image/*")
           button.adminbtntext(style="width: auto;" onClick="uploadFile(event)") Upload...
-            
+    div#bottom_spacer        
     footer#org_navbar
       #password_change 
         #old_pw_box.password_prompt
@@ -65,11 +73,12 @@ html
           input#new_pw(type="password") 
           button.adminbtn(class="material-symbols-outlined adminbtn" onClick="savePassword()") save
           button#eyebtn(class="material-symbols-outlined" onmousedown="showPW()" onmouseup="hidePW()") visibility
-        #success_pw_box.password_prompt
-          div(style="width: 100%; text-align: center; padding-bottom: 3%;") Saved!
+        #success_pw_box.password_prompt(style="display:block; width:99%")
+          div(style="width: 100%; text-align: center; padding: 3%;") Saved!
 
       .flex_buttons
-        button.adminbtntext(onClick="window.location='/'") home
-        button.adminbtntext(onClick="changePassword()") change password
-        button.adminbtntext(onClick="logout()") log out
+        button.adminbtntext(onClick="window.location='/'" title="Home") Home
+        button.adminbtntext(onClick="changePassword()" title="Change password") Change Password
+        button.adminbtntext(onClick="logout()" title="Log out") Log Out
+    
     #modal_layer

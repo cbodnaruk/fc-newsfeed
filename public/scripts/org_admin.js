@@ -92,7 +92,7 @@ function visitDash(event){
 }
 
 function changePassword(){
-  $("#old_pw_box").css('top','85%')
+  $("#old_pw_box").css('top','0')
   $("#modal_layer").show()}
 
 window.onclick = function (event) {
@@ -110,7 +110,7 @@ function progressPassword(){
   $.post('./org/changepassword/check',{ "old": $("#old_pw").val() },(data)=>{
     if (data === true){
       $("#old_pw_box").css('top','100%')
-      $("#new_pw_box").css('top','85%')
+      $("#new_pw_box").css('top','0')
     } else {
       $("#old_pw_label").text("Password Incorrect")
       $("#old_pw_label").css('color','red')
@@ -125,11 +125,11 @@ function savePassword(){
 
   $.post('./org/changepassword/change',{ "new": $("#new_pw").val() },(data)=>{
     if (data === true){
-    $("#new_pw_box").css('bottom','-10%')
-  $("#success_pw_box").css('bottom','0%')
+    $("#new_pw_box").css('top','100%')
+  $("#success_pw_box").css('top','0')
 
   setTimeout(() => {
-    $("#success_pw_box").css('bottom','-10%')
+    $("#success_pw_box").css('top','100%')
   },1500)} else {
     alert("Unable to change password at this time, try again later.")
   }

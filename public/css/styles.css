@@ -49,7 +49,7 @@ body {
 
 }
 
-button.landingbtn {
+.landingbtn {
     margin: 5px;
     padding: 6px 12px;
     background: rgb(31, 32, 35);
@@ -75,6 +75,7 @@ button.landingbtn {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     bottom: 15%;
 }
@@ -142,6 +143,7 @@ button.adminbtntext:active {
 #password_change {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     overflow-y: hidden;
+    z-index: 9;
 }
 
 .password_prompt {
@@ -155,13 +157,15 @@ padding-top: 0.5%;
 transition: all 0.2s ease-out;
 flex-wrap: wrap;
 justify-content: center;
-z-index: 11;
+z-index: 13;
 background-color: #000000;
 
 }
 
 .file_notes {
-    font-size: 0.5em;
+    font-size: 0.75em;
+    font-family: monospace;
+    margin-right: 2% ;
 }
 
 .file_listing{
@@ -176,20 +180,28 @@ background-color: #000000;
 
 .cp_url{
     cursor: pointer;
+
 }
 
 .cp_url:active {
-    color:#888;
+    color:#aaa;
     
+}
+
+.file_type {
+    cursor: pointer;
 }
 
 a.file_link{
     font-size: 1.3em;
     font-family: monospace;
+    color: white;
 }
 
 .file_edit { 
     display: none;
+    font-family: monospace;
+    font-size: 1.3em;
 }
 
 .flex_buttons { 
@@ -204,14 +216,16 @@ a.file_link{
     bottom: 0;
     width: 20%;
     margin: auto;
-    left: 40%;
+    left: 50%;
+    transform: translate(-50%);
     min-height: 10%;
+    min-width: 300px;
     z-index: 8;
 }
 
 #eyebtn{
     position: absolute;
-    z-index: 12;
+    z-index: 14;
     appearance: none;
     color: #fff;
     margin: 5px;
@@ -354,6 +368,9 @@ width: 25%;
     #viewcontrol {
         display: none;
 
+    }
+    #bottom_spacer {
+        display: none;
     }
 }
 
@@ -550,5 +567,9 @@ select {
     top: 0%;
     left: 0%;
     overflow: auto;
-    z-index: 10;
 } 
+
+#bottom_spacer{
+    height:15vh;
+}
+

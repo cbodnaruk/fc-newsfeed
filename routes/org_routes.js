@@ -55,16 +55,13 @@ router.get('/', async (req, res) => {
                 file_list.push({"name":file_list_raw[x], "notes":""})
             }
         }
-        console.log(file_list)
         for (x in file_list_raw){
             if (/___notes$/.test(file_list_raw[x])){
                 for (y in file_list){
                     if (file_list[y].name == file_list_raw[x].split("_")[0]) file_list[y].notes = fs.readFileSync(`./public/assets/${req.session.org}/${file_list_raw[x]}`, 'utf-8')
-                    if (file_list[y].notes == '') file_list[y].notes = "Notes"
             }
         }
         }
-        console.log(file_list)
         res.render('org_admin', { 'org_data': org_data[0], 'dashes': dashes, "files": file_list })
     } else {
         res.redirect('/org/login')
