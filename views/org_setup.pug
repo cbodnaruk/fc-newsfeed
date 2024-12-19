@@ -1,0 +1,17 @@
+link(rel="stylesheet", href="org_styles.css")
+script.
+  const dash_list = !{JSON.stringify(dashes)}
+  const org_list = !{JSON.stringify(org_data)}
+#org_details 
+  #org_list 
+    each org in org_data
+      p.org_name(id=`n_${org.id}` onClick='selectOrg(event)')=org.name
+  #org_dashes 
+    .list_sh Contact
+    p#org_contact 
+    .list_sh Dashboards
+    #org_dash_list
+      p
+  #org_controls 
+    button#reset_pw_btn.adminbtn(onClick="resetPassword()" style="font-size: 1em" disabled) Reset Password
+    button#new_org_btn.adminbtn(onClick="newOrg()" style="font-size: 1em" ) New Org

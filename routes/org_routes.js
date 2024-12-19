@@ -33,8 +33,12 @@ async function load_dash_list() {
     return outlist
 }
 
-set_pw('demo', '1234')
-set_pw('Melbourne Megagames', '123')
+
+//remove after running once
+set_pw('demo', 'admin')
+set_pw('Melbourne Megagames', 'admin')
+set_pw('Sydney Megagamers', 'admin')
+set_pw('ACT Megagamers','admin')
 
 async function checkPassword(pw, org) {
     if (pw) {
@@ -44,6 +48,21 @@ async function checkPassword(pw, org) {
         return false
     }
 }
+
+router.get('/setup', async (req, res) => {
+    res.render('org_setup_login')
+
+})
+
+router.post('/setup_login', urlencodedParser, async (req, res) => {
+    var org_data = await db.any(`SELECT id, name, contact FROM organisations;`)
+    var dashes = await db.any(`SELECT dash_id, org_id FROM dashboards INNER JOIN organisations ON dashboards.org_id = organisations.id;`)
+    
+    if (req.body.password == fs.readFileSync('setup_password', 'utf-8')) {
+        res.render('org_setup', {'org_data': org_data,'dashes': dashes} )
+    }
+})
+
 router.get('/', async (req, res) => {
     if (req.session.org) {
         var org_data = await db.any(`SELECT id, name FROM organisations WHERE name = '${req.session.org}';`)
@@ -124,6 +143,15 @@ router.post('/dash_update', urlencodedParser, async (req, res) => {
 
 
 })
+
+router.post('/delete', urlencodedParser, async (req, res) => {
+    await db.none(`DELETE FROM dashboards WHERE dash_id = '${req.body.dash_id}'`)
+})
+
+router.post('/reset_password', urlencodedParser, async (req, res) => {
+    set_pw(req.body.org,'admin')
+})
+
 router.post('/logout', urlencodedParser, async (req, res) => {
     req.session.org = ''
     res.send('/')
@@ -176,6 +204,13 @@ router.post('/deletefile', urlencodedParser, async (req, res) => {
 
 router.post('/updatenotes', urlencodedParser, async (req, res) => {
 fs.writeFile(`./public/assets/${req.session.org}/${req.body.file}___notes`,req.body.notes,(err)=>{console.log(err)})
+})
+
+router.post('/new_org', urlencodedParser, async (req, res) => {
+    await db.none(`INSERT INTO organisations(name,contact) VALUES ('${req.body.name}','${req.body.contact}');`)
+    set_pw(req.body.name,'admin')
+    if (!fs.existsSync(`./public/assets/${req.body.name}`)){
+    fs.mkdirSync(`./public/assets/${req.body.name}`)}
 })
 
 module.exports = router;

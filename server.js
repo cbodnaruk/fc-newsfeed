@@ -38,6 +38,10 @@ app.set('views', './views');
 const dash_routes = require('./routes/dash_routes.js');
 const org_routes = require('./routes/org_routes.js')
 
+app.get('/option2', async (req, res) => {
+
+  res.render('landing', {"is404": false, "option2": true});
+})
 
 app.use('/org', org_routes)
 app.use('/:dash_id', dash_routes);

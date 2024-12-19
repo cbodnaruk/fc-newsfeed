@@ -104,7 +104,7 @@ router.get('/admin', async (req, res) => {
     let dashId = req.params.dash_id
     let audio_list = await db.any(audio_db_call(req.params.dash_id));
     let dash_styles = ""
-    try { dash_styles = fs.readFileSync(`./public/css/${dashId}_styles.css`) } catch (err) { console.log(err) }
+    try { dash_styles = fs.readFileSync(`./public/css/${dashId}_styles.css`) } catch (err) { console.log("No custom styles") }
     if (dash_list.includes(dashId)) {
         prefs = await checkPrefCompleteness(JSON.parse(fs.readFileSync('prefs.json', 'utf8')), dashId)
         res.render('administration', { 'dash_id': dashId, 'preferences': prefs[dashId], 'prefsobj': jst.stringify(prefs[dashId]), "saudiocues": jst.stringify(audio_list), 'dash_styles': dash_styles, safeJSONParse });

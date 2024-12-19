@@ -1,0 +1,23 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+      
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+    script(src="/scripts/org_setup.js") 
+    title Organisation Setup
+        
+    link(rel='stylesheet', href='/css/styles.css')
+    link(rel="stylesheet", href="/css/org_styles.css")
+  body.space
+    a(href="/") home
+    #setup_content 
+      #landing_info
+        p Password
+        p 
+          input#org_pw(type="password")
+        if pw_attempt 
+          p(style="color: red;") Password Incorrect
+        p
+          button.landingbtn(onClick="login()") Log In
