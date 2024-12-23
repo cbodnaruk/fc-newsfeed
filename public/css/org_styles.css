@@ -1,0 +1,255 @@
+#org_details{
+display: flex;
+justify-content: center;
+align-items: stretch;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+position: absolute;
+height: 30vh;
+}
+
+
+#org_list{
+    background-color: white;
+    min-width: 20vw;
+    border-right: 1px black solid;
+}
+
+.org_name{
+    margin: 2px;
+    color: black;
+    cursor: pointer;
+    padding: 2px;
+    border: 1px white solid;
+}
+
+.org_name_selected{
+    border: 1px black solid;
+    background-color: #ccc;
+}
+
+#org_dashes{
+    height:100%;
+    background-color: white;
+    min-width: 20vw;
+    border-left: 1px black solid;
+}
+
+.org_dash{
+    margin: 2px;
+    color: black;
+    padding: 2px;
+    border: 1px white solid;
+}
+
+#org_contact{
+    margin: 2px;
+    color: black;
+    padding: 2px;
+    border: 1px white solid;
+}
+
+.list_sh{
+    margin: 2px;
+    color: black;
+    padding: 2px;
+    padding-bottom: 4px;
+    border: 1px white solid;
+    text-decoration: underline;
+}
+
+button.adminbtn:disabled {
+    visibility: hidden;
+}
+
+/*Org settings*/
+
+#org_info {
+    height: 70vh;
+    text-align: center;
+    margin: auto;
+    color: rgb(224, 224, 224);
+    margin-bottom: 2%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    bottom: 15%;
+}
+
+.org_section_header {
+    margin-bottom: 5%; font-size: 1.5em;
+
+}
+
+#org_header {
+    text-align: center;
+    margin: auto;
+    color: rgb(224, 224, 224);
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#dash_list{
+    overflow-y: scroll;
+    max-height: 50%;
+}
+
+#file_list{
+    overflow-y: scroll;
+    max-height: 50%;
+}
+
+button.adminbtn {
+    margin: 5px;
+    padding: 6px 12px;
+    background: rgb(31, 32, 35);
+    border: 1px solid rgb(60, 63, 68);
+    border-radius: 4px;
+    font-size: 1.5em;
+    color: rgb(247, 248, 248);
+    height: 46px;
+    appearance: none;
+    cursor: pointer;
+}
+button.adminbtn:active {
+
+    background: rgb(16, 17, 19);
+
+}
+
+button.adminbtntext {
+    margin: 3%;
+    padding: 2% 2%;
+    background: rgb(31, 32, 35);
+    border: 1px solid rgb(60, 63, 68);
+    border-radius: 4px;
+    font-size: 1em;
+    height: 4em;
+    color: rgb(247, 248, 248);
+    appearance: none;
+    cursor: pointer;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 40%;
+}
+button.adminbtntext:active {
+
+    background: rgb(16, 17, 19);
+
+}
+
+#password_change {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    overflow-y: hidden;
+    z-index: 9;
+}
+
+.password_prompt {
+    display: flex;
+    position:fixed;
+    align-items: center;
+    border: 1px solid #ffffff;
+    top:100%;
+    max-height: 90px;
+padding-top: 0.5%;
+transition: all 0.2s ease-out;
+flex-wrap: wrap;
+justify-content: center;
+z-index: 13;
+background-color: #000000;
+
+}
+
+.file_notes {
+    font-size: 0.75em;
+    font-family: monospace;
+    margin-right: 2% ;
+}
+
+.file_listing{
+    padding: 2%;
+    font-size: 1em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 1px solid white;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cp_url{
+    cursor: pointer;
+
+}
+
+.cp_url:active {
+    color:#aaa;
+    
+}
+
+.file_type {
+    cursor: pointer;
+}
+
+a.file_link{
+    font-size: 1.3em;
+    font-family: monospace;
+    color: white;
+}
+
+.file_edit { 
+    display: none;
+    font-family: monospace;
+    font-size: 1.3em;
+}
+
+.flex_buttons { 
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#org_navbar{
+    position: fixed;
+    overflow: hidden;
+    bottom: 0;
+    width: 20%;
+    margin: auto;
+    left: 50%;
+    transform: translate(-50%);
+    min-height: 10%;
+    min-width: 300px;
+    z-index: 8;
+}
+
+#eyebtn{
+    position: absolute;
+    z-index: 14;
+    appearance: none;
+    color: #fff;
+    margin: 5px;
+    padding: 6px 12px;
+    background: rgba(31, 32, 35,0);
+    border: 0px;
+    font-size: 1.5em;
+    bottom: 7%;
+    left: 60%;
+    transition: opacity 0.1s ease;
+}
+
+.dash_listing {
+    font-family: monospace;
+    font-size: 1.5em;
+    border: #9c9c9c solid 1px;
+    border-radius: 3%;
+    padding: 3%;
+    width: 35%;
+    transition: width 0.2s;
+    max-height: 2em;
+}
+
+.dash_listing:disabled {
+border-color: #464646;
+color: #ccc;
+width: 25%;
+}

@@ -5,18 +5,26 @@ html
     link(rel='stylesheet', href='/css/styles.css')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+    link(href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@32,400,0,0", rel="stylesheet")
     
-  body 
+  body
+    video#bg_video(autoplay muted loop disablePictureInPicture)
+      source(src="/assets/1000-4000s.webm" type="video/webm") 
     div#landing_info
       p(style='font-size: 2em;') megagame.space
       p(style='font-size: 1.5em;') live modular megagame dashboards
       br
-      p a fully customisable and user accessible interface is still in the works
-      p but for now, you can find a 
-        a(href='/demo') demo newsfeed and clock here 
-      p or, if you have been given a dashboard id, enter it below 
-      div
-        input#dashboard_id
-        button#gobtn.landingbtn(onclick='window.location=$("#dashboard_id").val(); console.log("test")') go  
+      p If you have been given a dashboard id, enter it below 
+      div(style="display:flex;justify-content:center;align-items:center;")
+        input(placeholder="Dashboard ID")#dashboard_id
+        button#gobtn(onclick='window.location=$("#dashboard_id").val()' class="landingbtn material-symbols-outlined") start  
       div(style='color:red;', hidden=!is404) invalid dashboard id  
+      p Alternatively, you might be looking for: 
+      div 
+        span 
+          button#demobtn.landingbtn(onclick='window.location="/demo"') Dashboard Demo
+        span
+          button#demobtn.landingbtn(onclick='window.location="/org"') Org Admin Panel
+      
+
 script(src='/scripts/landing.js')

@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title Megagame Space: Live Megagame Dashboards
+    link(rel='stylesheet', href='/css/styles.css')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+    script(src='/scripts/org_login.js')
+    link(rel="stylesheet", href="/css/org_styles.css")
+  body.space
+    div#landing_info
+      div 
+        p Select your organisation 
+        p 
+          select#org_select
+            each org in org_list 
+              option(value=org.name)=org.name
+        p Password
+        p 
+          input#org_pw(type="password")
+        if pw_attempt 
+          p(style="color: red;") Password Incorrect
+        p
+          button.landingbtn(onClick="login()") Log In
+      div 
+        p Not yet registered? See the 
+          a(href="https://github.com/cbodnaruk/megagame-dashboard/wiki") wiki
+          span  for details.
