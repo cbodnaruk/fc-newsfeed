@@ -3,6 +3,7 @@ var fs = require('fs');
 const router = express.Router({ mergeParams: true })
 var prefs = JSON.parse(fs.readFileSync('prefs.json', 'utf8'));
 const default_prefs = JSON.parse(fs.readFileSync('default_prefs.json', 'utf-8'));
+const cookie_secret = fs.readFileSync('cookie_secret','utf-8')
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 const fileUpload = require('express-fileupload');
@@ -14,7 +15,7 @@ router.use(fileUpload())
 
 router.use(cookieSession({
     name: 'session',
-    secret: 'cookie-secret',
+    secret: cookie-secret,
     sameSite: 'strict'
 }))
 

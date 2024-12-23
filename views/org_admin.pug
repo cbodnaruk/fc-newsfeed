@@ -48,7 +48,7 @@ html
                   span.file_type(class="material-symbols-outlined" onClick=`window.location='/assets/${org_data.name}/${file.name}'`) volume_up
                 else 
                   span.file_type(class="material-symbols-outlined" onClick=`window.location='/assets/${org_data.name}/${file.name}'`) file_present
-                a.file_link(href=`./assets/${parse_org}/${file.name}` id=`n_${file.name}`)=file.name
+                a.file_link(href=`./assets/${org_data.name}/${file.name}` id=`n_${file.name}`)=file.name
                 input.file_edit(id=`e_${file.name}` value=file.name)
               
               span(style="flex-grow:1; text-align:right;display: flex; justify-content:flex-end;align-items: center;") 
