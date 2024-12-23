@@ -184,7 +184,7 @@ router.post('/uploadfile', urlencodedParser, async (req, res) => {
     }
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     fileInput = req.files.file;
-    uploadPath = `${globalroot}/public/assets/${req.session.org}/${fileInput.name}`;
+    uploadPath = `${globalroot}/public/assets/${req.session.org}/${fileInput.name.replace(" ","_")}`;
     // Use the mv() method to place the file somewhere on your server
     fileInput.mv(uploadPath, function(err) {
     //   if (err)

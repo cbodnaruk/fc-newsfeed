@@ -37,7 +37,6 @@ html
       div(style="flex-grow:1; min-width:30vw;")
         .org_section_header Files:
         #file_list
-          - var parse_org = org_data.name.replace(" ", "+")
           each file in files 
             .file_listing 
               span(style="flex-grow:1; text-align:left;display:flex;justify-content:flex-start;align-items: center;") 
