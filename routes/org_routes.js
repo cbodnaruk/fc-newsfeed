@@ -15,7 +15,7 @@ router.use(fileUpload())
 
 router.use(cookieSession({
     name: 'session',
-    secret: cookie-secret,
+    secret: cookie_secret,
     sameSite: 'strict'
 }))
 
