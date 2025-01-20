@@ -19,5 +19,5 @@ window.addEventListener("DOMContentLoaded", (event) => {
 function openDash() {
     dashId = $("#dashboard_id").val()
     
-    window.location = dashId
+    window.location = dashId.toLowerCase()
 }

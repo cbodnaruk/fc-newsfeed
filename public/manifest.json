@@ -1,6 +1,6 @@
 {
-    "name": "Megagame Dashboard",
-    "short_name": "Megagame Space",
+    "name": "Megagame Space",
+    "short_name": "Megagame",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#000000",
@@ -15,6 +15,11 @@
     ],
     "screenshots": [
         {
+            "src": "assets/images/screenshots/3.png",
+            "form_factor": "narrow",
+            "label": "A demo showing alternative styling and the newsfeed on mobile."
+        },
+        {
             "src": "assets/images/screenshots/1.png",
             "form_factor": "narrow",
             "label": "The landing screen of the app on mobile."
@@ -25,11 +30,6 @@
             "label": "A demo showing the timer on mobile."
         },
         {
-            "src": "assets/images/screenshots/3.png",
-            "form_factor": "narrow",
-            "label": "A demo showing alternative styling and the newsfeed on mobile."
-        },
-        {
             "src": "assets/images/screenshots/4.png",
             "form_factor": "wide",
             "label": "The landing screen of the app on computer."
@@ -38,7 +38,6 @@
             "src": "assets/images/screenshots/5.png",
             "form_factor": "wide",
             "label": "The admin settings page on computer."
-        }]
-
-
+        }
+    ]
 }
