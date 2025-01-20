@@ -18,6 +18,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 function openDash() {
     dashId = $("#dashboard_id").val()
-    localStorage.setItem("defaultDash", dashId)
+    
     window.location = dashId
 }

@@ -5,7 +5,7 @@ $( document ).ready(function() {
     if ($("#viewcontrol").css("display") == "block"){
         $(".slot_b").css("display","none")
     }
-
+    localStorage.setItem("defaultDash", dash_id)
 });
 
 function switchTab(new_tab){
