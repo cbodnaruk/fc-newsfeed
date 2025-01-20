@@ -5,6 +5,7 @@ html
     link(rel='stylesheet', href='/css/styles.css')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+    script(src="/scripts/landing.js") 
     link(href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@32,400,0,0", rel="stylesheet")
     link(rel="manifest", href="manifest.json")
     link(rel="shortcut icon", href="icon-512.png", type="image/png")
@@ -17,8 +18,8 @@ html
       br
       p If you have been given a dashboard id, enter it below 
       div(style="display:flex;justify-content:center;align-items:center;")
-        input(placeholder="Dashboard ID")#dashboard_id
-        button#gobtn(onclick='window.location=$("#dashboard_id").val()' class="landingbtn material-symbols-outlined") start  
+        input(placeholder="Dashboard ID" autocapitalize="off")#dashboard_id
+        button#gobtn(onclick='openDash()' class="landingbtn material-symbols-outlined") start  
       div(style='color:red;', hidden=!is404) invalid dashboard id  
       p Alternatively, you might be looking for: 
       div 
